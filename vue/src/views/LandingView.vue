@@ -7,10 +7,12 @@
       <textarea id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
     </div>
     <div class="card-container" v-if="cards.length > 0">
+      <router-link v-bind:to="{ name: 'card' }">
       <div  class="card" v-for="card in this.cards" v-bind:key="card.id" v-bind:card="card">
-        <img :src="card.imageUrl" />
-        <p> {{ card.name }} </p>
+        <img class="card-img" :src="card.imageUrl" />
+        <p class="card-name"> {{ card.name }} </p>
       </div>
+    </router-link>
     </div>
   </div>
 </template>
@@ -34,7 +36,7 @@ export default {
         this.cards = response.data.data.map((card) => ({
           id: card.id,
           name: card.name,
-          imageUrl: card.image_uris?.normal || "",
+          imageUrl: card.cards_faces ? card.cards_faces[0].image_uris?.normal : card.image_uris?.normal || " ",
         }));
         console.log(this.cards);  // Print the full response data
       })
@@ -48,12 +50,13 @@ export default {
 
 <style scoped>
 
-  .card-container {
+  .card-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     row-gap: 20px;
+    background-color: red;
   }
 
   .card {
@@ -61,18 +64,27 @@ export default {
     flex-direction: column;
     height: 100%;
     width: 23%;
+    background-color: green;
   }
 
-  .card p {
+  .card-name {
     width: 80%;
     height: 20px;
     margin: 5px auto;
     text-align: center;
     font-size: 1.8vw;
+    background-color: blue;
   }
 
-  .card img {
+  .card-img {
+    box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.44);
     border-radius: 10px;
+  }
+
+  router-link {
+    text-decoration: none;
+    display: inline;
+    background-color: purple;
   }
 
 

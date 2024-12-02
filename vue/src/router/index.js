@@ -7,6 +7,7 @@ import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import LandingView from '../views/LandingView.vue';
+import CardView from '../views/CardView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -56,7 +57,15 @@ const routes = [
     meta: {
       requiresAuth: false
     }
-  }
+  },
+  {
+    path: "/card",
+    name: "card",
+    component: CardView,
+    meta: {
+      requiresAuth: false
+    }
+  },
 ];
 
 // Create the router
