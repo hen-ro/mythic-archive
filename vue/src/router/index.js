@@ -1,6 +1,7 @@
 import { createRouter as createRouter, createWebHistory } from 'vue-router'
 import { useStore } from 'vuex'
 
+
 // Import components
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
@@ -8,6 +9,7 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import LandingView from '../views/LandingView.vue';
 import CardDetailsView from '../views/CardDetailsView.vue';
+
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -68,19 +70,24 @@ const routes = [
   }
 ];
 
+
 // Create the router
 const router = createRouter({
   history: createWebHistory(),
   routes: routes
 });
 
+
 router.beforeEach((to) => {
+
 
   // Get the Vuex store
   const store = useStore();
 
+
   // Determine if the route requires Authentication
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+
 
   // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && store.state.token === '') {
@@ -88,5 +95,6 @@ router.beforeEach((to) => {
   }
   // Otherwise, do nothing and they'll go to their next destination
 });
+
 
 export default router;

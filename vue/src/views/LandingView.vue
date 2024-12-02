@@ -16,10 +16,13 @@
     </div>
 </template>
 
+
 <script>
 import SearchService from "../services/SearchService"
 
+
 export default {
+
 
     data() {
         return {
@@ -27,6 +30,7 @@ export default {
             cards: []
         }
     },
+
 
     methods: {
         // Basic Axios GET request to fetch data from Scryfall API
@@ -47,10 +51,12 @@ export default {
 }
 </script>
 
+
 <style scoped>
 .router-link {
     text-decoration: none;
 }
+
 
 .card-container {
     display: flex;
@@ -59,6 +65,7 @@ export default {
     align-items: center;
     row-gap: 20px;
 }
+
 
 .card {
     display: flex;
@@ -69,6 +76,7 @@ export default {
     text-decoration: none;
 }
 
+
 .card p {
     width: 80%;
     height: 20px;
@@ -76,6 +84,7 @@ export default {
     text-align: center;
     font-size: 1.8vw;
 }
+
 
 .card img {
     border-radius: 10px;
