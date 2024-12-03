@@ -10,6 +10,8 @@ public class CardCollection {
 
     private boolean isPublic;
 
+    private String thumbnailUrl;
+
     public CardCollection() {
 
     }
@@ -46,5 +48,13 @@ public class CardCollection {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }

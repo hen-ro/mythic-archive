@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Card;
 import com.techelevator.model.CardCollection;
 import com.techelevator.model.User;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -23,27 +24,32 @@ public class JdbcCollectionDao implements CollectionDao{
 
     @Override
     public List<CardCollection> getAllPublicCollections() {
-//        List<CardCollection> collections = new ArrayList<>();
-//        String sql = "SELECT user_id, username, password_hash, role FROM users";
-//        try {
-//            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
-//            while (results.next()) {
-//                User user = mapRowToCollection(results);
-//                users.add(user);
-//            }
-//        } catch (CannotGetJdbcConnectionException e) {
-//            throw new DaoException("Unable to connect to server or database", e);
-//        }
-//        return users;
-        return null;
+        List<CardCollection> cardCollections = new ArrayList<>();
+        String sql = "SELECT user_id, username, password_hash, role FROM users";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                CardCollection cardCollection = mapRowToCollection(results);
+                cardCollections.add(cardCollection);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return cardCollections;
     }
 
 
-    private User mapRowToCollection(SqlRowSet rs) {
-//        CardCollection collection = new CardCollection();
-//        collection.setCollectionId(rs.getInt("user_id"));
-//        collection.setCards(rs.getString);
-//        return collection;
-        return null;
+    private CardCollection mapRowToCollection(SqlRowSet rs) {
+        CardCollection cardCollection = new CardCollection();
+        cardCollection.setCollectionId(rs.getInt("user_id"));
+        //If collection thumbnail is null, set thumbnail to first card image
+        if (rs.getString("thumbnail_url").isEmpty()) {
+            //Check if the collection has cards
+            //Set to first card's image
+            //If not, set to default/no image
+        } else {
+            //Otherwise set to collection thumbnail
+        }
+        return cardCollection;
     }
 }

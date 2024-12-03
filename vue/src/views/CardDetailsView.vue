@@ -4,7 +4,6 @@
             <h2>{{ card.name }}</h2>
             <button @click="closeDetails">Close</button>
         </div>
-
         <div class="card-details-body">
             <div class="card-details-image">
                 <img :src="card.card_faces ? card.card_faces[0].image_uris?.large : card.image_uris?.large"
@@ -28,12 +27,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="card-details-actions">
-            <button @click="addToCollection">Add to Collection</button>
-            <button @click="removeFromCollection">Remove from Collection</button>
-        </div>
     </div>
+   
 </template>
 
 <script>
@@ -76,7 +71,7 @@ export default {
 .card-details-container {
     border-radius: 8px;
     padding: 16px;
-    width:500px;
+    width: 500px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -89,30 +84,33 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    
+
 }
 
 .card-details-header h2 {
     margin: 0;
-    
+
 }
 
 .card-details-body {
     /* display: flex; */
     gap: 16px;
 }
-.card-details-image{
+
+.card-details-image {
     display: flex;
     background-color: #424242;
     border-radius: 5px;
 }
+
 .card-details-image img {
     width: 70%;
-    height: auto; 
+    height: auto;
     margin: 20px auto;
     border-radius: 15px;
-    
+
 }
+
 .card-details-info {
     flex: 1;
 }
@@ -150,7 +148,7 @@ export default {
 .card-details-actions button:hover {
     background-color: #0056b3;
 }
-.value-text{
-    color:#969696;
-}
-</style>
+
+.value-text {
+    color: #969696;
+}</style>

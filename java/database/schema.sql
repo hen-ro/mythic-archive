@@ -16,6 +16,7 @@ CREATE TABLE collections (
     collection_name varchar (50) NOT NULL,
     user_id INT NOT NULL,
     is_public boolean NOT NULL,
+    thumbnail_url varchar(2083) DEFAULT "",
     CONSTRAINT PK_collection PRIMARY KEY (collection_id),
     CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
