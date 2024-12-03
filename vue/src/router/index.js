@@ -61,7 +61,7 @@ const routes = [
     }
   },
   {
-    path: "/card-details",
+    path: "/card-details/:id",
     name: "cardDetails",
     component: CardDetailsView,
     meta: {

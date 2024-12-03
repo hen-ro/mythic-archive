@@ -3,10 +3,7 @@ package com.techelevator.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class User {
 
@@ -14,6 +11,7 @@ public class User {
    private String username;
    @Email
    private String email;
+   @JsonIgnore
    private List<CardCollection> userCollections;
    @JsonIgnore
    private String password;
@@ -29,6 +27,7 @@ public class User {
       this.password = password;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
+      this.userCollections = new ArrayList<>();
    }
 
    public int getId() {
