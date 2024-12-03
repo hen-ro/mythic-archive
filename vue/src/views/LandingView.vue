@@ -8,8 +8,9 @@
           name="searchTerm"
           v-model="this.searchTerm"
         placeholder="Search for cards..."/>
-      </div>
+      
       <button @click="search">Search</button>
+    </div>
     </div>
     <div class="card-container" v-if="cards.length > 0">
       <div
@@ -71,6 +72,8 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   row-gap: 20px;
+  width: 80%;
+  margin: auto;
 }
 
 .card {
@@ -78,8 +81,9 @@ export default {
   flex-direction: column;
   height: 100%;
   width: 18%;
-  margin: auto 10px;
+  margin: 10px;
   text-decoration: none;
+  transition: transform 0.1s ease-in-out;
 }
 
 .card p {
@@ -87,11 +91,25 @@ export default {
   height: 20px;
   margin: 5px auto;
   text-align: center;
-  font-size: 1.8vw;
+  font-size: 1.2vw;
+  
 }
 
 .card img {
   border-radius: 10px;
   width: 100%;
+}
+.card:hover{
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
+}
+h1{
+  text-align: center;
+}
+.field{
+  margin: 40px auto;
+  width: 30%;
+  display: flex;
+  justify-content: center;
 }
 </style>
