@@ -12,14 +12,14 @@
 
         <div class = "card-details-info">
             <p><strong>Description:</strong> {{ card.description }}</p>
-            <p><strong>Rarity:</strong> {{ card.rarity }}</p>
-            <div v-if="card.stats">
-            <p><strong>Stats:</strong></p>
-            <ul>
-                <li v-for="(value, stat) in card.stats" :key="stat">
-                {{ stat }}: {{ value }}
-                </li>
-            </ul>
+                <p><strong>Rarity:</strong> {{ card.rarity }}</p>
+                    <div v-if="card.stats">
+                <p><strong>Stats:</strong></p>
+                <ul>
+                    <li v-for="(value, stat) in card.stats" :key="stat">
+                    {{ stat }}: {{ value }}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
