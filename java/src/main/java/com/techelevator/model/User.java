@@ -1,8 +1,10 @@
 package com.techelevator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Email;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -10,6 +12,9 @@ public class User {
 
    private int id;
    private String username;
+   @Email
+   private String email;
+   private List<CardCollection> userCollections;
    @JsonIgnore
    private String password;
    @JsonIgnore
@@ -40,6 +45,22 @@ public class User {
 
    public void setUsername(String username) {
       this.username = username;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
+      this.email = email;
+   }
+
+   public List<CardCollection> getUserCollections() {
+      return userCollections;
+   }
+
+   public void setUserCollections(List<CardCollection> userCollections) {
+      this.userCollections = userCollections;
    }
 
    public String getPassword() {
