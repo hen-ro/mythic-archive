@@ -10,5 +10,7 @@ export default {
         return axios.get(`https://api.scryfall.com/cards/search?q=${searchTerm}*&order=name`)
     },
 
-
+    searchById(id) {
+      return axios.get(`https://api.scryfall.com/cards/${id}`)
+    }
 }

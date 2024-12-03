@@ -1,0 +1,10 @@
+body{
+    background-color: #474747;
+    color: #D7D7D7;
+}
+
+
+.nav-item, .nav-item:visited{
+    color: #D7D7D7;
+    text-decoration: none;
+}
