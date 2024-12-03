@@ -1,0 +1,19 @@
+body{
+    background-color: #474747;
+    color: #D7D7D7;
+    font-family: 'Trebuchet MS','Gill Sans', 'Gill Sans MT', Calibri,  sans-serif;
+}
+
+
+.nav-item, .nav-item:visited{
+    color: #D7D7D7;
+    text-decoration: none;
+    font-size: 1.4vw;
+    margin-left: 30px;
+    
+}
+#nav{
+    display:flex;
+    justify-content: flex-end;
+    
+}
