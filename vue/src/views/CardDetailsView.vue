@@ -5,6 +5,19 @@
       <button @click="closeDetails">Close</button>
     </div>
 
+<<<<<<< HEAD
+        <div class = "card-details-info">
+            <p><strong>Description:</strong> {{ card.description }}</p>
+                <p><strong>Rarity:</strong> {{ card.rarity }}</p>
+                    <div v-if="card.stats">
+                <p><strong>Stats:</strong></p>
+                <ul>
+                    <li v-for="(value, stat) in card.stats" :key="stat">
+                    {{ stat }}: {{ value }}
+                    </li>
+                </ul>
+            </div>
+=======
     <div class="card-details-body">
       <div class="card-details-image">
         <img :src="card.card_faces ? card.card_faces[0].image_uris?.normal : card.image_uris?.normal" :alt="card.name" />
@@ -24,6 +37,7 @@
               {{ stat }}: {{ value }}
             </li>
           </ul>
+>>>>>>> 574c3cabf9ca596565c03e6f721f75a374ab527d
         </div>
       </div>
     </div>
