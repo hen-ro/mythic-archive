@@ -47,9 +47,9 @@ export default {
           this.cards = response.data.data.map((card) => ({
             id: card.id,
             name: card.name,
-            imageUrl: card.card_faces
-              ? card.card_faces[0].image_uris?.normal || ""
-              : card.image_uris?.normal || "",
+            imageUrl: card.image_uris
+              ? card.image_uris?.normal || ""
+              : card.card_faces ? card.card_faces[0].image_uris?.normal || "" : ""
           }));
           console.log(this.cards); // Print the full response data
         })
