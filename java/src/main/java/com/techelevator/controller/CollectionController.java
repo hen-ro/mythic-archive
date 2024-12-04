@@ -16,13 +16,5 @@ public class CollectionController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public List<CardCollection> getAllCollections() {
         return new ArrayList<>();
-
     }
-
-
-
-
-
-
-
 }
