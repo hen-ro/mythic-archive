@@ -28,7 +28,6 @@
             </div>
         </div>
     </div>
-   
 </template>
 
 <script>
@@ -55,8 +54,8 @@ export default {
             this.$emit("remove-from-collection", this.card);
         },
         closeDetails() {
-            //   this.$emit("close-details");
-            this.$router.push.back()
+            this.$emit("close-details");
+            this.$router.go(-1);
         },
     },
     mounted() {
