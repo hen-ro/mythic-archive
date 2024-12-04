@@ -12,13 +12,16 @@ public class CardCollection {
 
     private String thumbnailUrl;
 
+    private String collectionName;
+
     public CardCollection() {
 
     }
 
-    public CardCollection(int collectionId, List<Card> cards, boolean isPublic) {
+    public CardCollection(int collectionId, List<Card> cards, String collectionName, boolean isPublic) {
         this.collectionId = collectionId;
         this.cards = cards;
+        this.collectionName = collectionName;
         this.isPublic = isPublic;
     }
 
@@ -26,8 +29,15 @@ public class CardCollection {
         return collectionId;
     }
 
+    public String getCollectionName() {
+        return collectionName;
+    }
     public void setCollectionId(int collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 
     public List<Card> getCards() {

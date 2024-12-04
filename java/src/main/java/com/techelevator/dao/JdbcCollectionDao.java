@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
@@ -40,16 +41,27 @@ public class JdbcCollectionDao implements CollectionDao{
 
 
     private CardCollection mapRowToCollection(SqlRowSet rs) {
+        JdbcCardDao card = new JdbcCardDao(jdbcTemplate);
         CardCollection cardCollection = new CardCollection();
-        cardCollection.setCollectionId(rs.getInt("user_id"));
-        //If collection thumbnail is null, set thumbnail to first card image
+        cardCollection.setCollectionId(rs.getInt("collection_id"));
+        cardCollection.setCollectionName(rs.getString("collection_name"));
+        List<Card> myCollection = card.getCardsInCollection(cardCollection.getCollectionId());
         if (rs.getString("thumbnail_url").isEmpty()) {
-            //Check if the collection has cards
-            //Set to first card's image
-            //If not, set to default/no image
+            if (myCollection.size() >= 1) {
+                cardCollection.setThumbnailUrl(myCollection.getFirst().getImageUrl());
+            } else {
+                cardCollection.setThumbnailUrl("");
+            }
         } else {
-            //Otherwise set to collection thumbnail
+                cardCollection.setThumbnailUrl(rs.getString("thumbnail_url"));
         }
         return cardCollection;
     }
+
+    private addCardToCollection(Card card){
+
+    };
+    private removeCardFromCollection(UUID cardId){
+
+    };
 }

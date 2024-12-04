@@ -10,6 +10,8 @@ public class Card {
 
     private String imageUrl;
 
+    public Card(){};
+
     public Card(UUID cardId, String cardName, String imageUrl) {
         this.cardId = cardId;
         this.cardName = cardName;
@@ -26,5 +28,17 @@ public class Card {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public void setCardId(UUID cardId) {
+        this.cardId = cardId;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
