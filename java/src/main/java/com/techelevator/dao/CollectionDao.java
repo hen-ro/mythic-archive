@@ -14,4 +14,5 @@ public interface CollectionDao {
     CardCollection addCardToCollection(Card card, CardCollection collection);
 
     CardCollection createNewCollection(CardCollection collection);
+    CardCollection getCollectionById(int collectionId);
 }

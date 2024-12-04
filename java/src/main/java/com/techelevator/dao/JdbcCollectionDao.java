@@ -89,17 +89,17 @@ public class JdbcCollectionDao implements CollectionDao{
         return newCollection;
     };
     public CardCollection addCardToCollection(Card card, CardCollection collection){
-        CardCollection newCollection = null;
+        CardCollection updatedCollection = null;
         String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id) VALUES (?, ?) RETURNING collection_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId());
-            newCollection = getCollectionById(newCollectionId);
+            int collectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId());
+            updatedCollection = getCollectionById(collectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-        return newCollection;
+        return updatedCollection;
     };
     public int removeCardFromCollection(Card card, CardCollection collection){
         int numberOfRows = 0;

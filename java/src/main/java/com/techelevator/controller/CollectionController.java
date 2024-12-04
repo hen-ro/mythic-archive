@@ -3,11 +3,13 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CardDao;
 import com.techelevator.dao.CollectionDao;
+import com.techelevator.exception.DaoException;
 import com.techelevator.model.CardCollection;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +27,26 @@ public class CollectionController {
         this.collectionDao = collectionDao;
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public List<CardCollection> getAllCollections() {
-        return new ArrayList<>();
+    @RequestMapping(value = "/collections", method = RequestMethod.GET)
+    public List<CardCollection> getAllPublicCollections() {
+        return collectionDao.getAllPublicCollections();
+    }
+    @RequestMapping(value = "/collections/{id}", method = RequestMethod.GET)
+    public CardCollection getCollectionById(@PathVariable int id) {
+        try {
+            CardCollection collection;
+            collection =  collectionDao.getCollectionById(id);
+            if (collection == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not find specified collection.");
+            }
+            return collection;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
+
+
+
+
+
