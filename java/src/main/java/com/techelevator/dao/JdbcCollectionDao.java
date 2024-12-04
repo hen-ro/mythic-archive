@@ -58,10 +58,10 @@ public class JdbcCollectionDao implements CollectionDao{
         return cardCollection;
     }
 
-    private addCardToCollection(Card card){
-
-    };
-    private removeCardFromCollection(UUID cardId){
-
-    };
+    //    private addCardToCollection(Card card){
+    //
+    //    };
+    //    private removeCardFromCollection(UUID cardId){
+    //
+    //    };
 }
