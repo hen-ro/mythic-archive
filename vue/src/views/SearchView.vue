@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
+    <h1>Search</h1>
     <div class="searchBox">
       <div class="field">
         <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm"
@@ -14,7 +14,6 @@
         <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">
           <img :src="card.imageUrl" />
         </router-link>
-        <p>{{ card.name }}</p>
       </div>
     </div>
   </div>
@@ -48,7 +47,9 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
-  },
+  }, mounted() {
+    this.search();
+  }
 };
 </script>
 
@@ -89,16 +90,12 @@ export default {
 .card img {
   border-radius: 13px;
   width: 100%;
-  box-shadow: 0px 4px 8px 0px rgba(255, 255, 255, 0.7);
+  /* box-shadow: 0px 4px 8px 0px rgba(255, 255, 255, 0.7); */
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
-}
-
-h1 {
-  text-align: center;
 }
 
 .field {
@@ -107,15 +104,17 @@ h1 {
   display: flex;
   justify-content: space-evenly;
 }
-input{
-  width:80%;
-  height:30px;
+
+input {
+  width: 80%;
+  height: 30px;
   border-radius: 2px;
   border: 0px;
   background-color: #949494;
 }
-button{
-  border:0px;
+
+button {
+  border: 0px;
   border-radius: 2px;
 }
 </style>

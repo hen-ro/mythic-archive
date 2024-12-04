@@ -7,8 +7,12 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
-import LandingView from '../views/LandingView.vue';
+import SearchView from '../views/SearchView.vue';
 import CardDetailsView from '../views/CardDetailsView.vue';
+import AccountView from '../views/AccountView.vue';
+import AllCollectionsView from '../views/AllCollectionsView.vue';
+import CollectionView from '../views/CollectionView.vue';
+import MyDecksView from '../views/MyDecksView.vue';
 
 
 /**
@@ -23,17 +27,17 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: LandingView,
+    component: HomeView,
     meta: {
       requiresAuth: false
     }
   },
   {
-    path: '/home',
-    name: 'loginhome',
-    component: HomeView,
+    path: '/search',
+    name: 'search',
+    component: SearchView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
@@ -64,6 +68,40 @@ const routes = [
     path: "/card-details/:id",
     name: "cardDetails",
     component: CardDetailsView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: AccountView,
+    meta: {
+      requiresAuth: true
+    }
+  }
+  ,
+  {
+    path: "/collections",
+    name: "collections",
+    component: AllCollectionsView,
+    meta: {
+      requiresAuth: false
+    }
+  }
+  ,
+  {
+    path: "/my-collection",
+    name: "myCollection",
+    component: CollectionView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/my-decks",
+    name: "myDecks",
+    component: CollectionView,
     meta: {
       requiresAuth: false
     }

@@ -11,7 +11,7 @@
       </div>
       <div class="form-input-group">
         <label for="email">Email</label>
-        <input type="text" id="email" v-model="user.email" required/>
+        <input type="email" id="email" v-model="user.email" required/>
       </div>
       <div class="form-input-group">
         <label for="password">Password</label>
@@ -22,7 +22,7 @@
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
       <button type="submit">Create Account</button>
-      <p><router-link class="nav-item" v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
+      <p><router-link class="sign-up-link" v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
 </template>
@@ -83,5 +83,27 @@ export default {
 }
 label {
   margin-right: 0.5rem;
+}
+#register{
+  background-color: #292929;
+  width:25%;
+  margin: auto;
+  display: flex;
+  height: 450px;
+  margin-top: 100px;
+  border-radius: 10px;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+input{
+  width:100%;
+  box-sizing: border-box;
+}
+button{
+  width:100%;
+  margin-top: 15px;
 }
 </style>
