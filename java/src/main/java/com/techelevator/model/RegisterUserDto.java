@@ -12,6 +12,8 @@ public class RegisterUserDto {
     @NotEmpty
     private String username;
     @NotEmpty
+    private String email;
+    @NotEmpty
     private String password;
     @NotEmpty
     private String confirmPassword;
@@ -48,5 +50,13 @@ public class RegisterUserDto {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

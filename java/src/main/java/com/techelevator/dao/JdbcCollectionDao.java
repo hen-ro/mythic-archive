@@ -25,7 +25,7 @@ public class JdbcCollectionDao implements CollectionDao{
     @Override
     public List<CardCollection> getAllPublicCollections() {
         List<CardCollection> cardCollections = new ArrayList<>();
-        String sql = "SELECT user_id, username, password_hash, role FROM users";
+        String sql = "";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
