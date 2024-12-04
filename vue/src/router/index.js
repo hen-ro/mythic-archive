@@ -91,8 +91,8 @@ const routes = [
   }
   ,
   {
-    path: "/my-collection",
-    name: "myCollection",
+    path: "/collection",
+    name: "collection",
     component: CollectionView,
     meta: {
       requiresAuth: false
@@ -105,7 +105,7 @@ const routes = [
     meta: {
       requiresAuth: false
     }
-  }
+  },
 ];
 
 
