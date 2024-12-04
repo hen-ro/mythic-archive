@@ -48,6 +48,7 @@ public class JdbcCollectionDao implements CollectionDao{
         JdbcCardDao card = new JdbcCardDao(jdbcTemplate);
         CardCollection cardCollection = new CardCollection();
         cardCollection.setCollectionId(rs.getInt("collection_id"));
+        cardCollection.setOwnerId(rs.getInt("user_id"));
         cardCollection.setCollectionName(rs.getString("collection_name"));
         List<Card> myCollection = card.getCardsInCollection(cardCollection.getCollectionId());
         if (rs.getString("thumbnail_url").isEmpty()) {
@@ -78,7 +79,7 @@ public class JdbcCollectionDao implements CollectionDao{
         CardCollection newCollection = null;
         String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?)";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName());
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.isPublic(), collection.getThumbnailUrl());
             newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

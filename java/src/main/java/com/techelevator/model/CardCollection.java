@@ -5,6 +5,7 @@ import java.util.List;
 public class CardCollection {
 
     private int collectionId;
+    private int ownerId;
 
     private List<Card> cards;
 
@@ -18,8 +19,9 @@ public class CardCollection {
 
     }
 
-    public CardCollection(int collectionId, List<Card> cards, String collectionName, boolean isPublic) {
+    public CardCollection(int collectionId, int ownerId, List<Card> cards, String collectionName, boolean isPublic) {
         this.collectionId = collectionId;
+        this.ownerId = ownerId;
         this.cards = cards;
         this.collectionName = collectionName;
         this.isPublic = isPublic;
@@ -27,6 +29,14 @@ public class CardCollection {
 
     public int getCollectionId() {
         return collectionId;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getCollectionName() {
