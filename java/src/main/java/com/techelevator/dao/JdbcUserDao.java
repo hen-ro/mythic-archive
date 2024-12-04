@@ -17,6 +17,9 @@ import com.techelevator.model.User;
 
 @Component
 public class JdbcUserDao implements UserDao {
+    private String USER_SELECT = "SELECT user_id, username, email, password_hash, role FROM users";
+
+    private String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -27,7 +30,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User getUserById(int userId) {
         User user = null;
-        String sql = "SELECT user_id, username, password_hash, role FROM users WHERE user_id = ?";
+        String sql = USER_SELECT +  " WHERE user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -42,7 +45,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT user_id, username, password_hash, role FROM users";
+        String sql = USER_SELECT;
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -59,7 +62,7 @@ public class JdbcUserDao implements UserDao {
     public User getUserByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
         User user = null;
-        String sql = "SELECT user_id, username, password_hash, role FROM users WHERE username = LOWER(TRIM(?));";
+        String sql = USER_SELECT + " WHERE username = LOWER(TRIM(?));";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
             if (rowSet.next()) {
@@ -74,7 +77,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User createUser(RegisterUserDto user) {
         User newUser = null;
-        String insertUserSql = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?) RETURNING user_id";
+        String insertUserSql = USER_INSERT + " RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
