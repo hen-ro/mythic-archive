@@ -6,7 +6,9 @@
       <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home</router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search</router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections</router-link>
-      <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">Account</router-link>
+      <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
+        <img class="account" src='./public/accountIcon.png'/>      
+        </router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">Sign In</router-link>
     </div>
     </div>
@@ -32,5 +34,9 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+.account {
+  width: 20px;
+  background-color: red;
 }
 </style>

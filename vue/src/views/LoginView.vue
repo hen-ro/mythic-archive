@@ -70,6 +70,7 @@ label {
 #login{
   background-color: #292929;
   width:25%;
+  min-width: 300px;
   margin: auto;
   display: flex;
   height: 450px;

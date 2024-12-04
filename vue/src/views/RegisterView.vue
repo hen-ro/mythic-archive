@@ -87,6 +87,7 @@ label {
 #register{
   background-color: #292929;
   width:25%;
+  min-width: 400px;
   margin: auto;
   display: flex;
   height: 450px;
