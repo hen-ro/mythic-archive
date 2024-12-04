@@ -17,9 +17,9 @@ import com.techelevator.model.User;
 
 @Component
 public class JdbcUserDao implements UserDao {
-    private String USER_SELECT = "SELECT user_id, username, email, password_hash, role FROM users";
+    private final String USER_SELECT = "SELECT user_id, username, email, password_hash, role FROM users";
 
-    private String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
+    private final String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
