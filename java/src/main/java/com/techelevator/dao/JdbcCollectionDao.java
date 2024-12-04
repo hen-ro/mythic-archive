@@ -74,7 +74,19 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return collection;
     }
-
+    public CardCollection createNewCollection(CardCollection collection){
+        CardCollection newCollection = null;
+        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?)";
+        try {
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), );
+            newCollection = getCollectionById(newCollectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return newCollection;
+    };
     public CardCollection addCardToCollection(Card card, CardCollection collection){
         CardCollection newCollection = null;
         String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id) VALUES (?, ?) RETURNING collection_id";
@@ -96,8 +108,8 @@ public class JdbcCollectionDao implements CollectionDao{
             } catch (CannotGetJdbcConnectionException e) {
                 throw new DaoException("Unable to connect to server or database", e);
             } catch (DataIntegrityViolationException e) {
-                throw new DaoException("Data integrity violation", e);
+        throw new DaoException("Data integrity violation", e);
             }
-            return numberOfRows;
+                    return numberOfRows;
         };
-};
+                };
