@@ -6,10 +6,12 @@ import com.techelevator.model.CardCollection;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcCardDao implements CardDao{
 
     private final JdbcTemplate jdbcTemplate;

@@ -3,6 +3,8 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CardDao;
 import com.techelevator.dao.CollectionDao;
+import com.techelevator.dao.JdbcCardDao;
+import com.techelevator.dao.JdbcCollectionDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.CardCollection;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,17 @@ public class CollectionController {
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @RequestMapping(value = "/collections", method = RequestMethod.POST)
+    public CardCollection createNewCollection(@RequestBody CardCollection collection) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int userId = Integer.parseInt(authentication.getName());
+
+        collection.setOwnerId(userId);
+        collection.setPublic(false);
+        collection = collectionDao.createNewCollection(collection);
+        return collection;
     }
 }
 
