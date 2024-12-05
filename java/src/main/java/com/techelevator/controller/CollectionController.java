@@ -60,7 +60,7 @@ public class CollectionController {
 
             return new ResponseEntity<>(createdCollection, HttpStatus.CREATED);
         } catch (DaoException e) {
-            System.out.println("something went wrong");
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

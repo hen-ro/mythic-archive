@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
-
+//add JdbcCardDao import (Move local from Map Method)
     private final JdbcTemplate jdbcTemplate;
     private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
 
@@ -50,6 +50,7 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setCollectionId(rs.getInt("collection_id"));
         cardCollection.setOwnerId(rs.getInt("user_id"));
         cardCollection.setCollectionName(rs.getString("collection_name"));
+        cardCollection.setIsPublic(rs.getBoolean("is_public"));
         List<Card> myCollection = card.getCardsInCollection(cardCollection.getCollectionId());
         if (rs.getString("thumbnail_url").isEmpty()) {
             if (myCollection.size() >= 1) {
@@ -69,6 +70,7 @@ public class JdbcCollectionDao implements CollectionDao{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
             if (results.next()) {
                 collection = mapRowToCollection(results);
+                //Use collection.setCards to call JdbcCardDao.getCardsForCollection
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -77,7 +79,7 @@ public class JdbcCollectionDao implements CollectionDao{
     }
     public CardCollection createNewCollection(CardCollection collection){
         CardCollection newCollection = null;
-        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?)";
+        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?) RETURNING collection_id";
         try {
             int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.isPublic(), collection.getThumbnailUrl());
             newCollection = getCollectionById(newCollectionId);
