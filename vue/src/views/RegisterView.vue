@@ -69,6 +69,8 @@ export default {
           });
       }
     },
+    registrationValidation() {
+    },
     clearErrors() {
       this.registrationErrors = false;
       this.registrationErrorMsg = 'There were problems registering this user.';
