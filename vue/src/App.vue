@@ -28,7 +28,7 @@
     display:flex;
     justify-content: flex-end;
     margin-right: 40px;
-    gap: 20px;
+    gap: 40px;
  
 }
 .logo{

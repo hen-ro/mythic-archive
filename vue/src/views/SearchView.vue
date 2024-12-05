@@ -119,6 +119,7 @@ input {
   border: 1px solid	#44BBA4;
 }
 
+
  button {
   border: 0px;
   border-radius: 2px;
