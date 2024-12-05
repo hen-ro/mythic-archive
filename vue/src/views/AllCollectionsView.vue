@@ -37,14 +37,14 @@ export default {
 
 .collection-object {
    width: 18%;
-   background-color: #585858;
+   background-color: #377c79;
    margin-top: 20px;
 }
 
 .thumbnail {
    width: 100%;
    height: 200px;
-   background-color: #8f8787;
+   /* background-color: #8f8787; */
 }
 
 .collection-data {

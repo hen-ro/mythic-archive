@@ -52,9 +52,6 @@ export default {
   margin: 12px 0 8 px;
 }
 
-.card-info p {
-  color: #555;
-}
 
 .card-actions button {
   margin: 8px;

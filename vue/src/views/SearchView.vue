@@ -3,8 +3,7 @@
     <h1>Search</h1>
     <div class="searchBox">
       <div class="field">
-        <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm"
-          placeholder="Search for cards..." />
+        <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
 
         <button @click="search">Search</button>
       </div>
@@ -90,12 +89,18 @@ export default {
 .card img {
   border-radius: 13px;
   width: 100%;
-  /* box-shadow: 0px 4px 8px 0px rgba(255, 255, 255, 0.7); */
+  border: 1px solid		#fd975c;
+  transition: transform 0.1s ease-in-out;
+  transition: box-shadow 0.5s ease;
+ 
 }
 
 .card:hover {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
+  border-radius: 13px;
+  box-shadow: 0px 10px 20px 		#fd975c;
+  transition: box-shadow 0.5s ease;
 }
 
 .field {
@@ -110,11 +115,13 @@ input {
   height: 30px;
   border-radius: 2px;
   border: 0px;
-  background-color: #949494;
+  background-color: #8d4458;
+  border: 1px solid	#fd975c;
 }
 
 button {
   border: 0px;
   border-radius: 2px;
+  background-color: #fd975c;
 }
 </style>

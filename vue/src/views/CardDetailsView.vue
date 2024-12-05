@@ -76,6 +76,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     background-color: #252525;
+    border: 1px solid	#fd975c;
 }
 
 .card-details-header {
@@ -92,7 +93,6 @@ export default {
 }
 
 .card-details-body {
-    /* display: flex; */
     gap: 16px;
 }
 
@@ -132,6 +132,7 @@ export default {
     text-align: right;
     display: flex;
     justify-content: center;
+  
 }
 
 .card-details-actions button {

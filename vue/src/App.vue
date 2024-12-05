@@ -7,7 +7,7 @@
       <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search</router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections</router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
-        <img class="account" src='./public/accountIcon.png'/>      
+        <img class="account" src='/public/images/accountIcon.png'/>      
         </router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">Sign In</router-link>
     </div>
@@ -19,7 +19,7 @@
 
 
 .nav-item, .nav-item:visited,#header{
-    color: #D7D7D7;
+    color: #fd975c;
     text-decoration: none;
     font-size: 1.4vw;
     margin-left: 40px;
@@ -36,7 +36,7 @@
   margin-top: 20px;
 }
 .account {
-  width: 20px;
-  background-color: red;
+  width:1.8vw;
+  margin-top:3px;
 }
 </style>
