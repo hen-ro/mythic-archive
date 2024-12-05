@@ -75,6 +75,7 @@ export default {
   margin: 10px;
   text-decoration: none;
   transition: transform 0.1s ease-in-out;
+  
 }
 
 .card p {
@@ -89,18 +90,17 @@ export default {
 .card img {
   border-radius: 13px;
   width: 100%;
-  border: 1px solid		#fd975c;
   transition: transform 0.1s ease-in-out;
   transition: box-shadow 0.5s ease;
  
 }
 
-.card:hover {
+.card img:hover {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
   border-radius: 13px;
-  box-shadow: 0px 10px 20px 		#fd975c;
-  transition: box-shadow 0.5s ease;
+  box-shadow: 0px 0px 20px 5px #E7BB41;
+  transition: box-shadow 0.3s ease;
 }
 
 .field {
@@ -115,13 +115,19 @@ input {
   height: 30px;
   border-radius: 2px;
   border: 0px;
-  background-color: #8d4458;
-  border: 1px solid	#fd975c;
+  background-color: #E7E5DF;
+  border: 1px solid	#44BBA4;
 }
 
-button {
+ button {
   border: 0px;
   border-radius: 2px;
-  background-color: #fd975c;
+  background-color: #44BBA4;
+} 
+button:hover{
+  cursor:pointer;
+}
+button:active{
+  background-color: #388b7b;
 }
 </style>

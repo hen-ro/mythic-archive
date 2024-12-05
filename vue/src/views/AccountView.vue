@@ -1,7 +1,7 @@
 <template>
     <div class="account-container">
-        <router-link class="nav-item" v-bind:to="{ name: 'collection' }" v-if="this.$store.state.token != ''">My Collection</router-link>
-        <router-link class="nav-item" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
+        <router-link class="account-link" v-bind:to="{ name: 'collection' }" v-if="this.$store.state.token != ''">My Collection</router-link>
+        <router-link class="account-link" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
     </div>
 </template>
   
@@ -16,4 +16,11 @@ export default {
     display: flex;
     flex-direction: column;
 }    
+
+.account-link:visited, .account-link{
+    color:#393E41;
+    text-decoration: none;
+    font-size:2rem;
+}
+
 </style>
