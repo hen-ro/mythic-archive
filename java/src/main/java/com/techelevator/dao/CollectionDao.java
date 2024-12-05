@@ -11,7 +11,7 @@ public interface CollectionDao {
 
     int removeCardFromCollection(Card card, CardCollection collection);
 
-    CardCollection addCardToCollection(Card card, CardCollection collection);
+    CardCollection addCardToCollection(Card card, int collection);
 
     CardCollection createNewCollection(CardCollection collection);
     CardCollection getCollectionById(int collectionId);

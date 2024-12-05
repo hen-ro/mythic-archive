@@ -26,12 +26,13 @@ public class JdbcCardDao implements CardDao{
 
         return card;
     }
+    @Override
     public List<Card> getCardsInCollection(int collectionId) {
         List<Card> cardsInCollection = new ArrayList<>();
         String sql = "SELECT cards.card_id, cards.card_name, cards.image_url FROM cards" +
-                " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +
-               " JOIN collections ON cards_collections.collection_id = collections.collection_id" +
-                " WHERE collections.collection_id = ?";
+                     " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +
+                     " JOIN collections ON cards_collections.collection_id = collections.collection_id" +
+                     " WHERE collections.collection_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
             while (results.next()) {

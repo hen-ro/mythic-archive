@@ -19,12 +19,13 @@ import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
-//add JdbcCardDao import (Move local from Map Method)
+    private CardDao cardDao;
     private final JdbcTemplate jdbcTemplate;
     private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
 
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.cardDao = new JdbcCardDao(jdbcTemplate);
     }
 
     @Override
@@ -42,27 +43,7 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return cardCollections;
     }
-
-
-    private CardCollection mapRowToCollection(SqlRowSet rs) {
-        JdbcCardDao card = new JdbcCardDao(jdbcTemplate);
-        CardCollection cardCollection = new CardCollection();
-        cardCollection.setCollectionId(rs.getInt("collection_id"));
-        cardCollection.setOwnerId(rs.getInt("user_id"));
-        cardCollection.setCollectionName(rs.getString("collection_name"));
-        cardCollection.setIsPublic(rs.getBoolean("is_public"));
-        List<Card> myCollection = card.getCardsInCollection(cardCollection.getCollectionId());
-        if (rs.getString("thumbnail_url").isEmpty()) {
-            if (myCollection.size() >= 1) {
-                cardCollection.setThumbnailUrl(myCollection.getFirst().getImageUrl());
-            } else {
-                cardCollection.setThumbnailUrl("");
-            }
-        } else {
-            cardCollection.setThumbnailUrl(rs.getString("thumbnail_url"));
-        }
-        return cardCollection;
-    }
+    @Override
     public CardCollection getCollectionById(int collectionId) {
         CardCollection collection = null;
         String sql = COLLECTIONS_SELECT +  " WHERE collection_id = ?";
@@ -70,13 +51,13 @@ public class JdbcCollectionDao implements CollectionDao{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
             if (results.next()) {
                 collection = mapRowToCollection(results);
-                //Use collection.setCards to call JdbcCardDao.getCardsForCollection
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return collection;
     }
+    @Override
     public CardCollection createNewCollection(CardCollection collection){
         CardCollection newCollection = null;
         String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?) RETURNING collection_id";
@@ -90,12 +71,13 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return newCollection;
     };
-    public CardCollection addCardToCollection(Card card, CardCollection collection){
+    @Override
+    public CardCollection addCardToCollection(Card card, int collectionId){
         CardCollection updatedCollection = null;
         String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id) VALUES (?, ?) RETURNING collection_id";
         try {
-            int collectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId());
-            updatedCollection = getCollectionById(collectionId);
+            int updatedCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collectionId);
+            updatedCollection = getCollectionById(updatedCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -103,6 +85,7 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return updatedCollection;
     };
+    @Override
     public int removeCardFromCollection(Card card, CardCollection collection){
         int numberOfRows = 0;
         String removeCollectionSql = "DELETE FROM public.cards_collections WHERE card_id = ? AND collection_id = ?";
@@ -115,4 +98,30 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     };
+
+    private CardCollection mapRowToCollection(SqlRowSet rs) {
+        CardCollection cardCollection = new CardCollection();
+        cardCollection.setCollectionId(rs.getInt("collection_id"));
+        cardCollection.setCollectionName(rs.getString("collection_name"));
+        cardCollection.setOwnerId(rs.getInt("user_id"));
+        cardCollection.setIsPublic(rs.getBoolean("is_public"));
+        //Get the cards in the collection
+        List<Card> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
+        //Check if the thumbnail image has been set
+        if (rs.getString("thumbnail_url").isEmpty()) {
+            //Check if the collection contains any cards
+            if (cardsInCollection.size() >= 1) {
+                //If the collection contains cards, set to the image of the first card
+                cardCollection.setThumbnailUrl(cardsInCollection.getFirst().getImageUrl());
+            } else {
+                //If the collection is empty and has no thumbnail set, set to a default image
+                cardCollection.setThumbnailUrl("");
+            }
+        } else {
+            cardCollection.setThumbnailUrl(rs.getString("thumbnail_url"));
+        }
+        //Set the list of cards in the collection
+        cardCollection.setCards(cardsInCollection);
+        return cardCollection;
+    }
 };
