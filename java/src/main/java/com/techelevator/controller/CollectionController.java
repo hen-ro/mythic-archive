@@ -8,6 +8,7 @@ import com.techelevator.dao.JdbcCollectionDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.CardCollection;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/collections")
 @CrossOrigin
 public class CollectionController {
 
@@ -28,11 +30,11 @@ public class CollectionController {
         this.collectionDao = collectionDao;
     }
 
-    @RequestMapping(value = "/collections", method = RequestMethod.GET)
+    @RequestMapping(value = "/all-public", method = RequestMethod.GET)
     public List<CardCollection> getAllPublicCollections() {
         return collectionDao.getAllPublicCollections();
     }
-    @RequestMapping(value = "/collections/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public CardCollection getCollectionById(@PathVariable int id) {
         try {
             CardCollection collection;
@@ -45,16 +47,23 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/create")
+    public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollection collection) {
+        try {
+            System.out.println(collection.getCollectionId());
+            System.out.println(collection.getCollectionName());
+            System.out.println(collection.getCards());
+            System.out.println(collection.isPublic());
+            System.out.println(collection.getThumbnailUrl());
+            System.out.println(collection.getOwnerId());
+            CardCollection createdCollection = collectionDao.createNewCollection(collection);
 
-    @RequestMapping(value = "/collections", method = RequestMethod.POST)
-    public CardCollection createNewCollection(@RequestBody CardCollection collection) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        int userId = Integer.parseInt(authentication.getName());
+            return new ResponseEntity<>(createdCollection, HttpStatus.CREATED);
+        } catch (DaoException e) {
+            System.out.println("something went wrong");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        collection.setOwnerId(userId);
-        collection.setPublic(false);
-        collection = collectionDao.createNewCollection(collection);
-        return collection;
     }
 }
 

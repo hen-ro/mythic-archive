@@ -1,13 +1,19 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class CardCollection {
 
+    @JsonIgnore
     private int collectionId;
     private int ownerId;
 
+    @JsonIgnore
     private List<Card> cards;
+
 
     private boolean isPublic;
 
@@ -77,4 +83,9 @@ public class CardCollection {
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Collection Name:"+this.collectionName+""+this.
+//    }
 }
