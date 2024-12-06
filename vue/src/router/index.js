@@ -13,6 +13,7 @@ import AccountView from '../views/AccountView.vue';
 import AllCollectionsView from '../views/AllCollectionsView.vue';
 import MyDecksView from '../views/MyDecksView.vue';
 import CollectionDetailsView from '../views/CollectionDetailsView.vue';
+import Duh from '../views/Duh.vue';
 
 
 /**
@@ -96,7 +97,14 @@ const routes = [
     meta: {
       requiresAuth: false
     }
-  },
+  },{
+    path: "/duh/:id",
+    name:"duh",
+    component: Duh,
+    meta:{
+      requiresAuth: false
+    }
+  }
   
 ];
 

@@ -11,9 +11,8 @@
             class="icon-search" /></router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png'
             class="icon" /></router-link>
-        <router-link class="nav-item" v-bind:to="{ name: 'cardDetails', params: { id: randomCardUrl } }"
-          v-if="randomCardUrl"><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/>
-        </router-link>
+        
+        <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/></span>
         <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
           <img class="account" src='/images/accountIcon.png' />
         </router-link>
@@ -52,13 +51,15 @@ export default {
       .then((response) => {
         console.log("Fetched card:", response);
         this.randomCardUrl = response.data.id; 
-        
+        this.$router.push({name:'duh', params: { id: this.randomCardUrl }});
+        // this.$router.push({ name: 'cardDetails', params: { id: this.randomCardUrl } });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
       
   },
+
 },
 };
 </script>
@@ -69,7 +70,7 @@ export default {
   color: #E7E5DF;
   text-decoration: none;
   font-size: 1.4vw;
-
+  box-shadow: 10px 4px 60px rgba(0, 0, 0, 0.1);
 }
 
 #nav {
@@ -111,6 +112,7 @@ export default {
 .shuffle-icon {
   height: 1.4vw;
   padding-top: 10%;
+  cursor: pointer;
 }
 
 .website-logo {
@@ -147,23 +149,23 @@ export default {
 }
 
 #sidebar-1 {
-  background-image: url("Images/sidebar/sidebar-1.png");
+  background-image: url("/Images/sidebar/sidebar-1.png");
 }
 
 #sidebar-2 {
-  background-image: url("Images/sidebar/sidebar-2.png");
+  background-image: url("/Images/sidebar/sidebar-2.png");
 }
 
 #sidebar-3 {
-  background-image: url("Images/sidebar/sidebar-3.png");
+  background-image: url("/Images/sidebar/sidebar-3.png");
 }
 
 #sidebar-4 {
-  background-image: url("Images/sidebar/sidebar-4.png");
+  background-image: url("/Images/sidebar/sidebar-4.png");
 }
 
 #sidebar-5 {
-  background-image: url("Images/sidebar/sidebar-5.png");
+  background-image: url("/Images/sidebar/sidebar-5.png");
 }
 
 #sidebar {

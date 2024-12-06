@@ -10,32 +10,46 @@
       </div>
     </div>
     <div class="banner-image">
-      <div class="homepage-card" v-for="n in 20" :key="n" :style="{ animationDelay: `${n * 0.1}s` }">
+      <div
+        class="homepage-card"
+        v-for="(card, index) in cards"
+        :key="index"
+        :style="{ animationDelay: `${index * 0.1}s` }"
+        @animationiteration="resetCard(card)"
+      >
         <div class="card-front">
           <div class="card-image"></div>
-              <div class="card-lines" v-for="n in 5" :key="n"></div>
-          
+          <div class="card-lines" v-for="n in 5" :key="n"></div>
         </div>
-        <div class="card-back">
-          <div></div>
-        </div>
+        <div
+          class="card-back"
+          :style="{
+            backgroundImage: card.isAltImage
+              ? `url(${card.altImageUrl})`
+              : `url('/images/CardBack.jpg')`,
+          }"
+        ></div>
       </div>
     </div>
-  </div>
-
-
-  <div class="content-1-container">
-    <div class="content-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae et odio tenetur aliquid quis,
-      minima aliquam totam animi numquam reprehenderit explicabo voluptates ex, velit facilis iste ipsam. Enim, id itaque?
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quod fugit odit dignissimos sint quaerat dolor eos
-      eum consectetur, pariatur nemo, similique dicta voluptates nisi error ut quibusdam molestiae voluptate.
-    </div>
-    <div class="content-image"></div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      cards: Array.from({ length: 20 }, () => ({
+        isAltImage: false, 
+        altImageUrl: '/images/amongUS.png', 
+      })),
+    };
+  },
+  methods: {
+    resetCard(card) {
+      card.isAltImage = Math.random() < 0.03; 
+    },
+  },
+};
 </script>
 
 <style>
@@ -197,6 +211,11 @@ export default {};
   border-radius: 5px;
 }
 
+.card-back {
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: rotateY(180deg);
+}
 @media(max-width:1000px) {
   .banner-image {
     display: none;
