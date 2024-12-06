@@ -23,7 +23,7 @@ export default {
 
    methods: {
       getAllPublicCollections() {
-      CollectionService.search()
+      CollectionService.getAllPublicCollections()
         .then((response) => {
           console.log (response)
         })
@@ -31,6 +31,9 @@ export default {
           console.error("Error fetching data:", error);
         });
       },
+      },
+      mounted(){
+         this.getAllPublicCollections();
       }
    };
 </script>
