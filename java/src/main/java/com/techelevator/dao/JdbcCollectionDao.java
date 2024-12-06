@@ -6,13 +6,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
@@ -20,12 +17,9 @@ public class JdbcCollectionDao implements CollectionDao{
     private final JdbcTemplate jdbcTemplate;
     private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
 
-    private UserDao userDao;
-
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.cardDao = new JdbcCardDao(jdbcTemplate);
-        this.userDao = new JdbcUserDao(jdbcTemplate);
     }
 
     @Override
@@ -60,9 +54,9 @@ public class JdbcCollectionDao implements CollectionDao{
     @Override
     public CardCollection createNewCollection(CardCollectionDto collection){
         CardCollection newCollection = null;
-        String collectionSql = "INSERT INTO public.collections(collection_name, user_id) VALUES (?, ?) RETURNING collection_id";
+        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, username) VALUES (?, ?, ?) RETURNING collection_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId());
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.getUsername());
             newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -138,17 +132,11 @@ public class JdbcCollectionDao implements CollectionDao{
         //Get the cards in the collection
         List<Card> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
         cardCollection.setCardCount(cardsInCollection.size());
-        cardCollection.setUsername(userDao.getUserById(cardCollection.getOwnerId()).getUsername());
+        cardCollection.setUsername(rs.getString("username"));
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {
-            //Check if the collection contains any cards
-            if (cardsInCollection.size() >= 1) {
-                //If the collection contains cards, set to the image of the first card
-                cardCollection.setThumbnailUrl(cardsInCollection.getFirst().getImageUrl());
-            } else {
-                //If the collection is empty and has no thumbnail set, set to a default image
-                cardCollection.setThumbnailUrl("");
-            }
+            //If the collection has no thumbnail set, set to a default image
+            cardCollection.setThumbnailUrl("/images/6398f26cb77dc209f3628aeb_Whopper.png");
         } else {
             cardCollection.setThumbnailUrl(rs.getString("thumbnail_url"));
         }

@@ -23,6 +23,7 @@ public class JdbcCardDao implements CardDao{
         card.setCardId(rs.getObject("card_id", java.util.UUID.class));
         card.setCardName(rs.getString("card_name"));
         card.setImageUrl(rs.getString("image_url"));
+        card.setThumbnailUrl(rs.getString("thumbnail_url"));
 
         return card;
     }
