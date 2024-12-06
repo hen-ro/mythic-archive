@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
@@ -65,33 +67,84 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return newCollection;
     };
+
+    //ADD CARDS METHODS
     @Override
-    public CardCollection addCardToCollection(Card card, int collectionId){
+    public CardCollection addCardsToCollection(Card card, CardCollection collection, int quantity) {
         CardCollection updatedCollection = null;
-        String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id) VALUES (?, ?) RETURNING collection_id";
+        String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id, quantity) VALUES (?, ?, ?) RETURNING collection_id";
         try {
-            int updatedCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collectionId);
+            int currentAmount = collection.getCardCount(card);
+            int updatedCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId(), (currentAmount + quantity));
             updatedCollection = getCollectionById(updatedCollectionId);
+            if (updatedCollection != null) {
+                updatedCollection.setCardCount(card, (currentAmount + quantity));
+            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
         return updatedCollection;
-    };
+    }
     @Override
-    public int removeCardFromCollection(Card card, CardCollection collection){
+    public void addExistingCardToCollection(Card card, CardCollection collection, int quantity) {
         int numberOfRows = 0;
-        String removeCollectionSql = "DELETE FROM public.cards_collections WHERE card_id = ? AND collection_id = ?";
+        String updateQuantitySql = "UPDATE public.cards_collections" +
+                " SET quantity=?" +
+                " WHERE card_id=? AND collection_id=?";
         try {
-            numberOfRows = jdbcTemplate.update(removeCollectionSql, card.getCardId(), collection.getCollectionId());
+            int currentAmount = collection.getCardCount(card);
+            numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount + quantity), card.getCardId(), collection.getCollectionId());
+            if (numberOfRows == 1) {
+                collection.setCardCount(card, (currentAmount + quantity));
+            } else {
+                throw new DaoException("Unexpected number of rows affected");
+            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-        return numberOfRows;
+    }
+
+    //REMOVE CARDS METHODS
+    @Override
+    public void removeAllCardsOfTypeFromCollection(UUID cardId, int collectionId){
+        int numberOfRows = 0;
+        String removeCollectionSql = "DELETE FROM public.cards_collections WHERE card_id = ? AND collection_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(removeCollectionSql, cardId, collectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
     };
+    @Override
+    public void removeCardsFromCollection(Card card, CardCollection collection, int quantity) {
+        int numberOfRows = 0;
+        String updateQuantitySql = "UPDATE public.cards_collections" +
+                " SET quantity=?" +
+                " WHERE card_id=? AND collection_id=?";
+        try {
+            int currentAmount = collection.getCardCount(card);
+            if (currentAmount - quantity <= 0) {
+                removeAllCardsOfTypeFromCollection(card.getCardId(), collection.getCollectionId());
+            }
+            numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount - quantity), card.getCardId(), collection.getCollectionId());
+            if (numberOfRows == 1) {
+                collection.setCardCount(card, (currentAmount - quantity));
+            } else {
+                throw new DaoException("Unexpected number of rows affected");
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+    }
+
     @Override
     public int setCollectionPublic(int collectionId) {
         int numberOfRows = 0;
@@ -122,7 +175,10 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     }
-
+    @Override
+    public boolean isCardInCollection(UUID cardId, int collectionId) {
+        return true;
+    }
     private CardCollection mapRowToCollection(SqlRowSet rs) {
         CardCollection cardCollection = new CardCollection();
         cardCollection.setCollectionId(rs.getInt("collection_id"));
@@ -130,8 +186,8 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setOwnerId(rs.getInt("user_id"));
         cardCollection.setIsPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
-        List<Card> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
-        cardCollection.setCardCount(cardsInCollection.size());
+        Map<Card, Integer> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
+        cardCollection.setTotalCards(cardsInCollection.size());
         cardCollection.setUsername(rs.getString("username"));
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {

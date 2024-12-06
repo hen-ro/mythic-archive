@@ -61,19 +61,42 @@ public class CollectionController {
         }
     }
     @PutMapping("/add")
-    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody Card card, int collectionId) {
+    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody Card card, int collectionId, int quantity) {
         try {
-            CardCollection updatedCollection = collectionDao.addCardToCollection(card, collectionId);
-            return new ResponseEntity<>(updatedCollection, HttpStatus.OK);
+            CardCollection collection = collectionDao.getCollectionById(collectionId);
+            Card cardToAdd = cardDao.getCardById(card.getCardId());
+            if (cardToAdd == null) {
+                //create card
+                cardToAdd = cardDao.createNewCard(card);
+            }
+            //If card is already in collection, call function to update database
+            if (collectionDao.isCardInCollection(card.getCardId(), collectionId)) {
+                collectionDao.addExistingCardToCollection(cardToAdd, collection, quantity);
+            } //else call function to insert new record
+            else {
+                collectionDao.addCardsToCollection(cardToAdd, collection, quantity);
+            }
+
+            return new ResponseEntity<>(collection, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping("/remove")
-    public ResponseEntity<Integer> removeCardFromCollection(@RequestBody Card card, CardCollection collection) {
+    @DeleteMapping("/remove-all")
+    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(UUID cardId, int collectionId) {
         try {
-            int numberOfRows = collectionDao.removeCardFromCollection(card, collection);
-            return new ResponseEntity<>(numberOfRows, HttpStatus.NO_CONTENT);
+            collectionDao.removeAllCardsOfTypeFromCollection(cardId, collectionId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody Card card, int collectionId, int quantity) {
+        try {
+            collectionDao.removeCardsFromCollection(card, collectionDao.getCollectionById(collectionId), quantity);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }

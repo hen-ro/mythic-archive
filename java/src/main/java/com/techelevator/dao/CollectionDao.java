@@ -5,17 +5,18 @@ import com.techelevator.model.CardCollection;
 import com.techelevator.model.CardCollectionDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CollectionDao {
 
     List<CardCollection> getAllPublicCollections();
-
-    int removeCardFromCollection(Card card, CardCollection collection);
-
-    CardCollection addCardToCollection(Card card, int collection);
-
+    CardCollection addCardsToCollection(Card card, CardCollection collection, int quantity);
+    void addExistingCardToCollection(Card card, CardCollection collection, int quantity);
+    void removeAllCardsOfTypeFromCollection(UUID cardId, int collectionId);
+    void removeCardsFromCollection(Card card, CardCollection collection, int quantity);
     CardCollection createNewCollection(CardCollectionDto collection);
     CardCollection getCollectionById(int collectionId);
     int setCollectionPublic(int collectionId);
     int setCollectionThumbnail(int collectionId, String thumbnail);
+    boolean isCardInCollection(UUID cardId, int collectionId);
 }

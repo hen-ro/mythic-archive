@@ -33,9 +33,11 @@ CREATE TABLE cards (
 CREATE TABLE cards_collections (
     card_id UUID NOT NULL,
     collection_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
     CONSTRAINT PK_cards_collections PRIMARY KEY(card_id, collection_id),
     CONSTRAINT FK_cards_collections_cards FOREIGN KEY(card_id) REFERENCES cards(card_id),
-    CONSTRAINT FK_cards_collections_collections FOREIGN KEY(collection_id) REFERENCES collections(collection_id)
+    CONSTRAINT FK_cards_collections_collections FOREIGN KEY(collection_id) REFERENCES collections(collection_id),
+    CONSTRAINT CK_quantity CHECK (quantity >= 0)
 );
 
 COMMIT TRANSACTION;

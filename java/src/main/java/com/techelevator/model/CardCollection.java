@@ -1,16 +1,13 @@
 package com.techelevator.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
+import java.util.Map;
 
 public class CardCollection {
 
     private int collectionId;
     private int ownerId;
 
-    private List<Card> cards;
+    private Map<Card, Integer> cards;
 
     private boolean isPublic;
 
@@ -20,13 +17,13 @@ public class CardCollection {
 
     private String username;
 
-    private int cardCount;
+    private int totalCards;
 
     public CardCollection() {
 
     }
 
-    public CardCollection(int collectionId, int ownerId, List<Card> cards, String collectionName, boolean isPublic) {
+    public CardCollection(int collectionId, int ownerId, Map<Card, Integer> cards, String collectionName, boolean isPublic) {
         this.collectionId = collectionId;
         this.ownerId = ownerId;
         this.cards = cards;
@@ -42,12 +39,12 @@ public class CardCollection {
         this.username = username;
     }
 
-    public int getCardCount() {
-        return cardCount;
+    public int getTotalCards() {
+        return totalCards;
     }
 
-    public void setCardCount(Integer cardCount) {
-        this.cardCount = cardCount;
+    public void setTotalCards(Integer totalCards) {
+        this.totalCards = totalCards;
     }
 
     public int getCollectionId() {
@@ -73,16 +70,20 @@ public class CardCollection {
         this.collectionName = collectionName;
     }
 
-    public List<Card> getCards() {
+    public Map<Card, Integer> getCards() {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards =cards;
+    public void setCards(Map<Card, Integer> cards) {
+        this.cards = cards;
     }
 
-    public void addCard(Card card) {
-        this.cards.add(card);
+    public Integer getCardCount(Card card) {
+        return cards.get(card);
+    }
+
+    public void setCardCount(Card card, int quantity) {
+        this.cards.put(card, quantity);
     }
 
     public boolean getIsPublic() {
@@ -101,8 +102,4 @@ public class CardCollection {
         this.thumbnailUrl = thumbnailUrl;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Collection Name:"+this.collectionName+""+this.
-//    }
 }
