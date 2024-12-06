@@ -5,14 +5,16 @@
       <div class="banner-buttons">
         <router-link class="nav-item banner-link" v-bind:to="{ name: 'search' }">Search Cards</router-link>
         <router-link class="nav-item banner-link" v-bind:to="{ name: 'collections' }">Collections</router-link>
-        <router-link class="nav-item banner-link" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">Sign In</router-link>
+        <router-link class="nav-item banner-link" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">Sign
+          In</router-link>
       </div>
     </div>
     <div class="banner-image">
       <div class="homepage-card" v-for="n in 20" :key="n" :style="{ animationDelay: `${n * 0.1}s` }">
         <div class="card-front">
           <div class="card-image"></div>
-          <div class="card-lines" v-for="n in 5" :key="n"></div>
+              <div class="card-lines" v-for="n in 5" :key="n"></div>
+          
         </div>
         <div class="card-back">
           <div></div>
@@ -79,8 +81,8 @@ export default {};
   background-color: #E7BB41;
   border-radius: 5px;
   text-align: center;
-  padding: 10px;
-  font-size: 1.2rem;
+  padding: 15px;
+  font-size: 1rem;
 }
 
 .banner-link:nth-child(2) {
@@ -122,7 +124,6 @@ export default {};
 }
 
 .card-back {
-  /* background-image: url("/public/images/BackOfCard.jpg"); */
   background-color: #1e8a84;
   background-size: cover;
   transform: rotateY(180deg);
@@ -138,13 +139,32 @@ export default {};
   margin-bottom: 12px;
 }
 
+.card-text {
+  display: flex;
+  height: 30%;
+  width: 80%;
+  margin: auto;
+  justify-content: space-evenly;
+
+}
+.card-line-container{
+  display: flex;
+  flex-direction: column;
+  height:100%;
+  width: 100%;
+  justify-content: space-evenly;
+}
 .card-lines {
   width: 80%;
-  height: 2%;
+  height: 3%;
   background-color: #1e7a76;
   margin: 4px auto;
 }
-
+.emblems{
+  height:100%;
+  width:10%;
+  background-color: red;
+}
 .homepage-card:hover {
   animation: rotateX 3s linear infinite;
   transform-style: preserve-3d;
@@ -164,7 +184,7 @@ export default {};
   font-size: 1.4rem;
   width: 30%;
   height: 40%;
-  
+
 
 }
 
@@ -174,11 +194,12 @@ export default {};
   height: 80%;
   border-radius: 5px;
 }
-@media(max-width:1000px){
-  .banner-image{
+
+@media(max-width:1000px) {
+  .banner-image {
     display: none;
   }
-  
+
 }
 
 @keyframes rotateY {

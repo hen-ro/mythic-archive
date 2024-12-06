@@ -4,15 +4,15 @@
     <div class="searchBox">
       <div class="field">
         <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
-
-        <button @click="search">Search</button>
+        <button @click="search">Search<img src='/public/images/SearchIconBlack.png' class="search-icon"></button>
       </div>
     </div>
     <div class="card-container" v-if="cards.length > 0">
       <div class="card" v-for="card in this.cards" v-bind:key="card.id" v-bind:card="card">
         <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">
-          <img :src="card.imageUrl" />
         </router-link>
+        <img :src="card.imageUrl" class="add-card" />
+
       </div>
     </div>
   </div>
@@ -75,7 +75,7 @@ export default {
   margin: 10px;
   text-decoration: none;
   transition: transform 0.1s ease-in-out;
-  
+
 }
 
 .card p {
@@ -92,14 +92,19 @@ export default {
   width: 100%;
   transition: transform 0.1s ease-in-out;
   transition: box-shadow 0.5s ease;
- 
+
+}
+
+.add-card {
+  position: relative;
+
 }
 
 .card img:hover {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
   border-radius: 13px;
-  box-shadow: 0px 0px 20px 5px #E7BB41;
+  box-shadow: 0px 0px 20px 10px #0e0e0e;
   transition: box-shadow 0.3s ease;
 }
 
@@ -116,19 +121,26 @@ input {
   border-radius: 2px;
   border: 0px;
   background-color: #E7E5DF;
-  border: 1px solid	#44BBA4;
+  border: 1px solid #44BBA4;
 }
 
-
- button {
+button {
   border: 0px;
   border-radius: 2px;
   background-color: #44BBA4;
-} 
-button:hover{
-  cursor:pointer;
+  display: flex;
+  align-items: center;
 }
-button:active{
+
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
   background-color: #388b7b;
 }
-</style>
+
+.search-icon {
+  width: 13px;
+  margin-left: 5px;
+}</style>
