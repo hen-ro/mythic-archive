@@ -114,13 +114,13 @@ public class JdbcCollectionDao implements CollectionDao{
         return numberOfRows;
     }
     @Override
-    public int setCollectionThumbnail(int collectionId, String thumbnail) {
+    public int setCollectionThumbnail(int collectionId, String thumbnail_url) {
         int numberOfRows = 0;
         String setThumbnailSql = "UPDATE public.collections" +
                                  " SET thumbnail_url = ?" +
                                  " WHERE collection_id = ?";
         try {
-            numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail, collectionId);
+            numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail_url, collectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

@@ -90,9 +90,9 @@ public class CollectionController {
     }
 
     @PutMapping("/{id}/set-thumbnail")
-    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, String thumbnail) {
+    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, String thumbnail_url) {
         try {
-            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnail);
+            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnail_url);
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
