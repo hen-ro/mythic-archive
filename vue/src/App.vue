@@ -6,6 +6,7 @@
       <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home<img src='/images/HomeIcon.png' class="icon"></router-link>      
       <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search<img src='/images/SearchIcon.png' class="icon-search"></router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png' class="icon"></router-link>
+      <router-link class="nav-item" v-bind:to="{ name: 'collections' }"><img src='/images/shuffleIcon.png' class="shuffle-icon"></router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
         <img class="account" src='/images/accountIcon.png'/>      
         </router-link>
@@ -61,6 +62,10 @@
   width:1vw;
   margin-left:7px;
 }
+.shuffle-icon{
+  height: 1.4vw;
+  padding-top: 10%;
+}
 .website-logo{
  width:15vw;
 }
@@ -79,19 +84,19 @@
     opacity: 0.7;
 }
 #sidebar-1{
-    background-image: url("Images/sidebar-1.png");
+    background-image: url("Images/sidebar/sidebar-1.png");
 }
 #sidebar-2{
-    background-image: url("Images/sidebar-2.png");
+    background-image: url("Images/sidebar/sidebar-2.png");
 }
 #sidebar-3{
-    background-image: url("Images/sidebar-3.png");
+    background-image: url("Images/sidebar/sidebar-3.png");
 }
 #sidebar-4{
-    background-image: url("Images/sidebar-4.png");
+    background-image: url("Images/sidebar/sidebar-4.png");
 }
 #sidebar-5{
-    background-image: url("Images/sidebar-5.png");
+    background-image: url("Images/sidebar/sidebar-5.png");
 }
 #sidebar{
     display: flex;

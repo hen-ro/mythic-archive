@@ -7,8 +7,8 @@
           <img class="thumbnail" :src="collection.thumbnailUrl">
           <div class="collection-data">
             <p> {{ collection.collectionName }} </p>
-            <p> Username </p>
-            <p>Total Cards</p>
+            <p> {{ collection.username }} </p>
+            <p>{{ collection.cardCount }}</p>
           </div>
         </router-link>
       </div>
@@ -31,13 +31,15 @@ export default {
     getAllPublicCollections() {
       CollectionService.getAllPublicCollections()
         .then((response) => {
+          console.log(response);
           this.collections = response.data.map((collection) => ({
+            cardCount: collection.cardCount,
+            collectionName: collection.collectionName,
             ownerId: collection.ownerId,
             thumbnailUrl: collection.thumbnailUrl,
-            collectionName: collection.collectionName,
-            public: collection.public
+            username: collection.username
           }));
-          console.log(this.collections);
+          
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
