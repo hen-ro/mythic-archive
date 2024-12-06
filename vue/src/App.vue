@@ -23,6 +23,29 @@
     <router-view />
   </div>
 </template>
+
+  <script>
+export default {
+  data() {
+    return {
+      randomCardUrl:"",
+    };
+  },
+
+  methods: {
+    shuffle() {
+      SearchService.getRandomCard()
+        .then((response) => {
+          console.log(response);
+          
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+  },
+};
+</script>
 <style>
 
 

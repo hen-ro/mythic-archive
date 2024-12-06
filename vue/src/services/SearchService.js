@@ -12,5 +12,8 @@ export default {
 
     searchById(id) {
       return axios.get(`https://api.scryfall.com/cards/${id}`);
+    },
+    getRandomCard(){
+      return axios.get(`https://api.scryfall.com/cards/random`);
     }
 }
