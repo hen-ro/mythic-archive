@@ -4,7 +4,7 @@
     <div class="searchBox">
       <div class="field">
         <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
-        <button @click="search">Search<img src='/public/images/SearchIconBlack.png' class="search-icon"></button>
+        <button @click="search">Search<img src='/images/SearchIconBlack.png' class="search-icon"></button>
       </div>
     </div>
     <div class="card-container" v-if="cards.length > 0">

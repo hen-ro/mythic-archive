@@ -124,6 +124,7 @@ export default {};
 }
 
 .card-back {
+  background-image: url('/images/CardBack.jpg');
   background-color: #1e8a84;
   background-size: cover;
   transform: rotateY(180deg);

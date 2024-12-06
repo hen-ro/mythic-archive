@@ -3,9 +3,9 @@
     <div id="header">
       <div class="logo">PokeMans</div>
       <div id="nav">
-      <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home<img src='/public/images/HomeIcon.png' class="icon"></router-link>
-      <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search<img src='/public/images/SearchIcon.png' class="icon-search"></router-link>
-      <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/public/images/CollectionIcon.png' class="icon"></router-link>
+      <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home<img src='/images/HomeIcon.png' class="icon"></router-link>
+      <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search<img src='/images/SearchIcon.png' class="icon-search"></router-link>
+      <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png' class="icon"></router-link>
       <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
         <img class="account" src='/images/accountIcon.png'/>      
         </router-link>
