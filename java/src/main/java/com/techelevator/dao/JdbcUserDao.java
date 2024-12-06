@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.CardCollectionDto;
 import com.techelevator.model.RegisterUserDto;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -22,9 +23,12 @@ public class JdbcUserDao implements UserDao {
     private final String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
+    private CollectionDao collectionDao;
+    private CardCollectionDto collectionDto;
 
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.collectionDao = new JdbcCollectionDao(jdbcTemplate);
     }
 
     @Override
@@ -83,6 +87,11 @@ public class JdbcUserDao implements UserDao {
         try {
             int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(), user.getEmail(), password_hash, ssRole);
             newUser = getUserById(newUserId);
+            if (newUser != null) {
+                // create collection
+                collectionDto = new CardCollectionDto(newUserId, newUser.getUsername(), newUser.getUsername() + "'s Collection");
+                collectionDao.createNewCollection(collectionDto);
+            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

@@ -20,23 +20,7 @@ public class CardCollection {
 
     private String username;
 
-    private Integer cardCount;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getCardCount() {
-        return cardCount;
-    }
-
-    public void setCardCount(Integer cardCount) {
-        this.cardCount = cardCount;
-    }
+    private int cardCount;
 
     public CardCollection() {
 
@@ -48,6 +32,22 @@ public class CardCollection {
         this.cards = cards;
         this.collectionName = collectionName;
         this.isPublic = isPublic;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getCardCount() {
+        return cardCount;
+    }
+
+    public void setCardCount(Integer cardCount) {
+        this.cardCount = cardCount;
     }
 
     public int getCollectionId() {

@@ -11,9 +11,7 @@ public class User {
    private String username;
    @Email
    private String email;
-   @JsonIgnore
-   private List<CardCollection> userCollections;
-   @JsonIgnore
+   private int collectionId;
    private String password;
    @JsonIgnore
    private boolean activated;
@@ -27,7 +25,6 @@ public class User {
       this.password = password;
       if (authorities != null) this.setAuthorities(authorities);
       this.activated = true;
-      this.userCollections = new ArrayList<>();
    }
 
    public int getId() {
@@ -54,12 +51,12 @@ public class User {
       this.email = email;
    }
 
-   public List<CardCollection> getUserCollections() {
-      return userCollections;
+   public int getCollectionId() {
+      return collectionId;
    }
 
-   public void setUserCollections(List<CardCollection> userCollections) {
-      this.userCollections = userCollections;
+   public void setCollectionId(int collectionId) {
+      this.collectionId = collectionId;
    }
 
    public String getPassword() {
