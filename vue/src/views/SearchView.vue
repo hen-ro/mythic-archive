@@ -9,10 +9,9 @@
     </div>
     <div class="card-container" v-if="cards.length > 0">
       <div class="card" v-for="card in this.cards" v-bind:key="card.id" v-bind:card="card">
-        <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">
-        </router-link>
+        <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">        
         <img :src="card.imageUrl" class="add-card" />
-
+      </router-link>
       </div>
     </div>
   </div>
@@ -106,6 +105,7 @@ export default {
   border-radius: 13px;
   box-shadow: 0px 0px 20px 10px #0e0e0e;
   transition: box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .field {

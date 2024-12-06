@@ -7,10 +7,10 @@ const http = axios.create({
 export default {
 
     search(searchTerm) {
-        return axios.get(`https://api.scryfall.com/cards/search?q=${searchTerm}*&order=name`)
+        return axios.get(`https://api.scryfall.com/cards/search?q=${searchTerm}*&order=name`);
     },
 
     searchById(id) {
-      return axios.get(`https://api.scryfall.com/cards/${id}`)
+      return axios.get(`https://api.scryfall.com/cards/${id}`);
     }
 }

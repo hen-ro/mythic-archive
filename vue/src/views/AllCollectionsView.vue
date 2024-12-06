@@ -3,7 +3,7 @@
     <h1>Collections</h1>
     <div class="collection-container">
       <div class="collection-object" v-for="collection in collections" v-bind:key="collection.ownerId">
-        <router-link class="router-link" v-bind:to="{ name: 'collection' }">
+        <router-link class="router-link" v-bind:to="{ name: 'collectionDetails', params: { name: collection.collectionName } }" >
           <img class="thumbnail" :src="collection.thumbnailUrl">
           <div class="collection-data">
             <p> {{ collection.collectionName }} </p>

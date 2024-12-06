@@ -10,8 +10,8 @@ export default {
         return http.get('http://localhost:9000/collections/all-public');
     },
 
-    getCollectionById() {
-        return http.get(`http://localhost:9000/collections/${id}`);
+    getCollectionByName(name) {
+        return http.get(`http://localhost:9000/collections/${name}`);
     }
 
 }

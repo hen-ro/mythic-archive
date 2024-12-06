@@ -83,6 +83,7 @@ export default {};
   text-align: center;
   padding: 15px;
   font-size: 1rem;
+  white-space: nowrap;
 }
 
 .banner-link:nth-child(2) {

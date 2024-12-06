@@ -11,8 +11,8 @@ import SearchView from '../views/SearchView.vue';
 import CardDetailsView from '../views/CardDetailsView.vue';
 import AccountView from '../views/AccountView.vue';
 import AllCollectionsView from '../views/AllCollectionsView.vue';
-import CollectionView from '../views/CollectionView.vue';
 import MyDecksView from '../views/MyDecksView.vue';
+import CollectionDetailsView from '../views/CollectionDetailsView.vue';
 
 
 /**
@@ -88,24 +88,16 @@ const routes = [
     meta: {
       requiresAuth: false
     }
-  }
-  ,
+  },
   {
-    path: "/collection",
-    name: "collection",
-    component: CollectionView,
+    path: "/collection-details/:name",
+    name: "collectionDetails",
+    component: CollectionDetailsView,
     meta: {
       requiresAuth: false
     }
   },
-  {
-    path: "/my-decks",
-    name: "myDecks",
-    component: CollectionView,
-    meta: {
-      requiresAuth: false
-    }
-  },
+  
 ];
 
 
