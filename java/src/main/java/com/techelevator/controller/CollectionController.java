@@ -8,6 +8,7 @@ import com.techelevator.dao.JdbcCollectionDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Card;
 import com.techelevator.model.CardCollection;
+import com.techelevator.model.CardCollectionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -50,7 +51,7 @@ public class CollectionController {
         }
     }
     @PostMapping("/create")
-    public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollection collection) {
+    public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollectionDto collection) {
         try {
             CardCollection createdCollection = collectionDao.createNewCollection(collection);
 

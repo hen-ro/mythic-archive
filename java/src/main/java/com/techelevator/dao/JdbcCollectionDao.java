@@ -1,10 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.Card;
-import com.techelevator.model.CardCollection;
-import com.techelevator.model.RegisterUserDto;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,11 +58,11 @@ public class JdbcCollectionDao implements CollectionDao{
         return collection;
     }
     @Override
-    public CardCollection createNewCollection(CardCollection collection){
+    public CardCollection createNewCollection(CardCollectionDto collection){
         CardCollection newCollection = null;
-        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?) RETURNING collection_id";
+        String collectionSql = "INSERT INTO public.collections(collection_name, user_id) VALUES (?, ?) RETURNING collection_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.getIsPublic(), collection.getThumbnailUrl());
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId());
             newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

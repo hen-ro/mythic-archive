@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Card;
 import com.techelevator.model.CardCollection;
+import com.techelevator.model.CardCollectionDto;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ public interface CollectionDao {
 
     CardCollection addCardToCollection(Card card, int collection);
 
-    CardCollection createNewCollection(CardCollection collection);
+    CardCollection createNewCollection(CardCollectionDto collection);
     CardCollection getCollectionById(int collectionId);
 }
