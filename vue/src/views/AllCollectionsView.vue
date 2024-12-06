@@ -17,8 +17,22 @@
 </template>
   
 <script>
+import CollectionService from '../services/CollectionService';
+
 export default {
-};
+
+   methods: {
+      getAllPublicCollections() {
+      CollectionService.search()
+        .then((response) => {
+          console.log (response)
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+      },
+      }
+   };
 </script>
   
 <style>
