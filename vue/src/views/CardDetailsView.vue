@@ -40,12 +40,6 @@ export default {
             card: {},
         };
     },
-    // props: {
-    //     card: {
-    //         type: Object,
-    //         required: true
-    //     }
-    // },
     methods: {
         addToCollection() {
             this.$emit("add-to-collection", this.card);
@@ -58,10 +52,11 @@ export default {
             this.$router.go(-1);
         },
     },
-    mounted() {
+    created() {
         SearchService.searchById(this.$route.params.id).then((response) => {
             this.card = response.data;
         });
+        
     },
 };
 </script>
@@ -71,12 +66,12 @@ export default {
     border-radius: 8px;
     padding: 16px;
     width: 500px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: #252525;
-    border: 1px solid	#fd975c;
+    border: 5px solid	#1e7a76;
 }
 
 .card-details-header {
