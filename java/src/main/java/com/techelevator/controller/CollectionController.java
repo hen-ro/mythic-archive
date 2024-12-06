@@ -79,6 +79,26 @@ public class CollectionController {
         }
     }
 
+    @PutMapping("/{id}/set-public")
+    public ResponseEntity<Integer> setCollectionPublic(@PathVariable int id) {
+        try {
+            int numberOfRows = collectionDao.setCollectionPublic(id);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{id}/set-thumbnail")
+    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, String thumbnail) {
+        try {
+            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnail);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
 

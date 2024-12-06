@@ -16,4 +16,6 @@ public interface CollectionDao {
 
     CardCollection createNewCollection(CardCollectionDto collection);
     CardCollection getCollectionById(int collectionId);
+    int setCollectionPublic(int collectionId);
+    int setCollectionThumbnail(int collectionId, String thumbnail);
 }

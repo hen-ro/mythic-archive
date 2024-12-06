@@ -14,7 +14,7 @@ CREATE TABLE users (
 CREATE TABLE collections (
     collection_id SERIAL NOT NULL,
     collection_name varchar (50) NOT NULL,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL UNIQUE,
     is_public boolean NOT NULL DEFAULT FALSE,
     thumbnail_url varchar(2083) DEFAULT '',
     CONSTRAINT PK_collection PRIMARY KEY (collection_id),

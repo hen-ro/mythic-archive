@@ -31,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ownerId\" : 1,\r\n    \"collectionName\": \"The Best Collection\",\r\n    \"thumbnailUrl\": \"\",\r\n    \"isPublic\" : true\r\n}",
+					"raw": "{\r\n    \"ownerId\" : 1,\r\n    \"collectionName\": \"The Best Collection\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,11 +43,38 @@
 			"response": []
 		},
 		{
+			"name": "Set Public",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ownerId\" : 1,\r\n    \"collectionName\": \"The Best Collection\",\r\n    \"thumbnailUrl\": \"\",\r\n    \"isPublic\" : true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/collections/2/set-public"
+			},
+			"response": []
+		},
+		{
 			"name": "All Public Collections",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": ""
+				"url": "http://localhost:9000/collections/all-public"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Collection By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9000/collections/2"
 			},
 			"response": []
 		}

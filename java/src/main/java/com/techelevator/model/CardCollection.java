@@ -7,13 +7,10 @@ import java.util.List;
 
 public class CardCollection {
 
-    @JsonIgnore
     private int collectionId;
     private int ownerId;
 
-    @JsonIgnore
     private List<Card> cards;
-
 
     private boolean isPublic;
 

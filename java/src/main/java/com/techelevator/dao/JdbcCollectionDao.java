@@ -98,6 +98,36 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     };
+    @Override
+    public int setCollectionPublic(int collectionId) {
+        int numberOfRows = 0;
+        String setPublicSql = "UPDATE public.collections" +
+                " SET is_public= true" +
+                " WHERE collection_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(setPublicSql, collectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
+    @Override
+    public int setCollectionThumbnail(int collectionId, String thumbnail) {
+        int numberOfRows = 0;
+        String setThumbnailSql = "UPDATE public.collections" +
+                                 " SET thumbnail_url = ?" +
+                                 " WHERE collection_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail, collectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
 
     private CardCollection mapRowToCollection(SqlRowSet rs) {
         CardCollection cardCollection = new CardCollection();
