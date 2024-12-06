@@ -40,12 +40,6 @@ export default {
             card: {},
         };
     },
-    // props: {
-    //     card: {
-    //         type: Object,
-    //         required: true
-    //     }
-    // },
     methods: {
         addToCollection() {
             this.$emit("add-to-collection", this.card);
@@ -76,7 +70,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     background-color: #252525;
-    border: 1px solid	#fd975c;
+    border: 5px solid	#1e7a76;
 }
 
 .card-details-header {

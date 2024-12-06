@@ -12,7 +12,7 @@
         <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png'
             class="icon" /></router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'cardDetails', params: { id: randomCardUrl } }"
-          v-if="randomCardUrl"><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle" />
+          v-if="randomCardUrl"><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/>
         </router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
           <img class="account" src='/images/accountIcon.png' />
@@ -51,13 +51,13 @@ export default {
     SearchService.getRandomCard()
       .then((response) => {
         console.log("Fetched card:", response);
-        this.randomCardUrl = response.data.id;
+        this.randomCardUrl = response.data.id; 
         
-        this.$router.push({ name: 'cardDetails', params: { id: this.randomCardUrl } });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+      
   },
 },
 };
