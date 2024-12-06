@@ -1,7 +1,7 @@
 <template>
   <div id="capstone-app">
     <div id="header">
-      <div class="logo"><img src='/images/MALogo.png' class="website-logo"></div>
+      <router-link class="nav-item" v-bind:to="{ name: 'home' }"><div class="logo"><img src='/images/MALogo.png' class="website-logo"></div></router-link>
       <div id="nav">
       <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home<img src='/images/HomeIcon.png' class="icon"></router-link>      
       <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search<img src='/images/SearchIcon.png' class="icon-search"></router-link>
@@ -12,6 +12,13 @@
       <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">Sign In</router-link>
     </div>
     </div>
+    <aside id="sidebar">
+            <a href="https://www.youtube.com" target="_blank"><button type="button" id="sidebar-1"></button></a>
+            <a href="https://www.google.com" target="_blank"> <button type="button" id="sidebar-2"></button></a>
+            <a href="https://www.twitter.com" target="_blank"><button type="button" id="sidebar-3"></button></a>
+            <a href="https://www.facebook.com" target="_blank"><button type="button" id="sidebar-4"></button></a>
+            <a href="https://www.instagram.com" target="_blank"><button type="button" id="sidebar-5"></button></a>
+        </aside>
     <router-view />
   </div>
 </template>
@@ -56,6 +63,42 @@
 }
 .website-logo{
  width:15vw;
+}
+#sidebar-1:hover, #sidebar-2:hover, #sidebar-3:hover, #sidebar-4:hover, #sidebar-5:hover{
+    opacity: 1;
+}
+#sidebar-1:active, #sidebar-2:active, #sidebar-3:active, #sidebar-4:active, #sidebar-5:active{
+    width:45px;
+    height: 45px;
+}
+#sidebar-1, #sidebar-2, #sidebar-3, #sidebar-4, #sidebar-5{
+    height: 40px;
+    width: 40px;
+    background-size: cover;
+    border: 0px;
+    opacity: 0.7;
+}
+#sidebar-1{
+    background-image: url("Images/sidebar-1.png");
+}
+#sidebar-2{
+    background-image: url("Images/sidebar-2.png");
+}
+#sidebar-3{
+    background-image: url("Images/sidebar-3.png");
+}
+#sidebar-4{
+    background-image: url("Images/sidebar-4.png");
+}
+#sidebar-5{
+    background-image: url("Images/sidebar-5.png");
+}
+#sidebar{
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    position:fixed;
+    margin-top: 300px;
 }
 
 </style>

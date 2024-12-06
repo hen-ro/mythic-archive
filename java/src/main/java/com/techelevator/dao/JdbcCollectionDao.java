@@ -23,9 +23,12 @@ public class JdbcCollectionDao implements CollectionDao{
     private final JdbcTemplate jdbcTemplate;
     private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
 
+    private UserDao userDao;
+
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.cardDao = new JdbcCardDao(jdbcTemplate);
+        this.userDao = new JdbcUserDao(jdbcTemplate);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class JdbcCollectionDao implements CollectionDao{
         CardCollection newCollection = null;
         String collectionSql = "INSERT INTO public.collections(collection_name, user_id, is_public, thumbnail_url) VALUES (?, ?, ?, ?) RETURNING collection_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.isPublic(), collection.getThumbnailUrl());
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.getIsPublic(), collection.getThumbnailUrl());
             newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -107,6 +110,8 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setIsPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
         List<Card> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
+        cardCollection.setCardCount(cardsInCollection.size());
+        cardCollection.setUsername(userDao.getUserById(cardCollection.getOwnerId()).getUsername());
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {
             //Check if the collection contains any cards

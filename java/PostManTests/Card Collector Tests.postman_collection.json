@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "14b7e4a1-88eb-4419-9b29-96d11e5c8290",
+		"name": "Card Collector Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39390300"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"test\",\r\n    \"confirmPassword\": \"test\",\r\n    \"role\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Collection",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ownerId\" : 1,\r\n    \"collectionName\": \"The Best Collection\",\r\n    \"thumbnailUrl\": \"\",\r\n    \"isPublic\" : true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/collections/create"
+			},
+			"response": []
+		},
+		{
+			"name": "All Public Collections",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": ""
+			},
+			"response": []
+		}
+	]
+}
