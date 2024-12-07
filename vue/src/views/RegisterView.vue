@@ -123,12 +123,12 @@ label {
 }
 
 #register {
-  background-color: #292929;
+  background-color: var(--onyx);
   width: 25%;
   min-width: 400px;
   margin: auto;
   display: flex;
-  height: 450px;
+  height: 600px;
   margin-top: 100px;
   border-radius: 10px;
 }

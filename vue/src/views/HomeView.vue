@@ -32,6 +32,16 @@
       </div>
     </div>
   </div>
+
+
+  <div class="content-1-container">
+    <div class="content-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae et odio tenetur aliquid quis,
+      minima aliquam totam animi numquam reprehenderit explicabo voluptates ex, velit facilis iste ipsam. Enim, id itaque?
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quod fugit odit dignissimos sint quaerat dolor eos
+      eum consectetur, pariatur nemo, similique dicta voluptates nisi error ut quibusdam molestiae voluptate.
+    </div>
+    <div class="content-image"></div>
+  </div>
 </template>
 
 <script>
@@ -46,7 +56,7 @@ export default {
   },
   methods: {
     resetCard(card) {
-      card.isAltImage = Math.random() < 0.03; 
+      card.isAltImage = Math.random() < 0.005; 
     },
   },
 };
@@ -56,7 +66,7 @@ export default {
 .banner {
   width: 100%;
   height: 550px;
-  background-color: #393E41;
+  background-color: var(--onyx);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +102,7 @@ export default {
 }
 
 .banner-link {
-  background-color: #E7BB41;
+  background-color: var(--affron);
   border-radius: 5px;
   text-align: center;
   padding: 15px;
@@ -101,8 +111,8 @@ export default {
 }
 
 .banner-link:nth-child(2) {
-  background-color: #E7E5DF;
-  color: #393E41;
+  background-color: var(--platinum);
+  color: var(--onyx);
 }
 
 .banner-link:hover {
@@ -114,7 +124,6 @@ export default {
 }
 
 .homepage-card {
-  background-color: #1e7a76;
   height: 24%;
   width: 80px;
   margin: auto 10px;
@@ -123,6 +132,7 @@ export default {
   transform-style: preserve-3d;
   position: relative;
   perspective: 1000px;
+  border:1px solid var(--affron);
 }
 
 .card-front,
@@ -140,13 +150,12 @@ export default {
 
 .card-back {
   background-image: url('/images/CardBack.jpg');
-  background-color: #1e8a84;
   background-size: cover;
   transform: rotateY(180deg);
 }
 
 .card-image {
-  background-color: #1e7a76;
+  background-color: var(--perry);
   width: 80%;
   height: 40%;
   margin: auto;
@@ -173,13 +182,8 @@ export default {
 .card-lines {
   width: 80%;
   height: 3%;
-  background-color: #1e7a76;
+  background-color: var(--perry);
   margin: 4px auto;
-}
-.emblems{
-  height:100%;
-  width:10%;
-  background-color: red;
 }
 .homepage-card:hover {
   animation: rotateX 3s linear infinite;
@@ -196,7 +200,7 @@ export default {
 }
 
 .content-text {
-  color: #1e7a76;
+  color: var(--perry);
   font-size: 1.4rem;
   width: 30%;
   height: 40%;
@@ -206,7 +210,7 @@ export default {
 
 .content-image {
   width: 35%;
-  background-color: #1e7a76;
+  background-color: var(--perry);
   height: 80%;
   border-radius: 5px;
 }

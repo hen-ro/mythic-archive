@@ -67,7 +67,7 @@ export default {
 .nav-item,
 .nav-item:visited,
 #header {
-  color: #E7E5DF;
+  color: var(--platinum);
   text-decoration: none;
   font-size: 1.4vw;
   box-shadow: 10px 4px 60px rgba(0, 0, 0, 0.1);
@@ -90,7 +90,7 @@ export default {
   display: flex;
   justify-content: space-between;
   background-color: #282c2e;
-  border-bottom: 2px solid #E7E5DF;
+  border-bottom: 2px solid var(--platinum);
   padding-top: 10px;
   padding-bottom: 5px;
 }

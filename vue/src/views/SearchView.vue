@@ -120,14 +120,14 @@ input {
   height: 30px;
   border-radius: 2px;
   border: 0px;
-  background-color: #E7E5DF;
-  border: 1px solid #44BBA4;
+  background-color: var(--platinum);
+  border: 1px solid var(--keppel);
 }
 
 button {
   border: 0px;
   border-radius: 2px;
-  background-color: #44BBA4;
+  background-color: var(--keppel);
   display: flex;
   align-items: center;
 }
@@ -137,7 +137,7 @@ button:hover {
 }
 
 button:active {
-  background-color: #388b7b;
+  background-color: var(--perry);
 }
 
 .search-icon {

@@ -71,7 +71,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     background-color: #252525;
-    border: 5px solid	#1e7a76;
+    border: 5px solid	var(--perry);
 }
 
 .card-details-header {

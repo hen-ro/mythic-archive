@@ -53,10 +53,6 @@ export default {
 </script>
 
 <style>
-.router-link {
-  text-decoration: none;
-  color: white;
-}
 
 .collection-container {
   display: flex;
@@ -69,7 +65,7 @@ export default {
 .collection-object {
   width: 18%;
   min-width: 200px;
-  background-color: #377c79;
+  background-color: var(--perry);
 }
 
 .thumbnail {
@@ -83,7 +79,7 @@ export default {
   flex-direction: column;
   height: 70px;
   justify-content: space-evenly;
-  background-color: #377c79;
+  background-color: var(--perry);
   padding-bottom: 10px;
 }
 p {

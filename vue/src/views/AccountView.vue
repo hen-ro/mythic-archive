@@ -18,7 +18,7 @@ export default {
 }    
 
 .account-link:visited, .account-link{
-    color:#393E41;
+    color:var(--onyx);
     text-decoration: none;
     font-size:2rem;
 }
