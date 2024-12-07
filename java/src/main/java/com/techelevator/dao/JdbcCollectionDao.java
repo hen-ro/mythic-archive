@@ -74,11 +74,10 @@ public class JdbcCollectionDao implements CollectionDao{
         CardCollection updatedCollection = null;
         String collectionSql = "INSERT INTO public.cards_collections(card_id, collection_id, quantity) VALUES (?, ?, ?) RETURNING collection_id";
         try {
-            int currentAmount = collection.getCardCount(card);
-            int updatedCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId(), (currentAmount + quantity));
+            int updatedCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), collection.getCollectionId(), quantity);
             updatedCollection = getCollectionById(updatedCollectionId);
             if (updatedCollection != null) {
-                updatedCollection.setCardCount(card, (currentAmount + quantity));
+                updatedCollection.setCardCount(card.getCardId(), quantity);
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -94,10 +93,10 @@ public class JdbcCollectionDao implements CollectionDao{
                 " SET quantity=?" +
                 " WHERE card_id=? AND collection_id=?";
         try {
-            int currentAmount = collection.getCardCount(card);
+            int currentAmount = collection.getCardCount(card.getCardId());
             numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount + quantity), card.getCardId(), collection.getCollectionId());
             if (numberOfRows == 1) {
-                collection.setCardCount(card, (currentAmount + quantity));
+                collection.setCardCount(card.getCardId(), (currentAmount + quantity));
             } else {
                 throw new DaoException("Unexpected number of rows affected");
             }
@@ -128,13 +127,13 @@ public class JdbcCollectionDao implements CollectionDao{
                 " SET quantity=?" +
                 " WHERE card_id=? AND collection_id=?";
         try {
-            int currentAmount = collection.getCardCount(card);
+            int currentAmount = collection.getCardCount(card.getCardId());
             if (currentAmount - quantity <= 0) {
                 removeAllCardsOfTypeFromCollection(card.getCardId(), collection.getCollectionId());
             }
             numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount - quantity), card.getCardId(), collection.getCollectionId());
             if (numberOfRows == 1) {
-                collection.setCardCount(card, (currentAmount - quantity));
+                collection.setCardCount(card.getCardId(), (currentAmount - quantity));
             } else {
                 throw new DaoException("Unexpected number of rows affected");
             }
@@ -177,8 +176,11 @@ public class JdbcCollectionDao implements CollectionDao{
     }
     @Override
     public boolean isCardInCollection(UUID cardId, int collectionId) {
-        return true;
+        String isCardInCollectionSql = "SELECT 1 FROM cards_collections WHERE card_id = ? AND collection_id = ?";
+        Integer count = jdbcTemplate.queryForObject(isCardInCollectionSql, Integer.class, cardId, collectionId);
+        return count != null && count > 0;
     }
+
     private CardCollection mapRowToCollection(SqlRowSet rs) {
         CardCollection cardCollection = new CardCollection();
         cardCollection.setCollectionId(rs.getInt("collection_id"));
@@ -186,7 +188,7 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setOwnerId(rs.getInt("user_id"));
         cardCollection.setIsPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
-        Map<Card, Integer> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
+        Map<UUID, Integer> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
         cardCollection.setTotalCards(cardsInCollection.size());
         cardCollection.setUsername(rs.getString("username"));
         //Check if the thumbnail image has been set

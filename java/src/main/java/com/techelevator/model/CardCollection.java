@@ -1,13 +1,14 @@
 package com.techelevator.model;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class CardCollection {
 
     private int collectionId;
     private int ownerId;
 
-    private Map<Card, Integer> cards;
+    private Map<UUID, Integer> cards;
 
     private boolean isPublic;
 
@@ -23,7 +24,7 @@ public class CardCollection {
 
     }
 
-    public CardCollection(int collectionId, int ownerId, Map<Card, Integer> cards, String collectionName, boolean isPublic) {
+    public CardCollection(int collectionId, int ownerId, Map<UUID, Integer> cards, String collectionName, boolean isPublic) {
         this.collectionId = collectionId;
         this.ownerId = ownerId;
         this.cards = cards;
@@ -70,20 +71,24 @@ public class CardCollection {
         this.collectionName = collectionName;
     }
 
-    public Map<Card, Integer> getCards() {
+    public Map<UUID, Integer> getCards() {
         return cards;
     }
 
-    public void setCards(Map<Card, Integer> cards) {
+    public void setCards(Map<UUID, Integer> cards) {
         this.cards = cards;
     }
 
-    public Integer getCardCount(Card card) {
-        return cards.get(card);
+    public Integer getCardCount(UUID cardId) {
+        Integer cardCount = 0;
+        if (cards.get(cardId) != null) {
+            cardCount = cards.get(cardId);
+        }
+        return cardCount;
     }
 
-    public void setCardCount(Card card, int quantity) {
-        this.cards.put(card, quantity);
+    public void setCardCount(UUID cardId, int quantity) {
+        this.cards.put(cardId, quantity);
     }
 
     public boolean getIsPublic() {

@@ -29,8 +29,8 @@ public class JdbcCardDao implements CardDao{
         return card;
     }
     @Override
-    public Map<Card, Integer> getCardsInCollection(int collectionId) {
-        Map<Card, Integer> cardsInCollection = new HashMap<>();
+    public Map<UUID, Integer> getCardsInCollection(int collectionId) {
+        Map<UUID, Integer> cardsInCollection = new HashMap<>();
         String sql = "SELECT cards.card_id, cards.card_name, cards.image_url, cards.thumbnail_url, cards_collections.quantity FROM public.cards" +
                      " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +
                      " JOIN collections ON cards_collections.collection_id = collections.collection_id" +
@@ -39,7 +39,7 @@ public class JdbcCardDao implements CardDao{
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, collectionId);
             while (results.next()) {
                Card card = mapRowToCard(results);
-               cardsInCollection.put(card, results.getInt("quantity"));
+               cardsInCollection.put(card.getCardId(), results.getInt("quantity"));
            }
         } catch (CannotGetJdbcConnectionException e) {
            throw new DaoException("Unable to connect to server or database", e);
