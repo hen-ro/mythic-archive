@@ -23,7 +23,6 @@ public class JdbcCollectionDao implements CollectionDao{
         this.jdbcTemplate = jdbcTemplate;
         this.cardDao = new JdbcCardDao(jdbcTemplate);
     }
-
     @Override
     public List<CardCollection> getAllPublicCollections() {
         List<CardCollection> cardCollections = new ArrayList<>();
@@ -52,6 +51,14 @@ public class JdbcCollectionDao implements CollectionDao{
             throw new DaoException("Unable to connect to server or database", e);
         }
         return collection;
+    }
+    @Override
+    public List<Card> getCardsInCollection(int collectionId) {
+        List<Card> cardsList = new ArrayList<>();
+        for (UUID cardId : getCollectionById(collectionId).getCards().keySet()) {
+            cardsList.add(cardDao.getCardById(cardId));
+        }
+        return cardsList;
     }
     @Override
     public CardCollection createNewCollection(CardCollectionDto collection){
@@ -176,7 +183,7 @@ public class JdbcCollectionDao implements CollectionDao{
     }
     @Override
     public boolean isCardInCollection(UUID cardId, int collectionId) {
-        String isCardInCollectionSql = "SELECT 1 FROM cards_collections WHERE card_id = ? AND collection_id = ?";
+        String isCardInCollectionSql = "SELECT COUNT(card_id) FROM cards_collections WHERE card_id = ? AND collection_id = ?";
         Integer count = jdbcTemplate.queryForObject(isCardInCollectionSql, Integer.class, cardId, collectionId);
         return count != null && count > 0;
     }
@@ -188,7 +195,7 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setOwnerId(rs.getInt("user_id"));
         cardCollection.setIsPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
-        Map<UUID, Integer> cardsInCollection = cardDao.getCardsInCollection(cardCollection.getCollectionId());
+        Map<UUID, Integer> cardsInCollection = cardDao.getCardMapForCollection(cardCollection.getCollectionId());
         cardCollection.setTotalCards(cardsInCollection.size());
         cardCollection.setUsername(rs.getString("username"));
         //Check if the thumbnail image has been set

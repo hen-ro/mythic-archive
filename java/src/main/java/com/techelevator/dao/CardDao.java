@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface CardDao {
 
-    Map<UUID, Integer> getCardsInCollection(int collectionId);
+    Map<UUID, Integer> getCardMapForCollection(int collectionId);
     Card getCardById(UUID cardId);
     Card createNewCard(Card card);
 }

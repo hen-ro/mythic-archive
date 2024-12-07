@@ -14,6 +14,7 @@ public interface CollectionDao {
     void addExistingCardToCollection(Card card, CardCollection collection, int quantity);
     void removeAllCardsOfTypeFromCollection(UUID cardId, int collectionId);
     void removeCardsFromCollection(Card card, CardCollection collection, int quantity);
+    List<Card> getCardsInCollection(int collectionId);
     CardCollection createNewCollection(CardCollectionDto collection);
     CardCollection getCollectionById(int collectionId);
     int setCollectionPublic(int collectionId);

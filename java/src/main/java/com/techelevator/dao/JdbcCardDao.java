@@ -29,7 +29,7 @@ public class JdbcCardDao implements CardDao{
         return card;
     }
     @Override
-    public Map<UUID, Integer> getCardsInCollection(int collectionId) {
+    public Map<UUID, Integer> getCardMapForCollection(int collectionId) {
         Map<UUID, Integer> cardsInCollection = new HashMap<>();
         String sql = "SELECT cards.card_id, cards.card_name, cards.image_url, cards.thumbnail_url, cards_collections.quantity FROM public.cards" +
                      " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +

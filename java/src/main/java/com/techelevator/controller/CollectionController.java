@@ -47,6 +47,15 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/{id}/cards")
+    public List<Card> getCardsInCollection(@PathVariable int id) {
+        try {
+            List<Card> cards = collectionDao.getCardsInCollection(id);
+            return cards;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @PostMapping("/create")
     public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollectionDto collection) {
         try {

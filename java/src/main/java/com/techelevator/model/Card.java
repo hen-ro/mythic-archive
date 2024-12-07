@@ -8,7 +8,6 @@ public class Card {
 
     private String cardName;
     private String thumbnailUrl;
-
     private String imageUrl;
 
     public Card(){};

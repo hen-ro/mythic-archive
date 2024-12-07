@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -7,17 +8,11 @@ public class CardCollection {
 
     private int collectionId;
     private int ownerId;
-
     private Map<UUID, Integer> cards;
-
     private boolean isPublic;
-
     private String thumbnailUrl;
-
     private String collectionName;
-
     private String username;
-
     private int totalCards;
 
     public CardCollection() {

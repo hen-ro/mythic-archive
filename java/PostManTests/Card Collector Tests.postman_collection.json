@@ -25,24 +25,6 @@
 			"response": []
 		},
 		{
-			"name": "Create Collection",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"ownerId\" : 1,\r\n    \"collectionName\": \"The Best Collection\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:9000/collections/create"
-			},
-			"response": []
-		},
-		{
 			"name": "Set Public",
 			"request": {
 				"method": "PUT",
@@ -75,6 +57,69 @@
 				"method": "GET",
 				"header": [],
 				"url": "http://localhost:9000/collections/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cards In Collection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:9000/collections/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Card",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"collectionId\" : 1,\r\n    \"quantity\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/collections/add"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Card",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"collectionId\" : 1,\r\n    \"quantity\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/collections/remove"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove All Cards",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"collectionId\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/collections/remove-all"
 			},
 			"response": []
 		}

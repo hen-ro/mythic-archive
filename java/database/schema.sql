@@ -31,7 +31,7 @@ CREATE TABLE cards (
 );
 
 CREATE TABLE cards_collections (
-    card_id UUID NOT NULL,
+    card_id UUID NOT NULL UNIQUE,
     collection_id INT NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     CONSTRAINT PK_cards_collections PRIMARY KEY(card_id, collection_id),
