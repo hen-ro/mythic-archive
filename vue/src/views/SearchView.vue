@@ -10,7 +10,7 @@
     <div class="card-container" v-if="cards.length > 0">
       <div class="card" v-for="card in this.cards" v-bind:key="card.id" v-bind:card="card">
         <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">        
-        <img :src="card.imageUrl" class="add-card" />
+        <img :src="card.imageUrl" />
       </router-link>
       </div>
     </div>
@@ -94,10 +94,6 @@ export default {
 
 }
 
-.add-card {
-  position: relative;
-
-}
 
 .card img:hover {
   transform: scale(1.02);
