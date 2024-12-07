@@ -17,7 +17,7 @@ import java.util.UUID;
 public class JdbcCollectionDao implements CollectionDao{
     private CardDao cardDao;
     private final JdbcTemplate jdbcTemplate;
-    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
+    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, username, is_public, thumbnail_url FROM public.collections";
 
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

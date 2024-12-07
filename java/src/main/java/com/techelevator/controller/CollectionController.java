@@ -3,16 +3,13 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CardDao;
 import com.techelevator.dao.CollectionDao;
-import com.techelevator.dao.JdbcCardDao;
-import com.techelevator.dao.JdbcCollectionDao;
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.AdjustCardRequestDto;
 import com.techelevator.model.Card;
 import com.techelevator.model.CardCollection;
 import com.techelevator.model.CardCollectionDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -61,20 +58,20 @@ public class CollectionController {
         }
     }
     @PutMapping("/add")
-    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody Card card, int collectionId, int quantity) {
+    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard) {
         try {
-            CardCollection collection = collectionDao.getCollectionById(collectionId);
-            Card cardToAdd = cardDao.getCardById(card.getCardId());
+            CardCollection collection = collectionDao.getCollectionById(addCard.getCollectionId());
+            Card cardToAdd = cardDao.getCardById(addCard.getCard().getCardId());
+            //If SELECT statement returns null, add card to cards database
             if (cardToAdd == null) {
-                //create card
-                cardToAdd = cardDao.createNewCard(card);
+                cardToAdd = cardDao.createNewCard(addCard.getCard());
             }
             //If card is already in collection, call function to update database
-            if (collectionDao.isCardInCollection(card.getCardId(), collectionId)) {
-                collectionDao.addExistingCardToCollection(cardToAdd, collection, quantity);
+            if (collectionDao.isCardInCollection(addCard.getCard().getCardId(), addCard.getCollectionId())) {
+                collectionDao.addExistingCardToCollection(cardToAdd, collection, addCard.getQuantity());
             } //else call function to insert new record
             else {
-                collectionDao.addCardsToCollection(cardToAdd, collection, quantity);
+                collectionDao.addCardsToCollection(cardToAdd, collection, addCard.getQuantity());
             }
 
             return new ResponseEntity<>(collection, HttpStatus.OK);
@@ -83,9 +80,9 @@ public class CollectionController {
         }
     }
     @DeleteMapping("/remove-all")
-    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(UUID cardId, int collectionId) {
+    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll) {
         try {
-            collectionDao.removeAllCardsOfTypeFromCollection(cardId, collectionId);
+            collectionDao.removeAllCardsOfTypeFromCollection(removeAll.getCard().getCardId(), removeAll.getCollectionId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -93,9 +90,9 @@ public class CollectionController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody Card card, int collectionId, int quantity) {
+    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard) {
         try {
-            collectionDao.removeCardsFromCollection(card, collectionDao.getCollectionById(collectionId), quantity);
+            collectionDao.removeCardsFromCollection(removeCard.getCard(), collectionDao.getCollectionById(removeCard.getCollectionId()), removeCard.getQuantity());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
