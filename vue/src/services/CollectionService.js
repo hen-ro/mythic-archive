@@ -16,8 +16,8 @@ export default {
     getCardsInCollection(id) {
         return http.get(`http://localhost:9000/collections/${id}/cards`);
     },
-    getCollectionIdByUser() {
-        return http.get('http://localhost:9000/collections/by-user');
+    getCollectionIdByUser(id) {
+        return http.get(`http://localhost:9000/collections/by-user/${id}`);
     }
 
 }

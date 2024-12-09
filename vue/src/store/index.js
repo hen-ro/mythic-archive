@@ -32,7 +32,7 @@ export function createStore(currentToken, currentUser) {
     },
     actions: {
       getCollectionIdByUser() {
-        CollectionService.getCollectionIdByUser()
+        CollectionService.getCollectionIdByUser(this.state.user.id)
         .then((response) => {
           let id = response.data;
           this.commit('SET_COLLECTION_ID', id);

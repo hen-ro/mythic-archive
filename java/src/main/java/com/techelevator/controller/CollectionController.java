@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/collections")
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 @CrossOrigin("*")
 public class CollectionController {
 
@@ -133,11 +133,11 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/by-user")
-    public int getCollectionIdByUser(Principal principal) {
+    @GetMapping("/by-user/{id}")
+    public int getCollectionIdByUser(@PathVariable int id) {
         try {
-                User user = userDao.getUserByUsername(principal.getName());
-                int collectionId = collectionDao.getCollectionByUserId(user.getId()).getCollectionId();
+
+                int collectionId = collectionDao.getCollectionByUserId(id).getCollectionId();
                 return collectionId;
             } catch (DaoException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

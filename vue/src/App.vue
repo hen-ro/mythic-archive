@@ -41,8 +41,6 @@ export default {
       randomCardUrl: null,
     };
   },
-  mounted() {
-  },
   methods: {
   shuffle() {
     SearchService.getRandomCard()
