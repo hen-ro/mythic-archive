@@ -131,8 +131,18 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/by-user")
+    public int getCollectionIdByUser(Principal principal) {
+        try {
+                User user = userDao.getUserByUsername(principal.getName());
+                int collectionId = collectionDao.getCollectionByUserId(user.getId()).getCollectionId();
+                return collectionId;
+            } catch (DaoException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
 
-}
 
 
 
