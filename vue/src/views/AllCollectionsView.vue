@@ -3,10 +3,10 @@
     <h1>Collections</h1>
     <div class="collection-container">
       <div class="collection-object" v-for="collection in collections" v-bind:key="collection.ownerId">
-        <router-link class="router-link" v-bind:to="{ name: 'collectionDetails', params: { name: collection.collectionName } }" >
+        <router-link class="router-link" v-bind:to="{ name: 'collectionDetails', params: { id: collection.collectionId } }" >
           <img class="thumbnail" :src="collection.thumbnailUrl">
           <div class="collection-data">
-            <p> {{ collection.collectionName }} </p>
+            <p> {{ collection.collectionId }} </p>
             <p> {{ collection.username }} </p>
             <p>{{ collection.cardCount }}</p>
           </div>
@@ -34,7 +34,7 @@ export default {
           console.log(response);
           this.collections = response.data.map((collection) => ({
             cardCount: collection.cardCount,
-            collectionName: collection.collectionName,
+            collectionId: collection.collectionId,
             ownerId: collection.ownerId,
             thumbnailUrl: collection.thumbnailUrl,
             //Get Username 

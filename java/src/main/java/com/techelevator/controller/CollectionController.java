@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/collections")
 //@PreAuthorize("isAuthenticated()")
-@CrossOrigin("*")
+@CrossOrigin
 public class CollectionController {
 
     private final CardDao cardDao;
@@ -32,10 +32,12 @@ public class CollectionController {
         this.cardDao = cardDao;
     }
 
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/all-public", method = RequestMethod.GET)
     public List<CardCollection> getAllPublicCollections() {
         return collectionDao.getAllPublicCollections();
     }
+    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public CardCollection getCollectionById(@PathVariable int id) {
         try {
