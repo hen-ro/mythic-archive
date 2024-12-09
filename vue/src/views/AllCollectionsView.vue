@@ -37,7 +37,7 @@ export default {
             collectionName: collection.collectionName,
             ownerId: collection.ownerId,
             thumbnailUrl: collection.thumbnailUrl,
-            username: collection.username
+            //Get Username 
           }));
           
         })

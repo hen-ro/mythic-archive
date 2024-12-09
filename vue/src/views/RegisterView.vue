@@ -7,13 +7,7 @@
       </div>
       <div class="form-input-group">
         <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          v-model="user.username"
-          required
-          autofocus
-        />
+        <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
       <div class="form-input-group">
         <label for="email">Email</label>
@@ -25,18 +19,11 @@
       </div>
       <div class="form-input-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          v-model="user.confirmPassword"
-          required
-        />
+        <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
       <button type="submit">Create Account</button>
       <p>
-        <router-link class="sign-up-link" v-bind:to="{ name: 'login' }"
-          >Already have an account? Log in.</router-link
-        >
+        <router-link class="sign-up-link" v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link>
       </p>
     </form>
   </div>
@@ -79,36 +66,36 @@ export default {
           }
         });
     },
-  
-  registrationValidation() {
-    this.registrationErrors = false;
-    if (this.user.password.length < 8) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password is not long enough.';
-    } else if (this.user.password != this.user.confirmPassword) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password & Confirm Password do not match.';
-    } else if (!(/[A-Z]/.test(this.user.password))) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password must contain an uppercase letter.';
-    } else if (!(/[a-z]/.test(this.user.password))) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password must contain a lowercase letter.';
-    } else if (!(/[0-9]/.test(this.user.password))) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password must contain a number.';
-    } else if (!(/[#?!@$%^&*-]/.test(this.user.password))) {
-      this.registrationErrors = true;
-      this.registrationErrorMsg = 'Password must contain a special character.';
-    } 
+
+    registrationValidation() {
+      this.registrationErrors = false;
+      if (this.user.password.length < 8) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password is not long enough.';
+      } else if (this.user.password != this.user.confirmPassword) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password & Confirm Password do not match.';
+      } else if (!(/[A-Z]/.test(this.user.password))) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password must contain an uppercase letter.';
+      } else if (!(/[a-z]/.test(this.user.password))) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password must contain a lowercase letter.';
+      } else if (!(/[0-9]/.test(this.user.password))) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password must contain a number.';
+      } else if (!(/[#?!@$%^&*-]/.test(this.user.password))) {
+        this.registrationErrors = true;
+        this.registrationErrorMsg = 'Password must contain a special character.';
+      }
       if (this.registrationErrors === false) {
         this.register();
-    }
-  },
-  clearErrors() {
-    this.registrationErrors = false;
-    this.registrationErrorMsg = 'There were problems registering this user.';
-  },
+      }
+    },
+    clearErrors() {
+      this.registrationErrors = false;
+      this.registrationErrorMsg = 'There were problems registering this user.';
+    },
   },
 };
 </script>

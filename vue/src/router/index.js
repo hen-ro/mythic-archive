@@ -91,7 +91,7 @@ const routes = [
     }
   },
   {
-    path: "/collection-details/:name",
+    path: "/collection-details/:id",
     name: "collectionDetails",
     component: CollectionDetailsView,
     meta: {
