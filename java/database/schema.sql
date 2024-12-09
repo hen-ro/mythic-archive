@@ -39,5 +39,26 @@ CREATE TABLE cards_collections (
     CONSTRAINT CK_quantity CHECK (quantity >= 0)
 );
 
+CREATE TABLE decks (
+    deck_id SERIAL NOT NULL,
+    deck_name varchar (50) NOT NULL,
+    user_id INT NOT NULL UNIQUE,
+    is_public boolean NOT NULL DEFAULT FALSE,
+    thumbnail_url varchar(2083) DEFAULT '',
+    deckFormat varchar(150) DEFAULT '',
+    CONSTRAINT PK_deck PRIMARY KEY (deck_id),
+    CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+CREATE TABLE cards_decks (
+    card_id UUID NOT NULL,
+    deck_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    CONSTRAINT PK_cards_decks PRIMARY KEY(card_id, deck_id),
+    CONSTRAINT FK_cards_decks_cards FOREIGN KEY(card_id) REFERENCES cards(card_id),
+    CONSTRAINT FK_cards_decks_decks FOREIGN KEY(deck_id) REFERENCES decks(deck_id),
+    CONSTRAINT CK_quantity CHECK (quantity >= 0)
+);
+
+
 COMMIT TRANSACTION;
 

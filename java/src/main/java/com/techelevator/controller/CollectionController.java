@@ -8,6 +8,7 @@ import com.techelevator.exception.DaoException;
 import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -131,6 +132,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/by-user")
     public int getCollectionIdByUser(Principal principal) {
         try {
