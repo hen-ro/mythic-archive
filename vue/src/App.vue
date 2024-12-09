@@ -42,8 +42,6 @@ export default {
     };
   },
   mounted() {
-
-    this.shuffle();
   },
   methods: {
   shuffle() {
@@ -52,7 +50,6 @@ export default {
         console.log("Fetched card:", response);
         this.randomCardUrl = response.data.id; 
         this.$router.push({name:'duh', params: { id: this.randomCardUrl }});
-        // this.$router.push({ name: 'cardDetails', params: { id: this.randomCardUrl } });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -125,6 +122,7 @@ export default {
 #sidebar-4:hover,
 #sidebar-5:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 #sidebar-1:active,
