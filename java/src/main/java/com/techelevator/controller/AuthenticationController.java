@@ -19,6 +19,8 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
 public class AuthenticationController {
@@ -69,6 +71,13 @@ public class AuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");
         }
     }
-
+    @GetMapping("/username-by-user")
+    public String getUsernameByUserId(@PathVariable int id) {
+        try{
+            return userDao.getUserById(id).getUsername();
+    } catch (DaoException e) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+   }
 }
 

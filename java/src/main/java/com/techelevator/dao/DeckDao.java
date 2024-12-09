@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Card;
-import com.techelevator.model.CardCollection;
-import com.techelevator.model.CardCollectionDto;
-import com.techelevator.model.Deck;
+import com.techelevator.model.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +12,7 @@ public interface DeckDao {
     void removeAllCardsOfTypeFromDeck(UUID cardId, int deckId);
     void removeCardsFromDeck(Card card, Deck deck, int quantity);
     List<Card> getCardsInDeck(int deckId);
-//    Deck createNewDeck(DeckDto deck);
+    Deck createNewDeck(DeckDto deck);
     Deck getDeckById(int deckId);
     Deck getDeckByUserId(int userId);
     int setDeckPublic(int deckId);
