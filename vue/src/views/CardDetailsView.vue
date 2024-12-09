@@ -6,8 +6,7 @@
         </div>
         <div class="card-details-body">
             <div class="card-details-image">
-                <img :src="card.card_faces ? card.card_faces[0].image_uris?.large : card.image_uris?.large"
-                    :alt="card.name" />
+                <img :src="card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large: ' '" :alt= "card.name" />
             </div>
 
             <div class="card-details-info">
@@ -27,11 +26,15 @@
                 </div>
             </div>
         </div>
+        <button @click="addToCollection"> Add to Collection </button>
+        <button @click ="removeFromCollection"> Remove from Collection </button>
     </div>
 </template>
 
 <script>
+import CollectionService from '../services/CollectionService';
 import SearchService from "../services/SearchService";
+
 
 export default {
     name: "CardDetailsView",
@@ -42,7 +45,13 @@ export default {
     },
     methods: {
         addToCollection() {
-            this.$emit("add-to-collection", this.card);
+            CollectionService.addCardToCollection(this.card, this.$store.state.user.id, 1)
+        .then((response) => {
+          console.log('bonk')
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
         },
         removeFromCollection() {
             this.$emit("remove-from-collection", this.card);

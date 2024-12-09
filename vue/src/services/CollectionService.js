@@ -18,6 +18,18 @@ export default {
     },
     getCollectionIdByUser(id) {
         return http.get(`http://localhost:9000/collections/by-user/${id}`);
+    },
+
+    addCardToCollection(card, userId, quantity) {
+        return http.put(`http://localhost:9000/collections/add`);
+    },
+
+    removeCardFromCollection(card, quantity) {
+        return http.delete(`http://localhost:9000/collections/remove`);
+    },
+
+    removeAllFromCollection(card) {
+        return http.delete(`http://localhost:9000/collections/remove-all`);
     }
 
 }

@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 public class AdjustCardRequestDto {
     private Card card;
+    private int userId;
     private int quantity;
 
     public AdjustCardRequestDto() {
@@ -22,4 +23,9 @@ public class AdjustCardRequestDto {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public int getUserId() {return userId;}
+
+    public void setUserId(int userId) {this.userId = userId;}
+
 }

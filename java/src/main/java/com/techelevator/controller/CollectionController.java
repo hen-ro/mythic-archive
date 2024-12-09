@@ -71,10 +71,10 @@ public class CollectionController {
         }
     }
     @PutMapping("/add")
-    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard, Principal principal) {
+    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard) {
         try {
-            User user = userDao.getUserByUsername(principal.getName());
-            CardCollection collection = collectionDao.getCollectionByUserId(user.getId());
+
+            CardCollection collection = collectionDao.getCollectionByUserId(addCard.getUserId());
             Card cardToAdd = cardDao.getCardById(addCard.getCard().getCardId());
             //If SELECT statement returns null, add card to cards database
             if (cardToAdd == null) {
@@ -87,7 +87,7 @@ public class CollectionController {
             else {
                 collectionDao.addCardsToCollection(cardToAdd, collection, addCard.getQuantity());
             }
-            collection = collectionDao.getCollectionByUserId(user.getId());
+            collection = collectionDao.getCollectionByUserId(addCard.getUserId());
             return new ResponseEntity<>(collection, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
