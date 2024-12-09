@@ -3,16 +3,15 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CardDao;
 import com.techelevator.dao.CollectionDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.AdjustCardRequestDto;
-import com.techelevator.model.Card;
-import com.techelevator.model.CardCollection;
-import com.techelevator.model.CardCollectionDto;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,12 +21,13 @@ import java.util.UUID;
 public class CollectionController {
 
     private final CardDao cardDao;
-
+    private final UserDao userDao;
     private final CollectionDao collectionDao;
 
-    public CollectionController(CardDao cardDao, CollectionDao collectionDao){
-        this.cardDao = cardDao;
+    public CollectionController(UserDao userDao, CollectionDao collectionDao, CardDao cardDao) {
+        this.userDao = userDao;
         this.collectionDao = collectionDao;
+        this.cardDao = cardDao;
     }
 
     @RequestMapping(value = "/all-public", method = RequestMethod.GET)
@@ -67,31 +67,34 @@ public class CollectionController {
         }
     }
     @PutMapping("/add")
-    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard) {
+    public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard, Principal principal) {
         try {
-            CardCollection collection = collectionDao.getCollectionById(addCard.getCollectionId());
+            User user = userDao.getUserByUsername(principal.getName());
+            CardCollection collection = collectionDao.getCollectionByUserId(user.getId());
             Card cardToAdd = cardDao.getCardById(addCard.getCard().getCardId());
             //If SELECT statement returns null, add card to cards database
             if (cardToAdd == null) {
                 cardToAdd = cardDao.createNewCard(addCard.getCard());
             }
             //If card is already in collection, call function to update database
-            if (collectionDao.isCardInCollection(addCard.getCard().getCardId(), addCard.getCollectionId())) {
+            if (collectionDao.isCardInCollection(addCard.getCard().getCardId(), collection.getCollectionId())) {
                 collectionDao.addExistingCardToCollection(cardToAdd, collection, addCard.getQuantity());
             } //else call function to insert new record
             else {
                 collectionDao.addCardsToCollection(cardToAdd, collection, addCard.getQuantity());
             }
-
+            collection = collectionDao.getCollectionByUserId(user.getId());
             return new ResponseEntity<>(collection, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @DeleteMapping("/remove-all")
-    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll) {
+    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll, Principal principal) {
         try {
-            collectionDao.removeAllCardsOfTypeFromCollection(removeAll.getCard().getCardId(), removeAll.getCollectionId());
+            User user = userDao.getUserByUsername(principal.getName());
+            CardCollection collection = collectionDao.getCollectionByUserId(user.getId());
+            collectionDao.removeAllCardsOfTypeFromCollection(removeAll.getCard().getCardId(), collection.getCollectionId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -99,9 +102,10 @@ public class CollectionController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard) {
+    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard, Principal principal) {
         try {
-            collectionDao.removeCardsFromCollection(removeCard.getCard(), collectionDao.getCollectionById(removeCard.getCollectionId()), removeCard.getQuantity());
+            User user = userDao.getUserByUsername(principal.getName());
+            collectionDao.removeCardsFromCollection(removeCard.getCard(), collectionDao.getCollectionByUserId(user.getId()), removeCard.getQuantity());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);

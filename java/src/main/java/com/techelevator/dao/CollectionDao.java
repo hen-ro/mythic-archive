@@ -17,6 +17,7 @@ public interface CollectionDao {
     List<Card> getCardsInCollection(int collectionId);
     CardCollection createNewCollection(CardCollectionDto collection);
     CardCollection getCollectionById(int collectionId);
+    CardCollection getCollectionByUserId(int userId);
     int setCollectionPublic(int collectionId);
     int setCollectionThumbnail(int collectionId, String thumbnail);
     boolean isCardInCollection(UUID cardId, int collectionId);

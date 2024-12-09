@@ -15,7 +15,6 @@ CREATE TABLE collections (
     collection_id SERIAL NOT NULL,
     collection_name varchar (50) NOT NULL,
     user_id INT NOT NULL UNIQUE,
-    username varchar(50) NOT NULL,
     is_public boolean NOT NULL DEFAULT FALSE,
     thumbnail_url varchar(2083) DEFAULT '',
     CONSTRAINT PK_collection PRIMARY KEY (collection_id),
@@ -23,7 +22,7 @@ CREATE TABLE collections (
 );
 
 CREATE TABLE cards (
-    card_id UUID NOT NULL,
+    card_id UUID NOT NULL UNIQUE,
     card_name varchar (250) NOT NULL,
     image_url varchar (2083) NOT NULL,
     thumbnail_url varchar(2083) NOT NULL,
@@ -31,7 +30,7 @@ CREATE TABLE cards (
 );
 
 CREATE TABLE cards_collections (
-    card_id UUID NOT NULL UNIQUE,
+    card_id UUID NOT NULL,
     collection_id INT NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
     CONSTRAINT PK_cards_collections PRIMARY KEY(card_id, collection_id),

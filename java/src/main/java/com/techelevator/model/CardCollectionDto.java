@@ -11,9 +11,8 @@ public class CardCollectionDto {
     public CardCollectionDto() {
     }
 
-    public CardCollectionDto(int ownerId, String username, String collectionName) {
+    public CardCollectionDto(int ownerId, String collectionName) {
         this.ownerId = ownerId;
-        this.username = username;
         this.collectionName = collectionName;
     }
 
@@ -31,13 +30,5 @@ public class CardCollectionDto {
 
     public void setCollectionName(String collectionName) {
         this.collectionName = collectionName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

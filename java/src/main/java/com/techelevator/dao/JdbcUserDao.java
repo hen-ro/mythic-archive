@@ -21,14 +21,10 @@ public class JdbcUserDao implements UserDao {
     private final String USER_SELECT = "SELECT user_id, username, email, password_hash, role FROM users";
 
     private final String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
-
     private final JdbcTemplate jdbcTemplate;
-    private CollectionDao collectionDao;
-    private CardCollectionDto collectionDto;
 
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.collectionDao = new JdbcCollectionDao(jdbcTemplate);
     }
 
     @Override
@@ -89,8 +85,8 @@ public class JdbcUserDao implements UserDao {
             newUser = getUserById(newUserId);
             if (newUser != null) {
                 // create collection
-                collectionDto = new CardCollectionDto(newUserId, newUser.getUsername(), newUser.getUsername() + "'s Collection");
-                collectionDao.createNewCollection(collectionDto);
+                String collectionSql = "INSERT INTO public.collections(user_id, collection_name) VALUES (?, ?)";
+                jdbcTemplate.update(collectionSql,newUserId, newUser.getUsername() + "'s Collection");
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

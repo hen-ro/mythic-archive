@@ -2,7 +2,6 @@ package com.techelevator.model;
 
 public class AdjustCardRequestDto {
     private Card card;
-    private int collectionId;
     private int quantity;
 
     public AdjustCardRequestDto() {
@@ -14,14 +13,6 @@ public class AdjustCardRequestDto {
 
     public void setCard(Card card) {
         this.card = card;
-    }
-
-    public int getCollectionId() {
-        return collectionId;
-    }
-
-    public void setCollectionId(int collectionId) {
-        this.collectionId = collectionId;
     }
 
     public int getQuantity() {

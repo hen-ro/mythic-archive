@@ -15,12 +15,14 @@ import java.util.UUID;
 
 @Component
 public class JdbcCollectionDao implements CollectionDao{
+    private UserDao userDao;
     private CardDao cardDao;
     private final JdbcTemplate jdbcTemplate;
-    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, username, is_public, thumbnail_url FROM public.collections";
+    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
 
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userDao = new JdbcUserDao(jdbcTemplate);
         this.cardDao = new JdbcCardDao(jdbcTemplate);
     }
     @Override
@@ -37,6 +39,20 @@ public class JdbcCollectionDao implements CollectionDao{
             throw new DaoException("Unable to connect to server or database", e);
         }
         return cardCollections;
+    }
+    @Override
+    public CardCollection getCollectionByUserId(int userId) {
+        CardCollection collection = null;
+        String sql = COLLECTIONS_SELECT +  " WHERE user_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            if (results.next()) {
+                collection = mapRowToCollection(results);
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return collection;
     }
     @Override
     public CardCollection getCollectionById(int collectionId) {
@@ -63,9 +79,9 @@ public class JdbcCollectionDao implements CollectionDao{
     @Override
     public CardCollection createNewCollection(CardCollectionDto collection){
         CardCollection newCollection = null;
-        String collectionSql = "INSERT INTO public.collections(collection_name, user_id, username) VALUES (?, ?, ?) RETURNING collection_id";
+        String collectionSql = "INSERT INTO public.collections(collection_name, user_id) VALUES (?, ?, ?) RETURNING collection_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId(), collection.getUsername());
+            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, collection.getCollectionName(), collection.getOwnerId());
             newCollection = getCollectionById(newCollectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -197,7 +213,6 @@ public class JdbcCollectionDao implements CollectionDao{
         //Get the cards in the collection
         Map<UUID, Integer> cardsInCollection = cardDao.getCardMapForCollection(cardCollection.getCollectionId());
         cardCollection.setTotalCards(cardsInCollection.size());
-        cardCollection.setUsername(rs.getString("username"));
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {
             //If the collection has no thumbnail set, set to a default image

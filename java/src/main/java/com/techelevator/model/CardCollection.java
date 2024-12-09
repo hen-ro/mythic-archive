@@ -12,7 +12,6 @@ public class CardCollection {
     private boolean isPublic;
     private String thumbnailUrl;
     private String collectionName;
-    private String username;
     private int totalCards;
 
     public CardCollection() {
@@ -25,14 +24,6 @@ public class CardCollection {
         this.cards = cards;
         this.collectionName = collectionName;
         this.isPublic = isPublic;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public int getTotalCards() {

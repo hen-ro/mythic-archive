@@ -11,7 +11,6 @@ public class User {
    private String username;
    @Email
    private String email;
-   private int collectionId;
    private String password;
    @JsonIgnore
    private boolean activated;
@@ -49,14 +48,6 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
-   }
-
-   public int getCollectionId() {
-      return collectionId;
-   }
-
-   public void setCollectionId(int collectionId) {
-      this.collectionId = collectionId;
    }
 
    public String getPassword() {
