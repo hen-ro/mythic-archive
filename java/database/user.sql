@@ -14,7 +14,7 @@ ON ALL SEQUENCES IN SCHEMA public
 TO final_capstone_owner;
 
 --CREATE USER final_capstone_appuser
---WITH PASSWORD 'finalcapstone';
+-- PASSWORD 'finalcapstone';
 
 GRANT SELECT, INSERT, UPDATE, DELETE
 ON ALL TABLES IN SCHEMA public
