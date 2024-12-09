@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"test\",\r\n    \"confirmPassword\": \"test\",\r\n    \"role\": \"user\"\r\n}",
+					"raw": "{\r\n    \"username\": \"test123\",\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"Test123!\",\r\n    \"confirmPassword\": \"Test123!\",\r\n    \"role\": \"user\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,6 +21,24 @@
 					}
 				},
 				"url": "http://localhost:9000/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"test123\",\r\n    \"password\": \"Test123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:9000/login"
 			},
 			"response": []
 		},
@@ -56,7 +74,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:9000/collections/2"
+				"url": "http://localhost:9000/collections/3"
 			},
 			"response": []
 		},
@@ -65,7 +83,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:9000/collections/2"
+				"url": "http://localhost:9000/collections/1/cards"
 			},
 			"response": []
 		},
@@ -76,7 +94,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"collectionId\" : 1,\r\n    \"quantity\" : 1\r\n}",
+					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"quantity\" : 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -112,7 +130,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    },\r\n    \"collectionId\" : 1\r\n}",
+					"raw": "{\r\n    \"card\": {\r\n        \"cardId\" : \"e882c9f9-bf30-46b6-bedc-379d2c80e5cb\",\r\n        \"cardName\" : \"Big Whopper\",\r\n        \"thumbnailUrl\" : \"\",\r\n        \"imageUrl\" : \"\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -122,6 +140,34 @@
 				"url": "http://localhost:9000/collections/remove-all"
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MTIzIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTczMzg0MzcwMH0.0lssgHHWX7CttH8UCIJkhlXWaUHzb-AlyX7xkJBnl5fgoATXTEMxL5yEKPT6ulC1GFBZbvB07h7BD6PKClZYmg"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
