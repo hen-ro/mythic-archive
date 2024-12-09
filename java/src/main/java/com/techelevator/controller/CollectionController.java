@@ -18,7 +18,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/collections")
-@CrossOrigin
+@PreAuthorize("isAuthenticated()")
+@CrossOrigin("*")
 public class CollectionController {
 
     private final CardDao cardDao;
@@ -132,7 +133,6 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/by-user")
     public int getCollectionIdByUser(Principal principal) {
         try {
