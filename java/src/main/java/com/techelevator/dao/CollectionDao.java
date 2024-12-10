@@ -19,6 +19,9 @@ public interface CollectionDao {
     CardCollection getCollectionById(int collectionId);
     CardCollection getCollectionByUserId(int userId);
     int setCollectionPublic(int collectionId);
+    int setCollectionPrivate(int collectionId);
+    int renameCollection(int collectionId, String collectionName);
     int setCollectionThumbnail(int collectionId, String thumbnail);
     boolean isCardInCollection(UUID cardId, int collectionId);
 }
+

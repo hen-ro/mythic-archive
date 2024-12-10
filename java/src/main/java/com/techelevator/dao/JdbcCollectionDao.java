@@ -184,6 +184,38 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     }
+
+    @Override
+    public int setCollectionPrivate(int collectionId) {
+        int numberOfRows = 0;
+        String setPrivateSql = "UPDATE public.collections" +
+                " SET is_public= false" +
+                " WHERE collection_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(setPrivateSql, collectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
+
+    @Override
+    public int renameCollection(int collectionId, String collectionName) {
+        int numberOfRows = 0;
+        String setPrivateSql = "UPDATE public.collections" +
+                " SET SET collection_name = ?" +
+                " WHERE collection_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(setPrivateSql, collectionName, collectionId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
     @Override
     public int setCollectionThumbnail(int collectionId, String thumbnail_url) {
         int numberOfRows = 0;

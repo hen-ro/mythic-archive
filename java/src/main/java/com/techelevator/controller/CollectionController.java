@@ -124,6 +124,26 @@ public class CollectionController {
         }
     }
 
+    @PutMapping("/{id}/set-private")
+    public ResponseEntity<Integer> setCollectionPrivate(@PathVariable int id) {
+        try {
+            int numberOfRows = collectionDao.setCollectionPrivate(id);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{id}/rename")
+    public ResponseEntity<Integer> renameCollection(@PathVariable int id, String collectionName) {
+        try {
+            int numberOfRows = collectionDao.renameCollection(id, collectionName);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/{id}/set-thumbnail")
     public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, String thumbnail_url) {
         try {
