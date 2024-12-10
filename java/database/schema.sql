@@ -23,7 +23,7 @@ CREATE TABLE collections (
     collection_name VARCHAR(50) NOT NULL,
     user_id INT NOT NULL,
     is_public BOOLEAN NOT NULL DEFAULT FALSE,
-    thumbnail_url VARCHAR(2083) DEFAULT '',
+    thumbnail_url VARCHAR(2083) DEFAULT 'images/CardBack.jpg',
     CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
