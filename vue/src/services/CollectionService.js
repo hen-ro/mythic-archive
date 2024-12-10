@@ -20,12 +20,14 @@ export default {
         return http.get(`http://localhost:9000/collections/by-user/${id}`);
     },
 
-    addCardToCollection(card, userId, quantity) {
-        return http.put(`http://localhost:9000/collections/add`);
+    addCardToCollection(request) {
+        console.log(request);
+        return http.put(`http://localhost:9000/collections/add`, request);
     },
 
-    removeCardFromCollection(card, quantity) {
-        return http.delete(`http://localhost:9000/collections/remove`);
+    removeCardFromCollection(request) {
+        console.log(request);
+        return http.delete(`http://localhost:9000/collections/remove`, request);
     },
 
     removeAllFromCollection(card) {

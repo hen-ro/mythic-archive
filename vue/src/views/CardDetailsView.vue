@@ -6,7 +6,8 @@
         </div>
         <div class="card-details-body">
             <div class="card-details-image">
-                <img :src="card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large: ' '" :alt= "card.name" />
+                <img :src="card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : ' '"
+                    :alt="card.name" />
             </div>
 
             <div class="card-details-info">
@@ -26,8 +27,8 @@
                 </div>
             </div>
         </div>
-        <button @click="addToCollection"> Add to Collection </button>
-        <button @click ="removeFromCollection"> Remove from Collection </button>
+        <button @click="this.$store.dispatch('addToCollection')"> Add to Collection </button>
+        <button @click="this.$store.dispatch('removeFromCollection')"> Remove from Collection </button>
     </div>
 </template>
 
@@ -44,29 +45,16 @@ export default {
         };
     },
     methods: {
-        addToCollection() {
-            CollectionService.addCardToCollection(this.card, this.$store.state.user.id, 1)
-        .then((response) => {
-          console.log('bonk')
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-        },
-        removeFromCollection() {
-            this.$emit("remove-from-collection", this.card);
-        },
         closeDetails() {
             this.$emit("close-details");
             this.$router.go(-1);
-        },
+        }
     },
     created() {
         SearchService.searchById(this.$route.params.id).then((response) => {
             this.card = response.data;
         });
-        
-    },
+    }
 };
 </script>
 
@@ -80,7 +68,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     background-color: #252525;
-    border: 5px solid	var(--perry);
+    border: 5px solid var(--perry);
 }
 
 .card-details-header {
@@ -136,7 +124,7 @@ export default {
     text-align: right;
     display: flex;
     justify-content: center;
-  
+
 }
 
 .card-details-actions button {
@@ -155,4 +143,5 @@ export default {
 
 .value-text {
     color: #969696;
-}</style>
+}
+</style>

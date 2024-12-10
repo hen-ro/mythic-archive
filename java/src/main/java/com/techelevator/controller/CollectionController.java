@@ -94,10 +94,9 @@ public class CollectionController {
         }
     }
     @DeleteMapping("/remove-all")
-    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll, Principal principal) {
+    public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll) {
         try {
-            User user = userDao.getUserByUsername(principal.getName());
-            CardCollection collection = collectionDao.getCollectionByUserId(user.getId());
+            CardCollection collection = collectionDao.getCollectionByUserId(removeAll.getUserId());
             collectionDao.removeAllCardsOfTypeFromCollection(removeAll.getCard().getCardId(), collection.getCollectionId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
@@ -106,10 +105,9 @@ public class CollectionController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard, Principal principal) {
+    public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard) {
         try {
-            User user = userDao.getUserByUsername(principal.getName());
-            collectionDao.removeCardsFromCollection(removeCard.getCard(), collectionDao.getCollectionByUserId(user.getId()), removeCard.getQuantity());
+            collectionDao.removeCardsFromCollection(removeCard.getCard(), collectionDao.getCollectionByUserId(removeCard.getUserId()), removeCard.getQuantity());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
