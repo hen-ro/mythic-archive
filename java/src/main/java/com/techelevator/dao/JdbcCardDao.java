@@ -13,7 +13,7 @@ import java.util.*;
 
 @Component
 public class JdbcCardDao implements CardDao{
-    private final String CARDS_SELECT = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost, cards.mana_value," +
+    private final String CARDS_SELECT = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost," +
                                         " cards.rarity, cards.price, cards.set_name, cards.image_url, cards.thumbnail_url" +
                                         " FROM public.cards";
     private final JdbcTemplate jdbcTemplate;
@@ -28,7 +28,6 @@ public class JdbcCardDao implements CardDao{
         card.setCardName(rs.getString("card_name"));
         card.setCardType(rs.getString("card_type"));
         card.setManaCost(rs.getString("mana_cost"));
-        card.setManaValue(rs.getInt("mana_value"));
         card.setRarity(rs.getString("rarity"));
         card.setPrice(rs.getBigDecimal("price"));
         card.setSetName(rs.getString("set_name"));
@@ -39,7 +38,7 @@ public class JdbcCardDao implements CardDao{
     @Override
     public Map<UUID, Integer> getCardMapForCollection(int collectionId) {
         Map<UUID, Integer> cardsInCollection = new HashMap<>();
-        String sql = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost, cards.mana_value, " +
+        String sql = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost," +
                      " cards.rarity, cards.price, cards.set_name, cards.image_url, cards.thumbnail_url, cards_collections.quantity FROM public.cards" +
                      " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +
                      " JOIN collections ON cards_collections.collection_id = collections.collection_id" +
@@ -72,12 +71,12 @@ public class JdbcCardDao implements CardDao{
     @Override
     public Card createNewCard(Card card) {
         Card newCard = null;
-        String cardSql = "INSERT INTO public.cards(card_id, card_name, card_type, mana_cost, mana_value," +
+        String cardSql = "INSERT INTO public.cards(card_id, card_name, card_type, mana_cost," +
                 " rarity, price, set_name, image_url, thumbnail_url)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING card_id";
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING card_id";
         try {
             UUID newCardId = jdbcTemplate.queryForObject(cardSql, UUID.class, card.getCardId(), card.getCardName(), card.getCardType(), card.getManaCost(),
-                                    card.getManaValue(), card.getRarity(), card.getPrice(), card.getSetName(), card.getImageUrl(), card.getThumbnailUrl());
+                                                        card.getRarity(), card.getPrice(), card.getSetName(), card.getImageUrl(), card.getThumbnailUrl());
             newCard = getCardById(newCardId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);

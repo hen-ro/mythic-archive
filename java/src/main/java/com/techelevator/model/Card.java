@@ -9,20 +9,18 @@ public class Card {
     private String cardName;
     private String cardType;
     private String manaCost;
-    private int manaValue;
     private String rarity;
     private BigDecimal price;
     private String setName;
     private String imageUrl;
     private String thumbnailUrl;
 
-    public Card(UUID cardId, String cardName, String thumbnailUrl, String imageUrl,
-                String cardType, String manaCost, int manaValue, String rarity, BigDecimal price, String setName) {
+    public Card(UUID cardId, String cardName, String cardType, String manaCost, String rarity,
+                BigDecimal price, String setName, String imageUrl, String thumbnailUrl) {
         this.cardId = cardId;
         this.cardName = cardName;
         this.cardType = cardType;
         this.manaCost = manaCost;
-        this.manaValue = manaValue;
         this.rarity = rarity;
         this.price = price;
         this.setName = setName;
@@ -55,10 +53,6 @@ public class Card {
     public String getManaCost() {return manaCost;}
 
     public void setManaCost(String manaCost) {this.manaCost = manaCost;}
-
-    public int getManaValue() {return manaValue;}
-
-    public void setManaValue(int manaValue) {this.manaValue = manaValue;}
 
     public String getRarity() {return rarity;}
 

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +169,6 @@ public class JdbcCollectionDao implements CollectionDao{
             throw new DaoException("Data integrity violation", e);
         }
     }
-
     @Override
     public int setCollectionPublic(int collectionId) {
         int numberOfRows = 0;
@@ -184,7 +184,6 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     }
-
     @Override
     public int setCollectionPrivate(int collectionId) {
         int numberOfRows = 0;
@@ -200,7 +199,6 @@ public class JdbcCollectionDao implements CollectionDao{
         }
         return numberOfRows;
     }
-
     @Override
     public int renameCollection(int collectionId, String collectionName) {
         int numberOfRows = 0;
@@ -237,7 +235,6 @@ public class JdbcCollectionDao implements CollectionDao{
         Integer count = jdbcTemplate.queryForObject(isCardInCollectionSql, Integer.class, cardId, collectionId);
         return count != null && count > 0;
     }
-
     private CardCollection mapRowToCollection(SqlRowSet rs) {
         CardCollection cardCollection = new CardCollection();
         cardCollection.setCollectionId(rs.getInt("collection_id"));
@@ -258,5 +255,62 @@ public class JdbcCollectionDao implements CollectionDao{
         //Set the list of cards in the collection
         cardCollection.setCards(cardsInCollection);
         return cardCollection;
+    }
+    @Override
+    public CollectionStats getCollectionStats(int collectionId) {
+        CollectionStats stats = new CollectionStats();
+
+        // SQL to get card type counts
+        String cardTypeSql = "SELECT card_type, COUNT(*) AS count FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? GROUP BY card_type";
+        List<CardTypeCount> cardTypeCounts = jdbcTemplate.query(cardTypeSql, (rs, rowNumber) -> {
+            String cardType = rs.getString("card_type");
+            int count = rs.getInt("count");
+            return new CardTypeCount(cardType, count);
+        }, collectionId);
+        stats.setCardTypeCounts(cardTypeCounts);
+
+        // SQL to get mana cost counts
+        String manaCostSql = "SELECT mana_cost, COUNT(*) AS count FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? GROUP BY mana_cost";
+        List<ManaCostCount> manaCostCounts = jdbcTemplate.query(manaCostSql, (rs, rowNumber) -> {
+            String manaCost = rs.getString("mana_cost");
+            int count = rs.getInt("count");
+            return new ManaCostCount(manaCost, count);
+        }, collectionId);
+        stats.setManaCostCounts(manaCostCounts);
+
+        // SQL to get rarity counts
+        String raritySql = "SELECT rarity, COUNT(*) AS count FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? GROUP BY rarity";
+        List<RarityCount> rarityCounts = jdbcTemplate.query(raritySql, (rs, rowNumber) -> {
+            String rarity = rs.getString("rarity");
+            int count = rs.getInt("count");
+            return new RarityCount(rarity, count);
+        }, collectionId);
+        stats.setRarityCounts(rarityCounts);
+
+        // SQL to get total collection price
+        String collectionPriceSql = "SELECT SUM(price * quantity) FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ?";
+        BigDecimal collectionPrice = jdbcTemplate.queryForObject(collectionPriceSql, BigDecimal.class, collectionId);
+        stats.setTotalCollectionPrice(collectionPrice != null ? collectionPrice.doubleValue() : 0.0);
+
+        // SQL to get set name counts
+        String setNameSql = "SELECT set_name, COUNT(*) AS count FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? GROUP BY set_name";
+        List<SetNameCount> setNameCounts = jdbcTemplate.query(setNameSql, (rs, rowNumber) -> {
+            String setName = rs.getString("set_name");
+            int count = rs.getInt("count");
+            return new SetNameCount(setName, count);
+        }, collectionId);
+        stats.setSetNameCounts(setNameCounts);
+
+        return stats;
     }
 };

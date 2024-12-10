@@ -185,7 +185,15 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @GetMapping("/{collectionId}/stats")
+    public CollectionStats getCollectionStats(@PathVariable int collectionId) {
+        try {
+            CollectionStats collectionStats = collectionDao.getCollectionStats(collectionId);
+            return collectionStats;
+    } catch (DaoException e) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    }
 }
 
 
