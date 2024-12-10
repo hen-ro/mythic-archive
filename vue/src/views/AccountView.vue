@@ -4,23 +4,17 @@
         <router-link class="account-link" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
     </div>
 </template>
-  
 <script>
 
 
 export default {
-
     data() {
-    
+        return {
+        }
     },
-
-    methods: {
-        
-    },
-
     created() {
         //This is where to dispatch action from store
-        this.$store.dispatch('getCollectionIdByUser');
+        this.$store.dispatch('getCollectionIdByUserId');
     }
 };
 </script>

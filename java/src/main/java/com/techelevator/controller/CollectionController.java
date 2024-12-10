@@ -133,7 +133,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/by-user/{id}")
+    @GetMapping("/user/{id}")
     public int getCollectionIdByUser(@PathVariable int id) {
         try {
 
@@ -143,7 +143,9 @@ public class CollectionController {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-    }
+}
+
+
 
 
 

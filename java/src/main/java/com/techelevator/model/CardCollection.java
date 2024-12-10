@@ -27,7 +27,11 @@ public class CardCollection {
     }
 
     public int getTotalCards() {
-        return totalCards;
+        int sum = 0;
+        for (Integer count : cards.values()) {
+            sum+= count;
+        }
+        return sum;
     }
 
     public void setTotalCards(Integer totalCards) {

@@ -16,22 +16,20 @@ export default {
     getCardsInCollection(id) {
         return http.get(`http://localhost:9000/collections/${id}/cards`);
     },
-    getCollectionIdByUser(id) {
-        return http.get(`http://localhost:9000/collections/by-user/${id}`);
+    getCollectionIdByUserId(id) {
+        return http.get(`http://localhost:9000/collections/user/${id}`);
     },
 
     addCardToCollection(request) {
-        console.log(request);
         return http.put(`http://localhost:9000/collections/add`, request);
     },
 
     removeCardFromCollection(request) {
-        console.log(request);
         return http.delete(`http://localhost:9000/collections/remove`, {data : request});
     },
 
-    removeAllFromCollection(card) {
-        return http.delete(`http://localhost:9000/collections/remove-all`);
+    removeAllFromCollection(request) {
+        return http.delete(`http://localhost:9000/collections/remove-all`, {data : request});
     }
 
 }

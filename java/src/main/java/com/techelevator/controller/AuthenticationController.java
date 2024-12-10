@@ -71,13 +71,13 @@ public class AuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");
         }
     }
-    @GetMapping("/username-by-user")
+    @GetMapping("/user/{id}/username")
     public String getUsernameByUserId(@PathVariable int id) {
         try{
             return userDao.getUserById(id).getUsername();
-    } catch (DaoException e) {
+        } catch (DaoException e) {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+        }
    }
 }
 

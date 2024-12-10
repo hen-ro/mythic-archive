@@ -10,19 +10,24 @@ export function createStore(currentToken, currentUser) {
       collectionId: 0,
       request: {
         card: {
-          cardId: '82f1a8a3-7fdb-49a3-9649-b5c0b4755cd5',
-          cardName: 'Big Whopper',
+          cardId: '',
+          cardName: '',
           thumbnailUrl: '',
           imageUrl: ''
         },
-        userId: 3,
-        quantity: 1
-      }
+        userId: 0,
+        quantity: 0
+      },
+      cards: []
     },
     mutations: {
-      BUILD_REQUEST(state, card, quantity) {
+      BUILD_REQUEST(state, payload) {
+        const { card, quantity } = payload;
         state.request.userId = state.user.id;
         state.request.card.cardId = card.id;
+        state.request.card.cardName = card.name;
+        state.request.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
+        state.request.imageUrl = card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : '';
         state.request.quantity = quantity;
       },
       SET_AUTH_TOKEN(state, token) {
@@ -56,7 +61,8 @@ export function createStore(currentToken, currentUser) {
             console.error("Error fetching data:", error);
           });
       },
-      addToCollection() {
+      addToCollection({commit}, payload) {
+        this.commit('BUILD_REQUEST', payload);
         CollectionService.addCardToCollection(this.state.request)
           .then((response) => {
             console.log(response)
@@ -65,7 +71,8 @@ export function createStore(currentToken, currentUser) {
             console.error("Error fetching data:", error);
           });
       },
-      removeFromCollection() {
+      removeFromCollection({commit}, payload) {
+        this.commit('BUILD_REQUEST', payload);
         CollectionService.removeCardFromCollection(this.state.request)
           .then((response) => {
             console.log(response)

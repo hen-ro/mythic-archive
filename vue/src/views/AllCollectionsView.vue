@@ -33,18 +33,29 @@ export default {
         .then((response) => {
           console.log(response);
           this.collections = response.data.map((collection) => ({
-            cardCount: collection.cardCount,
+            totalCards: collection.totalCards,
             collectionId: collection.collectionId,
             ownerId: collection.ownerId,
             thumbnailUrl: collection.thumbnailUrl,
-            //Get Username 
-          }));
+            username: this.getUsernameById(collection.ownerId)
+          }
+          ));
           
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
+    getUsernameById(id) {
+      AuthService.getUsernameByUserId(id)
+        .then((response) => {
+          console.log(response.data);
+          return response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
   },
   mounted() {
     this.getAllPublicCollections();

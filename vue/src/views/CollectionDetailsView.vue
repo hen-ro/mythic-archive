@@ -3,15 +3,28 @@
     <h1>{{ collectionName }}</h1>
     <div class="searchBox">
       <div class="field">
-        <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
+        <input
+          type="text"
+          id="searchTerm"
+          name="searchTerm"
+          v-model="this.searchTerm"
+        />
         <button @click="search">
           Search<img src="/images/SearchIconBlack.png" class="search-icon" />
         </button>
       </div>
     </div>
     <div class="card-container">
-      <div class="card" v-for="card in this.collection.cards" v-bind:key="card.id" v-bind:card="card">
-        <router-link class="router-link" v-bind:to="{ name: 'collectionDetails', params: { id: card.id } }">
+      <div
+        class="card"
+        v-for="card in this.collection.cards"
+        v-bind:key="card.id"
+        v-bind:card="card"
+      >
+        <router-link
+          class="router-link"
+          v-bind:to="{ name: 'collectionDetails', params: { id: card.id } }"
+        >
           <img :src="card.imageUrl" />
         </router-link>
       </div>
@@ -20,7 +33,7 @@
 </template>
 
 <script>
-import CollectionService from '../services/CollectionService';
+import CollectionService from "../services/CollectionService";
 
 export default {
   data() {
@@ -32,7 +45,7 @@ export default {
         ownerId: 0,
         thumbnailUrl: "",
         username: "",
-        cards: []
+        cards: [],
       },
     };
   },
@@ -42,7 +55,7 @@ export default {
       CollectionService.getCollectionById(this.$route.params.id)
         .then((response) => {
           this.collection = response.data;
-          
+          this.getUsernameById(this.collection.ownerId);
           this.getCardsInCollection();
         })
         .catch((error) => {
@@ -52,22 +65,28 @@ export default {
     getCardsInCollection() {
       CollectionService.getCardsInCollection(this.$route.params.id)
         .then((response) => {
-          this.collection.cards = response.data
+          this.collection.cards = response.data;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
-
-    
-
-  },created() {
-      this.getCollectionById();
-      console.log('test');
-
+    getUsernameById(id) {
+      CollectionService.getUsernameByUserId(id)
+        .then((response) => {
+          console.log(response.data);
+          this.collection.username = response.data;
+        })
+        .catch.catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
+  },
+  created() {
+    this.getCollectionById();
+    console.log("test");
+  },
 };
-
 </script>
 
 <style scoped>

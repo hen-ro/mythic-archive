@@ -6,7 +6,7 @@
         </div>
         <div class="card-details-body">
             <div class="card-details-image">
-                <img :src="card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : ' '"
+                <img :src="card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : ''"
                     :alt="card.name" />
             </div>
 
@@ -27,8 +27,8 @@
                 </div>
             </div>
         </div>
-        <button @click="this.$store.dispatch('addToCollection')"> Add to Collection </button>
-        <button @click="this.$store.dispatch('removeFromCollection')"> Remove from Collection </button>
+        <button @click="this.$store.dispatch('addToCollection', { card: this.card, quantity: 1 })"> Add to Collection </button>
+        <button @click="this.$store.dispatch('removeFromCollection', { card: this.card, quantity: 1 })"> Remove from Collection </button>
     </div>
 </template>
 
