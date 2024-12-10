@@ -72,7 +72,6 @@ export default {
   },
   created() {
     this.getCollectionById();
-    console.log("test");
   },
 };
 </script>

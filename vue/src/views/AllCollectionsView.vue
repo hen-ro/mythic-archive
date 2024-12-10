@@ -16,7 +16,7 @@
         >
           <img class="thumbnail" :src="collection.thumbnailUrl" />
           <div class="collection-data">
-            <p>{{ collection.collectionId }}</p>
+            <p>{{ collection.collectionName }}</p>
             <p>{{ collection.ownerName }}</p>
             <p>{{ collection.totalCards }}</p>
           </div>
