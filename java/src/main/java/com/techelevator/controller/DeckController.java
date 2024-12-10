@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/decks")
 @CrossOrigin
-
 public class DeckController {
     private final CardDao cardDao;
     private final UserDao userDao;
@@ -66,7 +65,6 @@ public class DeckController {
     public ResponseEntity<Deck> createNewDeck(@RequestBody DeckDto deck) {
         try {
             Deck createdDeck = deckDao.createNewDeck(deck);
-
             return new ResponseEntity<>(createdDeck, HttpStatus.CREATED);
         } catch (DaoException e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

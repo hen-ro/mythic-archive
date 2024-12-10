@@ -6,12 +6,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 public class JdbcDeckDao implements DeckDao{
     private UserDao userDao;
     private CardDao cardDao;
@@ -24,6 +26,7 @@ public class JdbcDeckDao implements DeckDao{
         this.userDao = new JdbcUserDao(jdbcTemplate);
         this.cardDao = new JdbcCardDao(jdbcTemplate);
     }
+    @Override
     public List<Deck> getAllPublicDecks() {
         List<Deck> decks = new ArrayList<>();
         String sql = DECKS_SELECT + " WHERE is_public";
@@ -61,6 +64,7 @@ public class JdbcDeckDao implements DeckDao{
         decks.setCards(cardsInDeck);
         return decks;
     }
+    @Override
 
     public Deck getDeckByUserId(int userId) {
         Deck deck = null;
@@ -75,6 +79,7 @@ public class JdbcDeckDao implements DeckDao{
         }
         return deck;
     }
+    @Override
     public Deck getDeckById(int deckId) {
         Deck deck = null;
         String sql = DECKS_SELECT +  " WHERE deck_id = ?";
@@ -88,6 +93,7 @@ public class JdbcDeckDao implements DeckDao{
         }
         return deck;
     }
+    @Override
     public List<Card> getCardsInDeck(int deckId) {
         List<Card> cardsList = new ArrayList<>();
         for (UUID cardId : getDeckById(deckId).getCards().keySet()) {
@@ -95,9 +101,11 @@ public class JdbcDeckDao implements DeckDao{
         }
         return cardsList;
     }
+
+    @Override
     public Deck createNewDeck(DeckDto deck){
         Deck newDeck = null;
-        String collectionSql = "INSERT INTO public.decks(deck_name, user_id) VALUES (?, ?, ?) RETURNING deck_id";
+        String collectionSql = "INSERT INTO public.decks(deck_name, user_id) VALUES (?, ?) RETURNING deck_id";
         try {
             int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, deck.getDeckName(), deck.getOwnerId());
             newDeck = getDeckById(newCollectionId);
