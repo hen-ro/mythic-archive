@@ -1,6 +1,10 @@
 <template>
   <div class="collections-details">
-    <h1>{{ collectionName }}</h1>
+    <h1 class="collection-name">{{ collection.collectionName }}</h1>
+    <div class="collection-controls" v-if="this.$route.params.id==this.$store.state.user.id">
+      <button @click="setPublic">Publish Collection</button>
+      <button @click="setPrivate">Unpublish Collection</button>
+    </div>
     <div class="searchBox">
       <div class="field">
         <input
@@ -45,6 +49,24 @@ export default {
     };
   },
   methods: {
+    setPrivate() {
+      CollectionService.setCollectionPrivate(this.$route.params.id)
+      .then((response) => {
+        alert('This collection is now unpublished')
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    },
+    setPublic() {
+      CollectionService.setCollectionPublic(this.$route.params.id)
+      .then((response) => {
+        alert('This collection has been published')
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    },
     getCollectionById() {
       CollectionService.getCollectionById(this.$route.params.id)
         .then((response) => {
@@ -89,6 +111,16 @@ export default {
 };
 </script>
 <style scoped>
+.collection-controls {
+  flex: display;
+  align-content: center;
+  width: 25%;
+  background-color: red;
+}
+
+.collection-name {
+  color: var(--onyx);
+}
 .advanced-card-container {
   width: 80%;
   height: 800px;

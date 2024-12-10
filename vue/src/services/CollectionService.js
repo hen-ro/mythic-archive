@@ -30,6 +30,14 @@ export default {
 
     removeAllFromCollection(request) {
         return http.delete(`http://localhost:9000/collections/remove-all`, {data : request});
+    },
+
+    setCollectionPublic(id) {
+        return http.put(`http://localhost:9000/collections/${id}/set-public`);
+    },
+
+    setCollectionPrivate(id) {
+        return http.put(`http://localhost:9000/collections/${id}/set-private`);
     }
 
 }
