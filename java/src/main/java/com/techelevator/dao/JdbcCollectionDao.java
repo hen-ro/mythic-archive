@@ -143,7 +143,7 @@ public class JdbcCollectionDao implements CollectionDao{
         } catch (DataIntegrityViolationException e) {
             throw new DaoException("Data integrity violation", e);
         }
-    };
+    }
     @Override
     public void removeCardsFromCollection(Card card, CardCollection collection, int quantity) {
         int numberOfRows = 0;

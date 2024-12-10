@@ -13,10 +13,12 @@ public class Deck {
 
     private int deckId;
     private int ownerId;
+    private String ownerName;
 
     private boolean isPublic;
     private String thumbnailUrl;
     private int totalCards;
+    public Deck(){}
 
     public Deck(int deckId, int ownerId, Map<UUID, Integer> cards, String deckName, boolean isPublic, String deckFormat) {
         this.deckId = deckId;
@@ -89,5 +91,22 @@ public class Deck {
 
     public void setTotalCards(int totalCards) {
         this.totalCards = totalCards;
+    }
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public void setCardCount(UUID cardId, int quantity) {
+    }
+    public Integer getCardCount(UUID cardId) {
+        Integer cardCount = 0;
+        if (cards.get(cardId) != null) {
+            cardCount = cards.get(cardId);
+        }
+        return cardCount;
     }
 }
