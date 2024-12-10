@@ -14,6 +14,7 @@ import AllCollectionsView from '../views/AllCollectionsView.vue';
 import MyDecksView from '../views/MyDecksView.vue';
 import CollectionDetailsView from '../views/CollectionDetailsView.vue';
 import Duh from '../views/Duh.vue';
+import AdvancedCardView from '../views/AdvancedCardView.vue';
 
 
 /**
@@ -101,6 +102,13 @@ const routes = [
     path: "/duh/:id",
     name:"duh",
     component: Duh,
+    meta:{
+      requiresAuth: false
+    }
+  },{
+    path: "/advanced",
+    name:"advanced",
+    component: AdvancedCardView,
     meta:{
       requiresAuth: false
     }
