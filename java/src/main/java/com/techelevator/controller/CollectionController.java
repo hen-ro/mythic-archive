@@ -142,10 +142,29 @@ public class CollectionController {
             } catch (DaoException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+    }
+
+    @GetMapping("/{id}/total-cards")
+    public Integer getTotalCardsInCollection(@PathVariable int id) {
+        try {
+
+            Integer totalCards = collectionDao.getCollectionByUserId(id).getTotalCards();
+            return totalCards;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+    }
 
+    @GetMapping("/{id}/card-count")
+    public Integer cardCount(@PathVariable int id, UUID cardId) {
+        try {
 
+            Integer cardCount = collectionDao.getCollectionByUserId(id).getCardCount(cardId);
+            return cardCount;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
 
