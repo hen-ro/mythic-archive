@@ -31,6 +31,12 @@ CREATE TABLE collections (
 CREATE TABLE cards (
     card_id UUID PRIMARY KEY,
     card_name VARCHAR(250) NOT NULL,
+    card_type VARCHAR(50) NOT NULL,
+    mana_cost VARCHAR(50) NOT NULL,
+    mana_value INT NOT NULL,
+    rarity VARCHAR(50) NOT NULL,
+    price DECIMAL NOT NULL,
+    set_name VARCHAR (100) NOT NULL,
     image_url VARCHAR(2083) NOT NULL,
     thumbnail_url VARCHAR(2083) NOT NULL
 );

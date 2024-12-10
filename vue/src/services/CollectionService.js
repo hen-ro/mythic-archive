@@ -13,9 +13,11 @@ export default {
     getCollectionById(id) {
         return http.get(`http://localhost:9000/collections/${id}`);
     },
+
     getCardsInCollection(id) {
         return http.get(`http://localhost:9000/collections/${id}/cards`);
     },
+
     getCollectionIdByUser(id) {
         return http.get(`http://localhost:9000/collections/user/${id}`);
     },
@@ -30,6 +32,14 @@ export default {
 
     removeAllFromCollection(request) {
         return http.delete(`http://localhost:9000/collections/remove-all`, {data : request});
+    },
+
+    setCollectionPublic(id) {
+        return http.put(`http://localhost:9000/collections/${id}/set-public`);
+    },
+
+    setCollectionPrivate(id) {
+        return http.put(`http://localhost:9000/collections/${id}/set-private`);
     }
 
 }
