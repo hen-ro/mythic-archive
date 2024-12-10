@@ -44,7 +44,7 @@ public class JdbcCollectionDao implements CollectionDao{
     @Override
     public CardCollection getCollectionByUserId(int userId) {
         CardCollection collection = null;
-        String sql = COLLECTIONS_SELECT +  " WHERE user_id = ?";
+        String sql = COLLECTIONS_SELECT +  " WHERE users.user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -154,12 +154,13 @@ public class JdbcCollectionDao implements CollectionDao{
             int currentAmount = collection.getCardCount(card.getCardId());
             if (currentAmount - quantity <= 0) {
                 removeAllCardsOfTypeFromCollection(card.getCardId(), collection.getCollectionId());
-            }
-            numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount - quantity), card.getCardId(), collection.getCollectionId());
-            if (numberOfRows == 1) {
-                collection.setCardCount(card.getCardId(), (currentAmount - quantity));
             } else {
-                throw new DaoException("Unexpected number of rows affected");
+                numberOfRows = jdbcTemplate.update(updateQuantitySql, (currentAmount - quantity), card.getCardId(), collection.getCollectionId());
+                if (numberOfRows == 1) {
+                    collection.setCardCount(card.getCardId(), (currentAmount - quantity));
+                } else {
+                    throw new DaoException("Unexpected number of rows affected");
+                }
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
