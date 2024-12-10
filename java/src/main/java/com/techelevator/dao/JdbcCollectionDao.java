@@ -18,7 +18,8 @@ public class JdbcCollectionDao implements CollectionDao{
     private UserDao userDao;
     private CardDao cardDao;
     private final JdbcTemplate jdbcTemplate;
-    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, user_id, is_public, thumbnail_url FROM public.collections";
+    private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, users.user_id, users.username, is_public, thumbnail_url FROM public.collections\n" +
+                                              " INNER JOIN users ON collections.user_id = users.user_id";
 
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -209,6 +210,7 @@ public class JdbcCollectionDao implements CollectionDao{
         cardCollection.setCollectionId(rs.getInt("collection_id"));
         cardCollection.setCollectionName(rs.getString("collection_name"));
         cardCollection.setOwnerId(rs.getInt("user_id"));
+        cardCollection.setOwnerName(rs.getString("username"));
         cardCollection.setIsPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
         Map<UUID, Integer> cardsInCollection = cardDao.getCardMapForCollection(cardCollection.getCollectionId());
@@ -216,7 +218,7 @@ public class JdbcCollectionDao implements CollectionDao{
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {
             //If the collection has no thumbnail set, set to a default image
-            cardCollection.setThumbnailUrl("/images/6398f26cb77dc209f3628aeb_Whopper.png");
+            cardCollection.setThumbnailUrl("");
         } else {
             cardCollection.setThumbnailUrl(rs.getString("thumbnail_url"));
         }

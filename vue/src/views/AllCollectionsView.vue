@@ -17,7 +17,7 @@
           <img class="thumbnail" :src="collection.thumbnailUrl" />
           <div class="collection-data">
             <p>{{ collection.collectionId }}</p>
-            <p>{{ collection.username }}</p>
+            <p>{{ collection.ownerName }}</p>
             <p>{{ collection.totalCards }}</p>
           </div>
         </router-link>
@@ -38,28 +38,15 @@ export default {
   },
 
   methods: {
-    async getAllPublicCollections() {
-      try {
-        const response = await CollectionService.getAllPublicCollections();
-        // Using a for loop to await asynchronous calls
-        const collections = [];
-        for (const collection of response.data) {
-          const username = await this.getUsernameById(collection.ownerId);
-          console.log(username);
-          collections.push({
-            totalCards: collection.totalCards,
-            collectionId: collection.collectionId,
-            ownerId: collection.ownerId,
-            thumbnailUrl: collection.thumbnailUrl,
-            username: username,
-          });
-        }
-
-        this.collections = collections;
-        console.log(this.collections);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    getAllPublicCollections() {
+      CollectionService.getAllPublicCollections()
+      .then((response) => {
+        console.log(response.data)
+        this.collections = response.data
+      })
+      .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
     getUsernameById(id) {
       AuthService.getUsernameByUserId(id)

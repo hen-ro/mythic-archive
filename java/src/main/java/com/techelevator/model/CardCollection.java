@@ -8,6 +8,7 @@ public class CardCollection {
 
     private int collectionId;
     private int ownerId;
+    private String ownerName;
     private Map<UUID, Integer> cards;
     private boolean isPublic;
     private String thumbnailUrl;
@@ -97,4 +98,11 @@ public class CardCollection {
         this.thumbnailUrl = thumbnailUrl;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 }

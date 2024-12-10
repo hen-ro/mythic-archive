@@ -32,7 +32,7 @@
         this.cards = this.cards.map((card, index) => {
           if (index < hoveredIndex) {
             // Cards above the hovered card remain in their default positions
-            return { ...card, top: index* 20 };
+            return { ...card, top: index * 20 };
           } else if (index === hoveredIndex) {
             // The hovered card remains in its default position
             return { ...card, top: hoveredIndex * 20 };
