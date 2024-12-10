@@ -23,6 +23,7 @@ export default {
     },
 
     addCardToCollection(request) {
+        console.log(request);
         return http.put(`http://localhost:9000/collections/add`, request);
     },
 

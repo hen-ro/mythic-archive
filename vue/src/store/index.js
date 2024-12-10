@@ -18,20 +18,9 @@ export function createStore(currentToken, currentUser) {
         userId: 0,
         quantity: 0
       },
-      deckCards: [],
       collectionCards: new Map()
     },
     mutations: {
-      SET_CARDS(state, cards){
-        state.deckCards = cards;
-      },
-      ADD_CARD(state, card){
-        state.deckCards.push(card);
-      },
-      REMOVE_CARD(state, card){
-        let indexOfCard = state.deckCards.indexOf(card);
-        state.deckCards.splice(indexOfCard, 1);
-      },
       SET_CARDS_IN_COLLECTION(state, cards){
         state.collectionCards = cards;
       },
@@ -42,17 +31,27 @@ export function createStore(currentToken, currentUser) {
       REMOVE_CARD_FROM_COLLECTION(state, payload){
         const { card, quantity } = payload;
         const currentQuantity = state.collectionCards.get(card);
-        // if (currentQuantity > )
+        if (currentQuantity <= quantity ) {
+
+        } else {
+
+        }
         
       },
       BUILD_REQUEST(state, payload) {
         const { card, quantity } = payload;
         state.request.userId = state.user.id;
+        state.request.quantity = quantity;
+        //Set card properties
         state.request.card.cardId = card.id;
         state.request.card.cardName = card.name;
+        state.request.card.cardType = card.type_line;
+        state.request.card.manaCost = card.mana_cost;
+        state.request.card.rarity = card.rarity;
+        state.request.card.price = card.prices.usd;
+        state.request.card.setName = card.set_name;
         state.request.card.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
         state.request.card.imageUrl = card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : '';
-        state.request.quantity = quantity;
       },
       SET_AUTH_TOKEN(state, token) {
         state.token = token;
