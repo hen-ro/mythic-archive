@@ -142,6 +142,7 @@ export default {
   height: 100%;
   backface-visibility: hidden;
   border-radius: 5px;
+  background-color: var(--perry);
 }
 
 .card-front {

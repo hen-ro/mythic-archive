@@ -5,6 +5,7 @@
         <div class="logo"><img src='/images/MALogo.png' class="website-logo"></div>
       </router-link>
       <div id="nav">
+        <router-link class="nav-item" v-bind:to="{ name: 'advanced' }">Advanced</router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'home' }">Home<img src='/images/HomeIcon.png'
             class="icon" /></router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'search' }">Search<img src='/images/SearchIcon.png'

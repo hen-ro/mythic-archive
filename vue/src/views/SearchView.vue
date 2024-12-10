@@ -23,7 +23,7 @@ import SearchService from "../services/SearchService";
 export default {
   data() {
     return {
-      searchTerm: "",
+      searchTerm: "a",
       cards: [],
     };
   },
