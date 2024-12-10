@@ -14,16 +14,15 @@
         </button>
       </div>
     </div>
-    <div class="card-container">
+    <div class="card-container" v-if="this.collection.cards.length > 0">
       <div
         class="card"
         v-for="card in this.collection.cards"
-        v-bind:key="card.id"
-        v-bind:card="card"
+        v-bind:key="card.cardId"
       >
         <router-link
           class="router-link"
-          v-bind:to="{ name: 'collectionDetails', params: { id: card.id } }"
+          v-bind:to="{ name: 'cardDetails', params: { id: card.cardId } }"
         >
           <img :src="card.imageUrl" />
         </router-link>
@@ -55,7 +54,6 @@ export default {
       CollectionService.getCollectionById(this.$route.params.id)
         .then((response) => {
           this.collection = response.data;
-          this.getUsernameById(this.collection.ownerId);
           this.getCardsInCollection();
         })
         .catch((error) => {
@@ -68,16 +66,6 @@ export default {
           this.collection.cards = response.data;
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    },
-    getUsernameById(id) {
-      CollectionService.getUsernameByUserId(id)
-        .then((response) => {
-          console.log(response.data);
-          this.collection.username = response.data;
-        })
-        .catch.catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
@@ -94,14 +82,4 @@ h1 {
   color: #1e7a76;
 }
 
-.card-container {
-  width: 80%;
-  height: 800px;
-}
-
-.card {
-  width: 25%;
-  height: 100px;
-  background-color: red;
-}
 </style>

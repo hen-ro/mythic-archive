@@ -19,7 +19,7 @@ public class JdbcCollectionDao implements CollectionDao{
     private CardDao cardDao;
     private final JdbcTemplate jdbcTemplate;
     private final String COLLECTIONS_SELECT = "SELECT collection_id, collection_name, users.user_id, users.username, is_public, thumbnail_url FROM public.collections\n" +
-                                              " INNER JOIN users ON collections.user_id = users.user_id";
+            " INNER JOIN users ON collections.user_id = users.user_id";
 
     public JdbcCollectionDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -187,8 +187,8 @@ public class JdbcCollectionDao implements CollectionDao{
     public int setCollectionThumbnail(int collectionId, String thumbnail_url) {
         int numberOfRows = 0;
         String setThumbnailSql = "UPDATE public.collections" +
-                                 " SET thumbnail_url = ?" +
-                                 " WHERE collection_id = ?";
+                " SET thumbnail_url = ?" +
+                " WHERE collection_id = ?";
         try {
             numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail_url, collectionId);
         } catch (CannotGetJdbcConnectionException e) {

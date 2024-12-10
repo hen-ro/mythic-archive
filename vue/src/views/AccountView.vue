@@ -14,7 +14,7 @@ export default {
     },
     created() {
         //This is where to dispatch action from store
-        this.$store.dispatch('getCollectionIdByUserId');
+        this.$store.dispatch('getCollectionIdByUser');
     }
 };
 </script>
@@ -25,7 +25,7 @@ export default {
     text-align: center;
     display: flex;
     flex-direction: column;
-}    
+}
 
 .account-link:visited, .account-link{
     color:var(--onyx);

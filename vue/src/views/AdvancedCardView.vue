@@ -46,7 +46,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .advanced-card-container {
     width: 80%;
     height: 1000px;

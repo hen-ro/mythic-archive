@@ -3,15 +3,29 @@
     <h1>Search</h1>
     <div class="searchBox">
       <div class="field">
-        <input type="text" id="searchTerm" name="searchTerm" v-model="this.searchTerm" />
-        <button @click="search">Search<img src='/images/SearchIconBlack.png' class="search-icon"></button>
+        <input
+          type="text"
+          id="searchTerm"
+          name="searchTerm"
+          v-model="this.searchTerm"
+        />
+        <button @click="search">
+          Search<img src="/images/SearchIconBlack.png" class="search-icon" />
+        </button>
       </div>
     </div>
     <div class="card-container" v-if="cards.length > 0">
-      <div class="card" v-for="card in this.cards" v-bind:key="card.id" v-bind:card="card">
-        <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.id } }">        
-        <img :src="card.imageUrl" />
-      </router-link>
+      <div
+        class="card"
+        v-for="card in this.cards"
+        v-bind:key="card.id"
+      >
+        <router-link
+          class="router-link"
+          v-bind:to="{ name: 'cardDetails', params: { id: card.id } }"
+        >
+          <img :src="card.imageUrl" />
+        </router-link>
       </div>
     </div>
   </div>
@@ -23,7 +37,7 @@ import SearchService from "../services/SearchService";
 export default {
   data() {
     return {
-      searchTerm: "a",
+      searchTerm: "",
       cards: [],
     };
   },
@@ -37,7 +51,9 @@ export default {
             name: card.name,
             imageUrl: card.image_uris
               ? card.image_uris?.normal || ""
-              : card.card_faces ? card.card_faces[0].image_uris?.normal || "" : ""
+              : card.card_faces
+              ? card.card_faces[0].image_uris?.normal || ""
+              : "",
           }));
           console.log(this.cards);
         })
@@ -45,13 +61,14 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
-  }, mounted() {
+  },
+  mounted() {
     this.search();
-  }
+  },
 };
 </script>
 
-<style scoped>
+<style>
 .router-link {
   text-decoration: none;
 }
@@ -74,7 +91,6 @@ export default {
   margin: 10px;
   text-decoration: none;
   transition: transform 0.1s ease-in-out;
-
 }
 
 .card p {
@@ -83,7 +99,6 @@ export default {
   margin: 5px auto;
   text-align: center;
   font-size: 1.2vw;
-
 }
 
 .card img {
@@ -91,9 +106,7 @@ export default {
   width: 100%;
   transition: transform 0.1s ease-in-out;
   transition: box-shadow 0.5s ease;
-
 }
-
 
 .card img:hover {
   transform: scale(1.02);
@@ -139,4 +152,5 @@ button:active {
 .search-icon {
   width: 13px;
   margin-left: 5px;
-}</style>
+}
+</style>

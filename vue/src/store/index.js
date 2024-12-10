@@ -18,16 +18,40 @@ export function createStore(currentToken, currentUser) {
         userId: 0,
         quantity: 0
       },
-      cards: []
+      deckCards: [],
+      collectionCards: new Map()
     },
     mutations: {
+      SET_CARDS(state, cards){
+        state.deckCards = cards;
+      },
+      ADD_CARD(state, card){
+        state.deckCards.push(card);
+      },
+      REMOVE_CARD(state, card){
+        let indexOfCard = state.deckCards.indexOf(card);
+        state.deckCards.splice(indexOfCard, 1);
+      },
+      SET_CARDS_IN_COLLECTION(state, cards){
+        state.collectionCards = cards;
+      },
+      ADD_CARD_TO_COLLECTION(state, payload){
+        const { card, quantity } = payload;
+        state.collectionCards.set(card, quantity);
+      },
+      REMOVE_CARD_FROM_COLLECTION(state, payload){
+        const { card, quantity } = payload;
+        const currentQuantity = state.collectionCards.get(card);
+        // if (currentQuantity > )
+        
+      },
       BUILD_REQUEST(state, payload) {
         const { card, quantity } = payload;
         state.request.userId = state.user.id;
         state.request.card.cardId = card.id;
         state.request.card.cardName = card.name;
-        state.request.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
-        state.request.imageUrl = card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : '';
+        state.request.card.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
+        state.request.card.imageUrl = card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : '';
         state.request.quantity = quantity;
       },
       SET_AUTH_TOKEN(state, token) {
@@ -63,6 +87,7 @@ export function createStore(currentToken, currentUser) {
       },
       addToCollection({commit}, payload) {
         this.commit('BUILD_REQUEST', payload);
+        console.log(this.state.request)
         CollectionService.addCardToCollection(this.state.request)
           .then((response) => {
             console.log(response)
@@ -81,6 +106,21 @@ export function createStore(currentToken, currentUser) {
             console.error("Error fetching data:", error);
           });
       },
+      //These are adding/removing cards from deck
+      setCardsInDeck({commit}, cards) {
+        this.commit('SET_CARDS', cards);
+      },
+      addCardToDeck({commit}, card) {
+        this.commit('ADD_CARD', card);
+      },
+      removeCardFromDeck({commit}, card) {
+        this.commit('REMOVE_CARD', card);
+      },
+      //This is adding/removing cards from collection
+      setCardsInCollection({commit}, cards) {
+        this.commit('SET_CARDS', cards);
+      },
+      
     },
 
   });
