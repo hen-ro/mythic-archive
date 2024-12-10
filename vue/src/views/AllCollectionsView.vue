@@ -2,13 +2,23 @@
   <div>
     <h1>Collections</h1>
     <div class="collection-container">
-      <div class="collection-object" v-for="collection in collections" v-bind:key="collection.ownerId">
-        <router-link class="router-link" v-bind:to="{ name: 'collectionDetails', params: { id: collection.collectionId } }" >
-          <img class="thumbnail" :src="collection.thumbnailUrl">
+      <div
+        class="collection-object"
+        v-for="collection in collections"
+        v-bind:key="collection.ownerId"
+      >
+        <router-link
+          class="router-link"
+          v-bind:to="{
+            name: 'collectionDetails',
+            params: { id: collection.collectionId },
+          }"
+        >
+          <img class="thumbnail" :src="collection.thumbnailUrl" />
           <div class="collection-data">
-            <p> {{ collection.collectionId }} </p>
-            <p> {{ collection.username }} </p>
-            <p>{{ collection.cardCount }}</p>
+            <p>{{ collection.collectionId }}</p>
+            <p>{{ collection.username }}</p>
+            <p>{{ collection.totalCards }}</p>
           </div>
         </router-link>
       </div>
@@ -17,45 +27,49 @@
 </template>
 
 <script>
+import AuthService from "../services/AuthService";
 import CollectionService from "../services/CollectionService";
 
 export default {
-
-   data() {
+  data() {
     return {
       collections: [],
     };
   },
 
   methods: {
-    getAllPublicCollections() {
-      CollectionService.getAllPublicCollections()
-        .then((response) => {
-          console.log(response);
-          this.collections = response.data.map((collection) => ({
+    async getAllPublicCollections() {
+      try {
+        const response = await CollectionService.getAllPublicCollections();
+        // Using a for loop to await asynchronous calls
+        const collections = [];
+        for (const collection of response.data) {
+          const username = await this.getUsernameById(collection.ownerId);
+          console.log(username);
+          collections.push({
             totalCards: collection.totalCards,
             collectionId: collection.collectionId,
             ownerId: collection.ownerId,
             thumbnailUrl: collection.thumbnailUrl,
-            username: this.getUsernameById(collection.ownerId)
-          }
-          ));
-          
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+            username: username,
+          });
+        }
+
+        this.collections = collections;
+        console.log(this.collections);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     },
     getUsernameById(id) {
       AuthService.getUsernameByUserId(id)
         .then((response) => {
-          console.log(response.data);
           return response.data;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    }
+    },
   },
   mounted() {
     this.getAllPublicCollections();
@@ -64,7 +78,6 @@ export default {
 </script>
 
 <style>
-
 .collection-container {
   display: flex;
   margin: auto;
@@ -94,6 +107,6 @@ export default {
   padding-bottom: 10px;
 }
 p {
-   margin: 0;
+  margin: 0;
 }
 </style>
