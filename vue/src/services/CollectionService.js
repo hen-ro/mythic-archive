@@ -27,7 +27,7 @@ export default {
 
     removeCardFromCollection(request) {
         console.log(request);
-        return http.delete(`http://localhost:9000/collections/remove`, request);
+        return http.delete(`http://localhost:9000/collections/remove`, {data : request});
     },
 
     removeAllFromCollection(card) {

@@ -2,16 +2,16 @@
   <div class="card-container">
     <div class="card-image">
       <img :src="card.imageUrl" :alt="card.title" />
-      </div>
-      <div class="card-info">
-        <h3> {{ card.title }}</h3>
-        <p> {{ card.description }}</p>
-      </div>
-      <div class="card-actions">
-        <button @click="addToCollection"> Add to Collection</button>
-        <button @click ="viewDetails"> View Details</button>
-      </div>
     </div>
+    <div class="card-info">
+      <h3> {{ card.title }}</h3>
+      <p> {{ card.description }}</p>
+    </div>
+    <div class="card-actions">
+      <button @click="addToCollection"> Add to Collection</button>
+      <button @click="viewDetails"> View Details</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -21,17 +21,18 @@ export default {
     card: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    addToCollection() {
-      this.$emit('add-to-collection', this.card);
     },
-    viewDetails() {
-      this.$emit('view-details', this.card);
-    }
   }
 }
+//methods: {
+//addToCollection() {
+//this.$emit('add-to-collection', this.card);
+//},
+//viewDetails() {
+//this.$emit('view-details', this.card);
+//}
+//}
+//}
 </script>
 <style scoped>
 .card-container {

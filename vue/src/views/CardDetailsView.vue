@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import CollectionService from '../services/CollectionService';
 import SearchService from "../services/SearchService";
 
 

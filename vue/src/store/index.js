@@ -21,7 +21,9 @@ export function createStore(currentToken, currentUser) {
     },
     mutations: {
       BUILD_REQUEST(state, card, quantity) {
-
+        state.request.userId = state.user.id;
+        state.request.card.cardId = card.id;
+        state.request.quantity = quantity;
       },
       SET_AUTH_TOKEN(state, token) {
         state.token = token;
