@@ -112,6 +112,13 @@ const routes = [
     meta:{
       requiresAuth: false
     }
+  },{
+    path:"/collection-details/:id/stats",
+    name:"collectionStats",
+    component: CollectionDetailsView,
+    meta:{
+      requiresAuth: false
+    }
   }
   
 ];

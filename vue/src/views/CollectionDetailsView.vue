@@ -26,6 +26,40 @@
         </button>
       </div>
     </div>
+    <!-- This is temporary and not right  -->
+    <div class="collection-stats">Collection Statistics</div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <h3>Card Types</h3>
+        <ul>
+          <li v-for="(count, type) in collectionStats.cardTypeCount" :key="type">
+            {{ type }}: {{ count }}
+          </li>
+        </ul>
+      </div>
+      <div class="stat-item">
+        <h3>Rarities</h3>
+        <ul>
+          <li v-for="(count, rarity) in collectionStats.rarityCount" :key="rarity">
+            {{ rarity }}: {{ count }}
+          </li>
+        </ul>
+      </div>
+      <div class="stat-item">
+        <h3>Colors</h3>
+        <ul>
+          <li v-for="(count, color) in collectionStats.colorCount" :key="color">
+            {{ color }}: {{ count }}
+          </li>
+        </ul>
+      </div>
+      <div class="stat-item">
+        <h3>Total Value</h3>
+        <p>{{ collectionStats.price }}</p>
+      </div>
+    </div>
+    <!-- This is temporary and not right  -->
+
     <div class="card-container" v-if="this.displayedCards.length > 0">
       <div
         class="card"
@@ -51,6 +85,12 @@ export default {
     return {
       showNameInput: false,
       displayedCards: [],
+      collectionStats: {
+        cardTypeCount: [],
+        rarityCount: [],
+        price: 0.0,
+        setName: "",
+      },
       collection: {
         cardCount: 0,
         collectionName: "",
@@ -70,6 +110,15 @@ export default {
         this.collection.collectionName = collectionName;
         //SET_NOTIFICATION to 'Your collection has been renamed'
         this.showNameInput = false;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    },
+    getCollectionStats() {
+      CollectionService.getCollectionStats(this.$route.params.id)
+      .then((response) => {
+        alert('This collection is now unpublished')
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -182,5 +231,14 @@ export default {
   margin: 50px auto;
   position: relative;
 }
+.collection-stats {
+  color: var(--onyx);
+  margin: 50px;
+}
+.stat-item {
+  color: var(--onyx);
+  margin: 50px;
+}
+
 
 </style>
