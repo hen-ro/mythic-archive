@@ -16,10 +16,10 @@
 
         <div class="details-container">
             <div class="details-header">
-                    <h1>{{ card.name }}</h1>
+                    <h2>{{ card.name }}</h2>
                 </div>
             <div class="stat-container">
-                
+
                 <div class="stat">
                     <h3>Set</h3>
                     <span>{{ card.set_name }}</span>
@@ -29,8 +29,8 @@
                     <span>{{ card.type_line }}</span>
                 </div>
                 <div class="stat">
-                    <h3>Flavor Text</h3>
-                    <span>{{ card.oracle_text }}</span>
+                    <h3>Oracle Text</h3>
+                    <span v-html="formattedOracleText"></span>
                 </div>
                 <div class="stat">
                     <h3>Flavor Text</h3>
@@ -38,8 +38,7 @@
                 </div>
                 <div class="stat">
                     <h3>Mana Cost</h3>
-                    <span>{{ card.mana_cost}}</span>
-                    <img src="\images\MTGMana\{0}.svg">
+                    <div v-html="formattedManaCost"></div>
                 </div>
             </div>
             <div class="format-container">
@@ -56,7 +55,6 @@
 import SearchService from "../services/SearchService";
 import CollectionService from "../services/CollectionService";
 
-
 export default {
     name: "CardDetailsView",
     data() {
@@ -64,6 +62,21 @@ export default {
             card: {},
             cardCount: "test"
         };
+    },
+    computed: {
+        formattedManaCost() {
+            if (!this.card.mana_cost) { return ""; }
+            return this.card.mana_cost.replace(/{(\w)}/g, (match, symbol) => {
+                return `<img src="/Images/MTGMana/{${symbol}}.svg" alt="${symbol}" style="height:30px; margin:0 2px;" />`;
+            });
+        },
+        formattedOracleText() {
+            if (!this.card.oracle_text) { return ""; }
+            return this.card.oracle_text.replace(/{(\w)}/g, (match, symbol) => {
+                
+                return `<img src="/Images/MTGMana/{${symbol.replace("/", "")}}.svg" alt="${symbol}" style="height:16px; margin:0 2px;" />`;
+            });
+        }
     },
     methods: {
         closeDetails() {
@@ -74,13 +87,12 @@ export default {
     created() {
         SearchService.searchById(this.$route.params.id).then((response) => {
             this.card = response.data;
-            console.log(response.data)
         });
         CollectionService.getCardsInCollection(this.$route.params.id)
             .then((response) => {
-                console.log(response.data);
+             
                 this.cardCount = response.data;
-            })
+            });
     }
 };
 </script>
@@ -92,6 +104,7 @@ export default {
     justify-content: center;
     height: 100%;
     margin-top: 50px;
+    background-color: var();
 }
 
 .card-container,
@@ -102,25 +115,27 @@ export default {
     justify-content: flex-start;
     height: 90%;
     margin: 0;
-    gap:15px;
+    gap: 20px;
 }
 
 .card-container {
     min-width: 400px;
     width: 35%;
     max-width: 700px;
+    margin-bottom: 20px;
 }
 
 .details-container {
     min-width: 700px;
-    width: 60%;
+    width: 45%;
     max-width: 1100px;
-    border: 2px solid var(--onyx);
     height: auto;
-    border-radius: 10px;
+    border-radius: 2px;
     display: flex;
     justify-content: space-between;
-    color: var(--onyx);
+    color: var(--platinum);
+    background-color: var(--onyx);
+    padding: 30px;
 }
 
 .card-container img {
@@ -176,11 +191,12 @@ export default {
 }
 
 .legality {
-    padding: 10px;
+    padding: 6px;
     height: 30px;
     border-radius: 10px;
     display: flex;
     align-items: center;
+    font-size: 1rem;
 
 }
 
@@ -199,15 +215,15 @@ h3 {
 .stat {
     display: inline-flex; 
     flex-direction: column;
-    align-items:flex-start;
+    align-items: flex-start;
     justify-content: center;
-    background-color: var(--platinum);
     border-radius: 8px;
     padding: 15px;
     gap: 5px; 
     width: 25%; 
     height: auto; 
     max-width: 400px;
+    min-width: 300px;
 }
 
 .stat-container {
@@ -219,12 +235,17 @@ h3 {
     height: 60%;
     flex-wrap: wrap;
     max-width: 90%;
+    
 }
 
 @media (max-width: 768px) {
-    .details-container{
+    .details-container {
         width: 90%;
         min-width: 0;
+    }
+    .stat-container{
+        min-width: 0;
+        width:90%;
     }
 }
 </style>
