@@ -32,15 +32,15 @@
       <div class="stat-item">
         <h3>Card Types</h3>
         <ul>
-          <li v-for="(count, type) in collectionStats.cardTypeCount" :key="type">
-            {{ type }}: {{ count }}
+          <li v-for="stat in this.collectionStats.cardTypeCount" :key="stat.cardType">
+            {{ stat.cardType }} : {{ stat.count }}
           </li>
         </ul>
       </div>
       <div class="stat-item">
         <h3>Rarities</h3>
         <ul>
-          <li v-for="(count, rarity) in collectionStats.rarityCount" :key="rarity">
+          <li v-for="(count, rarity) in this.collectionStats.rarityCount" :key="rarity">
             {{ rarity }}: {{ count }}
           </li>
         </ul>
@@ -48,14 +48,14 @@
       <div class="stat-item">
         <h3>Colors</h3>
         <ul>
-          <li v-for="(count, color) in collectionStats.colorCount" :key="color">
+          <li v-for="(count, color) in this.collectionStats.colorCount" :key="color">
             {{ color }}: {{ count }}
           </li>
         </ul>
       </div>
       <div class="stat-item">
         <h3>Total Value</h3>
-        <p>{{ collectionStats.price }}</p>
+        <p>{{ this.collectionStats.price }}</p>
       </div>
     </div>
     <!-- This is temporary and not right  -->
@@ -87,9 +87,10 @@ export default {
       displayedCards: [],
       collectionStats: {
         cardTypeCount: [],
+        cardColorCount: [],
         rarityCount: [],
-        price: 0.0,
-        setName: "",
+        totalValue: 0.0,
+        setNameCount: []
       },
       collection: {
         cardCount: 0,
@@ -118,7 +119,8 @@ export default {
     getCollectionStats() {
       CollectionService.getCollectionStats(this.$route.params.id)
       .then((response) => {
-        alert('This collection is now unpublished')
+        console.log(response.data)
+        this.collectionStats = response.data
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -187,6 +189,7 @@ export default {
   },
   created() {
     this.getCollectionById();
+    this.getCollectionStats();
   },
 };
 </script>

@@ -272,11 +272,11 @@ public class JdbcCollectionDao implements CollectionDao{
         stats.setCardTypeCounts(cardTypeCounts);
 
         //SQL to get card colors
-        String cardColorSql = "SELECT card_type, COUNT(*) AS count FROM cards_collections " +
+        String cardColorSql = "SELECT card_color, COUNT(*) AS count FROM cards_collections " +
                 "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
                 "WHERE cards_collections.collection_id = ? GROUP BY card_color";
-        List<CardColorCount> cardColorCounts = jdbcTemplate.query(cardTypeSql, (rs, rowNumber) -> {
-            String cardColor = rs.getString("card_type");
+        List<CardColorCount> cardColorCounts = jdbcTemplate.query(cardColorSql, (rs, rowNumber) -> {
+            String cardColor = rs.getString("card_color");
             int count = rs.getInt("count");
             return new CardColorCount(cardColor, count);
         }, collectionId);
@@ -307,7 +307,7 @@ public class JdbcCollectionDao implements CollectionDao{
         // SQL to get total collection price
         String collectionPriceSql = "SELECT SUM(price * quantity) FROM cards_collections " +
                 "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
-                "WHERE cards_collections.collection_id = ?";
+                "WHERE cards_collections.collection_id = ? AND price != -1";
         BigDecimal collectionPrice = jdbcTemplate.queryForObject(collectionPriceSql, BigDecimal.class, collectionId);
         stats.setTotalCollectionPrice(collectionPrice != null ? collectionPrice.doubleValue() : 0.0);
 
