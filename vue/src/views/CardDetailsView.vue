@@ -187,7 +187,7 @@ export default {
     width: 45%;
     max-width: 1100px;
     height: auto;
-    border-radius: 2px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     color: var(--platinum);
@@ -276,7 +276,6 @@ h3 {
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
     border-radius: 8px;
     padding: 15px;
     gap: 5px;

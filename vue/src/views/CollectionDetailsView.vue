@@ -28,8 +28,17 @@
     </div>
     <!-- This is temporary and not right  -->
     <!-- <div class="aside-container"> -->
+      <div class="stat-item">
+        <h3>Rarities</h3>
+        <ul>
+          <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
+            {{ stat.rarity }} : {{ stat.count }}
+          </li>
+        </ul>
+      </div>  
     <aside class="scrollable-aside">
     <div class="collection-stats">Collection Statistics</div>
+    
     <div class="stats-row">
       <div class="stat-item">
         <h3>Card Types</h3>
@@ -39,14 +48,7 @@
           </li>
         </ul>
       </div>
-      <div class="stat-item">
-        <h3>Rarities</h3>
-        <ul>
-          <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
-            {{ stat.rarity }} : {{ stat.count }}
-          </li>
-        </ul>
-      </div>
+      
       <div class="stat-item">
         <h3>Colors</h3>
         <ul>
@@ -259,20 +261,20 @@ export default {
 
 .scrollable-aside {
   margin: 50px;
-  width: 400px; /* Set a fixed width */
-  height: 50px; /* Set a fixed height to enable scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  border: 1px solid var(--platinum); /* Add a border for clarity */
-  padding: 15px; /* Add some padding for spacing */
-  background-color: #9ecec4; /* Light background for better readability */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for aesthetics */
-  border-radius: 8px; /* Optional: rounded corners */
+  width: 400px; 
+  height: 500px; 
+  overflow-y: auto; 
+  border: 1px solid var(--platinum); 
+  padding: 15px; 
+  background-color: #9ecec4; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; 
 }
 
 .scrollable-aside h3 {
-  margin-top: 0; /* Remove default margin from heading */
-  font-size: 1.2rem; /* Adjust font size */
-  color: #333; /* Text color */
+  margin-top: 0; 
+  font-size: 1.2rem; 
+  color: #333;
 }
 
 .scrollable-aside ul {
