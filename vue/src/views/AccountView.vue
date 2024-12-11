@@ -19,7 +19,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .account-container{
     margin: 150px auto;
     text-align: center;
