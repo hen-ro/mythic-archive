@@ -32,9 +32,10 @@ CREATE TABLE cards (
     card_id UUID PRIMARY KEY,
     card_name VARCHAR(250) NOT NULL,
     card_type VARCHAR(50) NOT NULL,
+    card_color VARCHAR(50) NOT NULL,
     mana_cost VARCHAR(50) NOT NULL,
     rarity VARCHAR(50) NOT NULL,
-    price DECIMAL,
+    price DECIMAL DEFAULT 0.00,
     set_name VARCHAR (100) NOT NULL,
     image_url VARCHAR(2083) NOT NULL,
     thumbnail_url VARCHAR(2083) NOT NULL
@@ -57,7 +58,7 @@ CREATE TABLE decks (
     deck_name VARCHAR(50) NOT NULL,
     user_id INT NOT NULL,
     is_public BOOLEAN NOT NULL DEFAULT FALSE,
-    thumbnail_url VARCHAR(2083) DEFAULT '',
+    thumbnail_url VARCHAR(2083) DEFAULT 'images/CardBack.jpg',
     deckFormat VARCHAR(150) DEFAULT '',
     CONSTRAINT FK_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

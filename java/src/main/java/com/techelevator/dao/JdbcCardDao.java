@@ -13,7 +13,7 @@ import java.util.*;
 
 @Component
 public class JdbcCardDao implements CardDao{
-    private final String CARDS_SELECT = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost," +
+    private final String CARDS_SELECT = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.card_color, cards.mana_cost," +
                                         " cards.rarity, cards.price, cards.set_name, cards.image_url, cards.thumbnail_url" +
                                         " FROM public.cards";
     private final JdbcTemplate jdbcTemplate;
@@ -38,7 +38,7 @@ public class JdbcCardDao implements CardDao{
     @Override
     public Map<UUID, Integer> getCardMapForCollection(int collectionId) {
         Map<UUID, Integer> cardsInCollection = new HashMap<>();
-        String sql = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.mana_cost," +
+        String sql = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.card_color, cards.mana_cost," +
                      " cards.rarity, cards.price, cards.set_name, cards.image_url, cards.thumbnail_url, cards_collections.quantity FROM public.cards" +
                      " JOIN cards_collections ON cards.card_id = cards_collections.card_id" +
                      " JOIN collections ON cards_collections.collection_id = collections.collection_id" +
@@ -52,6 +52,25 @@ public class JdbcCardDao implements CardDao{
         } catch (CannotGetJdbcConnectionException e) {
            throw new DaoException("Unable to connect to server or database", e);
         } return cardsInCollection;
+    }
+
+    @Override
+    public Map<UUID, Integer> getCardMapForDeck(int deckId) {
+        Map<UUID, Integer> cardsInDeck = new HashMap<>();
+        String sql = "SELECT cards.card_id, cards.card_name, cards.card_type, cards.card_color, cards.mana_cost," +
+                     " cards.rarity, cards.price, cards.set_name, cards.image_url, cards.thumbnail_url, cards_decks.quantity FROM public.cards" +
+                     " JOIN cards_decks ON cards.card_id = cards_decks.card_id" +
+                     " JOIN decks ON cards_decks.deck_id = decks.deck_id" +
+                     " WHERE decks.deck_id = ?";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, deckId);
+            while (results.next()) {
+                Card card = mapRowToCard(results);
+                cardsInDeck.put(card.getCardId(), results.getInt("quantity"));
+            }
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } return cardsInDeck;
     }
 
     @Override

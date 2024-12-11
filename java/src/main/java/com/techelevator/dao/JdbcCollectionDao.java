@@ -271,6 +271,17 @@ public class JdbcCollectionDao implements CollectionDao{
         }, collectionId);
         stats.setCardTypeCounts(cardTypeCounts);
 
+        //SQL to get card colors
+        String cardColorSql = "SELECT card_type, COUNT(*) AS count FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? GROUP BY card_color";
+        List<CardColorCount> cardColorCounts = jdbcTemplate.query(cardTypeSql, (rs, rowNumber) -> {
+            String cardColor = rs.getString("card_type");
+            int count = rs.getInt("count");
+            return new CardColorCount(cardColor, count);
+        }, collectionId);
+        stats.setCardColorCounts(cardColorCounts);
+
         // SQL to get mana cost counts
         String manaCostSql = "SELECT mana_cost, COUNT(*) AS count FROM cards_collections " +
                 "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +

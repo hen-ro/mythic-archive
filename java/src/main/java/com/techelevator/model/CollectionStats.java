@@ -9,6 +9,8 @@ public class CollectionStats {
     private Double totalCollectionPrice;
     private List<SetNameCount> setNameCounts;
 
+    private List<CardColorCount> cardColorCounts;
+
     public List<CardTypeCount> getCardTypeCounts() {
         return cardTypeCounts;
     }
@@ -47,5 +49,13 @@ public class CollectionStats {
 
     public void setSetNameCounts(List<SetNameCount> setNameCounts) {
         this.setNameCounts = setNameCounts;
+    }
+
+    public List<CardColorCount> getCardColorCounts() {
+        return cardColorCounts;
+    }
+
+    public void setCardColorCounts(List<CardColorCount> cardColorCounts) {
+        this.cardColorCounts = cardColorCounts;
     }
 }

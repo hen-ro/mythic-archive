@@ -176,7 +176,7 @@ public class CollectionController {
     }
 
     @GetMapping("/{id}/card-count")
-    public Integer cardCount(@PathVariable int id, UUID cardId) {
+    public Integer cardCount(@PathVariable int id, @RequestParam UUID cardId) {
         try {
 
             Integer cardCount = collectionDao.getCollectionByUserId(id).getCardCount(cardId);

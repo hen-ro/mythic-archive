@@ -51,7 +51,7 @@ public class JdbcDeckDao implements DeckDao{
         decks.setOwnerName(rs.getString("username"));
         decks.setPublic(rs.getBoolean("is_public"));
         //Get the cards in the collection
-        Map<UUID, Integer> cardsInDeck = cardDao.getCardMapForCollection(decks.getDeckId());
+        Map<UUID, Integer> cardsInDeck = cardDao.getCardMapForDeck(decks.getDeckId());
         decks.setTotalCards(cardsInDeck.size());
         //Check if the thumbnail image has been set
         if (rs.getString("thumbnail_url").isEmpty()) {
@@ -68,7 +68,7 @@ public class JdbcDeckDao implements DeckDao{
 
     public Deck getDeckByUserId(int userId) {
         Deck deck = null;
-        String sql = DECKS_SELECT +  " WHERE user_id = ?";
+        String sql = DECKS_SELECT +  " WHERE users.user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -82,7 +82,7 @@ public class JdbcDeckDao implements DeckDao{
     @Override
     public Deck getDeckById(int deckId) {
         Deck deck = null;
-        String sql = DECKS_SELECT +  " WHERE deck_id = ?";
+        String sql = DECKS_SELECT +  " WHERE decks.deck_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, deckId);
             if (results.next()) {
