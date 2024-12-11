@@ -18,7 +18,7 @@ body {
 body {
   background-color: var(--timberwolf);
   color: var(--timberwolf);
-  font-family: 'Trebuchet MS', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+  font-family: 'Garamond', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
 }
 
 .sign-up-link,

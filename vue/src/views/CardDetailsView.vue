@@ -1,7 +1,5 @@
 <template>
   <div class="page-container">
-    >
-
     <div class="card-container">
       <img
         :src="
@@ -13,29 +11,18 @@
         "
         :alt="card.name"
       />
+      <div class="card-price">${{ card.prices.usd || "---" }}</div>
       <div class="card-footer">
         <button
-          @click="
-            this.$store.dispatch('removeFromCollection', {
-              card: this.card,
-              cardColor: this.getCardColors(this.card),
-              quantity: 1,
-            })
-          "
+          @click="removeFromCollection"
           class="plus-minus"
           title="Remove from collection"
         >
           -
         </button>
-        <div class="card-price">${{ card.prices.usd || "---" }}</div>
+        <div class="card-count">{{ this.cardCount }}</div>
         <button
-          @click="
-            this.$store.dispatch('addToCollection', {
-              card: this.card,
-              cardColor: this.getCardColors(this.card),
-              quantity: 1,
-            })
-          "
+          @click="addToCollection"
           class="plus-minus"
           title="Add to collection"
         >
@@ -47,28 +34,34 @@
     <div class="details-container">
       <div class="details-header">
         <h2>{{ card.name }}</h2>
+        <button></button>
       </div>
       <div class="stat-container">
         <div class="stat">
+          <h3>Oracle Text</h3>
+          <span v-html="formattedOracleText"></span>
+        </div>
+        <div class="stat">
           <h3>Set</h3>
           <span>{{ card.set_name }}</span>
+        </div>
+        <div class="stat">
+          <h3>Mana Cost</h3>
+          <div v-html="formattedManaCost"></div>
         </div>
         <div class="stat">
           <h3>Type</h3>
           <span>{{ card.type_line }}</span>
         </div>
         <div class="stat">
-          <h3>Oracle Text</h3>
-          <span v-html="formattedOracleText"></span>
+          <h3>Rarity</h3>
+          <span>{{ card.rarity }}</span>
         </div>
         <div class="stat">
           <h3>Flavor Text</h3>
-          <span>{{ card.flavor_text || "No Flavor Text" }}</span>
+          <span>{{ card.flavor_text || "----" }}</span>
         </div>
-        <div class="stat">
-          <h3>Mana Cost</h3>
-          <div v-html="formattedManaCost"></div>
-        </div>
+        
       </div>
       <div class="format-container">
         <div
@@ -95,7 +88,7 @@ export default {
   data() {
     return {
       card: {},
-      cardCount: "test",
+      cardCount: "0", 
     };
   },
   computed: {
@@ -139,16 +132,39 @@ export default {
       }
       return colorString;
     },
+    async addToCollection() {
+      await this.$store.dispatch("addToCollection", {
+        card: this.card,
+        cardColor: this.getCardColors(this.card),
+        quantity: 1,
+      });
+      this.refreshCardCount();
+    },
+    async removeFromCollection() {
+      await this.$store.dispatch("removeFromCollection", {
+        card: this.card,
+        cardColor: this.getCardColors(this.card),
+        quantity: 1,
+      });
+      this.refreshCardCount();
+    },
+    async refreshCardCount() {
+      try {
+        const response = await CollectionService.getCardCount(
+          this.$store.state.user.id,
+          this.$route.params.id
+        );
+        this.cardCount = response.data; 
+      } catch (error) {
+        console.error("Failed to refresh card count", error);
+      }
+    },
   },
   created() {
     SearchService.searchById(this.$route.params.id).then((response) => {
       this.card = response.data;
     });
-    CollectionService.getCardsInCollection(this.$route.params.id).then(
-      (response) => {
-        this.cardCount = response.data;
-      }
-    );
+    this.refreshCardCount();
   },
 };
 </script>
@@ -176,7 +192,7 @@ export default {
 
 .card-container {
   min-width: 400px;
-  width: 35%;
+  width: 30%;
   max-width: 700px;
   margin-bottom: 20px;
 }
@@ -224,7 +240,7 @@ export default {
   opacity: 1;
 }
 
-.card-price {
+.card-price, .card-count{
   font-size: 1.8rem;
   color: var(--onyx);
   margin: 0 30px;
@@ -265,7 +281,6 @@ export default {
 h3 {
   margin: 0;
 }
-
 .stat {
   display: inline-flex;
   flex-direction: column;
@@ -274,17 +289,19 @@ h3 {
   border-radius: 8px;
   padding: 15px;
   gap: 5px;
-  width: 25%;
+  width: auto;
   height: auto;
+  min-height: 70px;
   max-width: 400px;
-  min-width: 300px;
-}
+  min-width: 150px;
+  margin: 0;
 
+}
 .stat-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   height: 60%;
   flex-wrap: wrap;
