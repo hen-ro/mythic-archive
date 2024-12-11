@@ -11,17 +11,17 @@
           type="text"
           id="searchTerm"
           name="searchTerm"
-          v-model="this.searchTerm"
+          @keyup="searchCollection()"
         />
-        <button @click="search">
+        <button @click="searchCollection()">
           Search<img src="/images/SearchIconBlack.png" class="search-icon" />
         </button>
       </div>
     </div>
-    <div class="card-container" v-if="this.collection.cards.length > 0">
+    <div class="card-container" v-if="this.displayedCards.length > 0">
       <div
         class="card"
-        v-for="card in this.collection.cards"
+        v-for="card in this.displayedCards"
         v-bind:key="card.cardId"
       >
         <router-link
@@ -41,7 +41,7 @@ import CollectionService from "../services/CollectionService";
 export default {
   data() {
     return {
-      collectionName: "",
+      displayedCards: [],
       collection: {
         cardCount: 0,
         collectionName: "",
@@ -81,7 +81,8 @@ export default {
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    },getDecknById() {
+    },
+    getDeckById() {
       CollectionService.getCollectionById(this.$route.params.id)
         .then((response) => {
           this.collection = response.data;
@@ -94,16 +95,28 @@ export default {
     getCardsInCollection() {
       CollectionService.getCardsInCollection(this.$route.params.id)
         .then((response) => {
+          console.log(response.data);
           this.collection.cards = response.data;
+          this.displayedCards = this.collection.cards;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
+    searchCollection() {
+      let search = document.getElementById('searchTerm').value;
+      let tempArray = 
+      this.collection.cards.filter((card) => {
+        return card.cardName.toLowerCase().includes(search.toLowerCase()) ||
+        card.cardType.toLowerCase().includes(search.toLowerCase()) ||
+        card.rarity.toLowerCase().includes(search.toLowerCase()) ||
+        card.setName.toLowerCase().includes(search.toLowerCase());
+      });
+      this.displayedCards = tempArray;
+    }
   },
   created() {
     this.getCollectionById();
-    console.log("test");
   },
 };
 </script>
