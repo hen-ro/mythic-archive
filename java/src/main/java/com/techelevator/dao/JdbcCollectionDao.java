@@ -309,7 +309,14 @@ public class JdbcCollectionDao implements CollectionDao{
                 "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
                 "WHERE cards_collections.collection_id = ? AND price != -1";
         BigDecimal collectionPrice = jdbcTemplate.queryForObject(collectionPriceSql, BigDecimal.class, collectionId);
-        stats.setTotalCollectionPrice(collectionPrice != null ? collectionPrice.doubleValue() : 0.0);
+        stats.setTotalCollectionPrice(collectionPrice != null ? collectionPrice : new BigDecimal("0.00"));
+
+        // SQL to get total collection price
+        String withoutPriceSql = "SELECT COUNT(*) FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? AND price = -1";
+        int withoutPrice = jdbcTemplate.queryForObject(collectionPriceSql, int.class, collectionId);
+        stats.setCardsWithoutPrice(withoutPrice);
 
         // SQL to get set name counts
         String setNameSql = "SELECT set_name, COUNT(*) AS count FROM cards_collections " +

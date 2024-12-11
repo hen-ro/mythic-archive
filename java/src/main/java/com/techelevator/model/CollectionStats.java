@@ -1,12 +1,15 @@
 package com.techelevator.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CollectionStats {
     private List<CardTypeCount> cardTypeCounts;
     private List<ManaCostCount> manaCostCounts;
     private List<RarityCount> rarityCounts;
-    private Double totalCollectionPrice;
+    private BigDecimal totalCollectionPrice;
+
+    private int cardsWithoutPrice;
     private List<SetNameCount> setNameCounts;
 
     private List<CardColorCount> cardColorCounts;
@@ -35,11 +38,11 @@ public class CollectionStats {
         this.rarityCounts = rarityCounts;
     }
 
-    public Double getTotalCollectionPrice() {
+    public BigDecimal getTotalCollectionPrice() {
         return totalCollectionPrice;
     }
 
-    public void setTotalCollectionPrice(Double totalCollectionPrice) {
+    public void setTotalCollectionPrice(BigDecimal totalCollectionPrice) {
         this.totalCollectionPrice = totalCollectionPrice;
     }
 
@@ -57,5 +60,13 @@ public class CollectionStats {
 
     public void setCardColorCounts(List<CardColorCount> cardColorCounts) {
         this.cardColorCounts = cardColorCounts;
+    }
+
+    public int getCardsWithoutPrice() {
+        return cardsWithoutPrice;
+    }
+
+    public void setCardsWithoutPrice(int cardsWithoutPrice) {
+        this.cardsWithoutPrice = cardsWithoutPrice;
     }
 }
