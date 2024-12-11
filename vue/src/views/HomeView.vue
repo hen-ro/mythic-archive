@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <div class="banner-text">
-      <div>Collect PokeMans, Live Better, Walmart</div>
+      <div>Collect, Organize, Dominate<br>-<br>The Archive Awaits</div>
       <div class="banner-buttons">
         <router-link class="nav-item banner-link" v-bind:to="{ name: 'search' }">Search Cards</router-link>
         <router-link class="nav-item banner-link" v-bind:to="{ name: 'collections' }">Collections</router-link>
@@ -98,7 +98,7 @@ export default {
 
 .banner-buttons {
   display: flex;
-  gap: 20px
+  gap: 20px;
 }
 
 .banner-link {
