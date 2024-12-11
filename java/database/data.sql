@@ -1,20 +1,51 @@
 BEGIN TRANSACTION;
 
-INSERT INTO users (username,email, password_hash,role)
-VALUES ('user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER')
-ON CONFLICT (username) DO NOTHING;
+--INSERT INTO users (username,email, password_hash,role)
+--VALUES ('user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER')
+--ON CONFLICT (username) DO NOTHING;
 
-INSERT INTO users (username,email, password_hash,role)
-VALUES ('admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN')
-ON CONFLICT (username) DO NOTHING;
+--INSERT INTO users (username,email, password_hash,role)
+--VALUES ('admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN')
+--ON CONFLICT (username) DO NOTHING;
 
-INSERT INTO collections(collection_name, user_id, is_public)
-VALUES ('user''s Collection', 1, false);
---ON CONFLICT (user_id) DO NOTHING;
+-- Users table
+INSERT INTO users (user_id, username, email, password_hash, role) VALUES
+(1, 'user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
+(2, 'admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
+(3, 'RobertDowneyJr', 'rdowneyjr@example.com', 'hashed_password_1', 'admin'),
+(4, 'ScarlettJohansson', 'sjohansson@example.com', 'hashed_password_2', 'user'),
+(5, 'ChrisHemsworth', 'chemsworth@example.com', 'hashed_password_3', 'user'),
+(6, 'TomHolland', 'tholland@example.com', 'hashed_password_4', 'user'),
+(7, 'NataliePortman', 'nportman@example.com', 'hashed_password_5', 'user'),
+(8, 'ChrisEvans', 'cevans@example.com', 'hashed_password_6', 'user'),
+(9, 'AustinPost', 'apost@example.com', 'hashed_password_7', 'user'),
+(10, 'EmmaWatson', 'ewatson@example.com', 'hashed_password_8', 'user'),
+(11, 'WillSmith', 'wsmith@example.com', 'hashed_password_9', 'user'),
+(12, 'JohnnyDepp', 'jdepp@example.com', 'hashed_password_10', 'user'),
+(13, 'SethGreen', 'ajolie@example.com', 'hashed_password_11', 'user'),
+(14, 'JasonAlexander', 'jalexander@example.com', 'hashed_password_12', 'user');
 
-INSERT INTO collections(collection_name, user_id, is_public)
-VALUES ('admin''s Collection', 2, true);
---ON CONFLICT (user_id) DO NOTHING;
+--INSERT INTO collections(collection_name, user_id, is_public) VALUES
+--('user''s Collection', 1, false);
+--('admin''s Collection', 2, true);
+
+-- Collections table
+INSERT INTO collections (collection_id, collection_name, user_id, is_public, thumbnail_url) VALUES
+(1, 'user''s Collection', 1, false, 'images/CardBack.jpg'),
+(2, 'admin''s Collection', 2, true, 'images/CardBack.jpg'),
+(3, 'Robert Downey Jr''s Collection', 3, FALSE, 'images/CardBack.jpg'),
+(4, 'Scarlett Johansson''s Collection', 4, FALSE, 'images/CardBack.jpg'),
+(5, 'Chris Hemsworth''s Collection', 5, TRUE, 'images/CardBack.jpg'),
+(6, 'Tom Holland''s Collection', 6, FALSE, 'images/CardBack.jpg'),
+(7, 'Natalie Portman''s Collection', 7, TRUE, 'images/CardBack.jpg'),
+(8, 'Chris Evans Collection', 8, FALSE, 'images/CardBack.jpg'),
+(9, 'Austin Post''s Collection', 9, TRUE, 'images/CardBack.jpg'),
+(10, 'Emma Watson''s Collection', 10, FALSE, 'images/CardBack.jpg'),
+(11, 'Will Smith''s Collection', 11, TRUE, 'images/CardBack.jpg'),
+(12, 'Johnny Depp''s Collection', 12, FALSE, 'images/CardBack.jpg'),
+(13, 'Seth Green''s Collection', 13, TRUE, 'images/CardBack.jpg'),
+(14, 'Jason Alexander''s Collection', 14, FALSE, 'images/CardBack.jpg');
+
 
 INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url) VALUES
 ('087c13b7-1641-4902-b595-f730068e33cc', 'A-Young Blue Dragon // A-Sand Augury', 'Creature — Dragon // Sorcery — Adventure', 'U', '{4},{U} // {1},{U}', 'common', NULL, 'Alchemy Horizons: Baldur''s Gate', 'https://cards.scryfall.io/normal/front/0/8/087c13b7-1641-4902-b595-f730068e33cc.jpg?1681159579', 'https://cards.scryfall.io/art_crop/front/0/8/087c13b7-1641-4902-b595-f730068e33cc.jpg?1681159579'),
@@ -29,34 +60,346 @@ INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity,
 ('45dc82a0-f054-4614-a7b9-4c5a7c9d2a77', 'Bringer of the Blue Dawn', 'Creature — Bringer', 'U', '{7},{U},{U}', 'rare', 4.69, 'Fifth Dawn', 'https://cards.scryfall.io/normal/front/4/5/45dc82a0-f054-4614-a7b9-4c5a7c9d2a77.jpg?1562876707', 'https://cards.scryfall.io/art_crop/front/4/5/45dc82a0-f054-4614-a7b9-4c5a7c9d2a77.jpg?1562876707'),
 ('5ced2118-dfb3-4f29-ad6b-454c0a8a094b', 'Circle of Protection: Blue', 'Enchantment', 'W', '{1},{W}', 'uncommon', 0.14, 'Eighth Edition', 'https://cards.scryfall.io/normal/front/5/c/5ced2118-dfb3-4f29-ad6b-454c0a8a094b.jpg?1562913834', 'https://cards.scryfall.io/art_crop/front/5/c/5ced2118-dfb3-4f29-ad6b-454c0a8a094b.jpg?1562913834'),
 ('85f4ed3a-1851-49b1-baac-fdc8c00b6b71', 'Rune of Protection: Blue', 'Enchantment', 'W', '{1},{W}', 'common', 0.09, 'Urza''s Saga', 'https://cards.scryfall.io/normal/front/8/5/85f4ed3a-1851-49b1-baac-fdc8c00b6b71.jpg?1562923262', 'https://cards.scryfall.io/art_crop/front/8/5/85f4ed3a-1851-49b1-baac-fdc8c00b6b71.jpg?1562923262'),
-('1fd2b6a7-b93a-42d3-b66a-a70b573fc58a', 'Urza''s Blueprints', 'Artifact', 'null', '{6}', 'rare', 0.07, 'Dominaria Remastered', 'https://cards.scryfall.io/normal/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126', 'https://cards.scryfall.io/art_crop/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126');
+('1fd2b6a7-b93a-42d3-b66a-a70b573fc58a', 'Urza''s Blueprints', 'Artifact', 'null', '{6}', 'rare', 0.07, 'Dominaria Remastered', 'https://cards.scryfall.io/normal/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126', 'https://cards.scryfall.io/art_crop/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126'),
+('e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977', 'Ancestral Recall', 'Instant', '{U}', '{U}', 'Rare', 25.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/3/e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977.jpg?1595590705', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/3/e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977.jpg?1595590705'),
+('8f90894f-d1cf-4d4c-9336-08ae2c35ec7f', 'Black Lotus', 'Artifact', '', '', 'Rare', 350.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/8/f/8f90894f-d1cf-4d4c-9336-08ae2c35ec7f.jpg?1595590710', 'https://c1.scryfall.com/file/scryfall-cards/small/front/8/f/8f90894f-d1cf-4d4c-9336-08ae2c35ec7f.jpg?1595590710'),
+('f22a704f-b45a-4a3b-8250-fb170db76324', 'Time Walk', 'Sorcery', '{U}', '{1}{U}', 'Rare', 150.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/2/f22a704f-b45a-4a3b-8250-fb170db76324.jpg?1595590730', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/2/f22a704f-b45a-4a3b-8250-fb170db76324.jpg?1595590730'),
+('af12d29e-5a47-4e4f-8c8b-6d2b6a5425b9', 'Mox Jet', 'Artifact', '', '', 'Rare', 300.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/f/af12d29e-5a47-4e4f-8c8b-6d2b6a5425b9.jpg?1595590703', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/f/af12d29e-5a47-4e4f-8c8b-6d2b6a5425b9.jpg?1595590703'),
+('ea990101-437b-4c62-9c2b-16e3fa7ed4a6', 'Tarmogoyf', 'Creature', '{G}', '{1}{G}', 'Mythic', 100.00, 'Future Sight', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/a/ea990101-437b-4c62-9c2b-16e3fa7ed4a6.jpg?1595590797', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/a/ea990101-437b-4c62-9c2b-16e3fa7ed4a6.jpg?1595590797'),
+('91a55e80-7a8f-4a19-a704-bc2d5e23104a', 'Force of Will', 'Instant', '{U}', '{3}{U}', 'Rare', 80.00, 'Vintage Masters', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/1/91a55e80-7a8f-4a19-a704-bc2d5e23104a.jpg?1595590720', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/1/91a55e80-7a8f-4a19-a704-bc2d5e23104a.jpg?1595590720'),
+('58d36d4b-4040-4e5b-b290-e8d57c96bca6', 'Shivan Dragon', 'Creature', '{R}', '{4}{R}{R}', 'Rare', 15.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/8/58d36d4b-4040-4e5b-b290-e8d57c96bca6.jpg?1595590732', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/8/58d36d4b-4040-4e5b-b290-e8d57c96bca6.jpg?1595590732'),
+('b6fe9c0a-d070-46ab-9271-f6b495d82ae9', 'Lightning Bolt', 'Instant', '{R}', '{R}', 'Common', 0.25, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/6/b6fe9c0a-d070-46ab-9271-f6b495d82ae9.jpg?1595590714', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/6/b6fe9c0a-d070-46ab-9271-f6b495d82ae9.jpg?1595590714'),
+('61d35a7f-bb3f-47fa-9d56-8577f7f997b6', 'Jace, the Mind Sculptor', 'Planeswalker', '{U}', '{2}{U}{U}', 'Mythic', 80.00, 'Worldwake', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/1/61d35a7f-bb3f-47fa-9d56-8577f7f997b6.jpg?1595590795', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/1/61d35a7f-bb3f-47fa-9d56-8577f7f997b6.jpg?1595590795'),
+('426b6501-e503-4c56-82e4-17f9eb1f1b77', 'Mox Sapphire', 'Artifact', '', '', 'Rare', 400.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/4/2/426b6501-e503-4c56-82e4-17f9eb1f1b77.jpg?1595590709', 'https://c1.scryfall.com/file/scryfall-cards/small/front/4/2/426b6501-e503-4c56-82e4-17f9eb1f1b77.jpg?1595590709'),
+('25d864d3-f1cd-4664-97e9-1b142ff349ec', 'Swords to Plowshares', 'Instant', '{W}', '{W}', 'Uncommon', 2.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/2/5/25d864d3-f1cd-4664-97e9-1b142ff349ec.jpg?1595590734', 'https://c1.scryfall.com/file/scryfall-cards/small/front/2/5/25d864d3-f1cd-4664-97e9-1b142ff349ec.jpg?1595590734'),
+('f24413b7-bff6-417f-a775-80d8c0a576de', 'Giant Growth', 'Instant', '{G}', '{G}', 'Common', 0.20, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/2/f24413b7-bff6-417f-a775-80d8c0a576de.jpg?1595590778', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/2/f24413b7-bff6-417f-a775-80d8c0a576de.jpg?1595590778'),
+('74ac3999-0b16-43bc-9c76-4bc8e78b3b2a', 'Counterspell', 'Instant', '{U}', '{U}{U}', 'Uncommon', 1.50, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/4/74ac3999-0b16-43bc-9c76-4bc8e78b3b2a.jpg?1595590716', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/4/74ac3999-0b16-43bc-9c76-4bc8e78b3b2a.jpg?1595590716'),
+('ae1b5c7f-f467-4569-bc4b-3e1ac467d9d3', 'Island', 'Basic Land', '{U}', '', 'Common', 0.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/e/ae1b5c7f-f467-4569-bc4b-3e1ac467d9d3.jpg?1595590742', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/e/ae1b5c7f-f467-4569-bc4b-3e1ac467d9d3.jpg?1595590742'),
+('9e7d7c9a-0b79-4e98-8313-9c30b5f3b9ba', 'Liliana of the Veil', 'Planeswalker', '{B}', '{1}{B}{B}', 'Mythic', 30.00, 'Modern Masters', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/e/9e7d7c9a-0b79-4e98-8313-9c30b5f3b9ba.jpg?1595590765', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/e/9e7d7c9a-0b79-4e98-8313-9c30b5f3b9ba.jpg?1595590765'),
+('53f1cf67-5377-4170-b907-98c3b9f7d6ff', 'Lightning Helix', 'Instant', '{R}{W}', '{R}{W}', 'Uncommon', 2.50, 'Ravnica: City of Guilds', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/3/53f1cf67-5377-4170-b907-98c3b9f7d6ff.jpg?1595590752', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/3/53f1cf67-5377-4170-b907-98c3b9f7d6ff.jpg?1595590752'),
+('fd5fbe5d-bc63-4c3d-888e-8f0d6ac2d199', 'Snapcaster Mage', 'Creature', '{U}', '{1}{U}', 'Mythic', 15.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/d/fd5fbe5d-bc63-4c3d-888e-8f0d6ac2d199.jpg?1595590770', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/d/fd5fbe5d-bc63-4c3d-888e-8f0d6ac2d199.jpg?1595590770'),
+('e6f7576b-3cc6-44b1-8fc6-39e232440973', 'Tarmogoyf', 'Creature', '{G}', '{1}{G}', 'Mythic', 100.00, 'Future Sight', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/6/e6f7576b-3cc6-44b1-8fc6-39e232440973.jpg?1595590797', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/6/e6f7576b-3cc6-44b1-8fc6-39e232440973.jpg?1595590797'),
+('9dbb1346-3e6e-4cde-b7da-9b6fa1f768c0', 'Jace, the Mind Sculptor', 'Planeswalker', '{U}', '{2}{U}{U}', 'Mythic', 80.00, 'Worldwake', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/d/9dbb1346-3e6e-4cde-b7da-9b6fa1f768c0.jpg?1595590795', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/d/9dbb1346-3e6e-4cde-b7da-9b6fa1f768c0.jpg?1595590795'),
+('9b8bca47-0221-4e1b-8765-8b8bfb69fe17', 'Llanowar Elves', 'Creature', '{G}', '{G}', 'Common', 0.50, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/b/9b8bca47-0221-4e1b-8765-8b8bfb69fe17.jpg?1595590726', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/b/9b8bca47-0221-4e1b-8765-8b8bfb69fe17.jpg?1595590726'),
+('5ffb9260-d983-44da-9d89-bb2e2b6ef32e', 'Path to Exile', 'Instant', '{W}', '{W}', 'Uncommon', 3.00, 'Conflux', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/f/5ffb9260-d983-44da-9d89-bb2e2b6ef32e.jpg?1595590747', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/f/5ffb9260-d983-44da-9d89-bb2e2b6ef32e.jpg?1595590747'),
+('d3479a1b-0fbd-4370-87b7-337cd17bb8c5', 'Ponder', 'Sorcery', '{U}', '{U}', 'Common', 0.25, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/3/d3479a1b-0fbd-4370-87b7-337cd17bb8c5.jpg?1595590721', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/3/d3479a1b-0fbd-4370-87b7-337cd17bb8c5.jpg?1595590721'),
+('e4263d34-2b38-4b34-98f3-0d49d210084f', 'Bloodbraid Elf', 'Creature', '{R}{G}', '{1}{R}{G}', 'Rare', 3.50, 'Alara Reborn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/4/e4263d34-2b38-4b34-98f3-0d49d210084f.jpg?1595590753', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/4/e4263d34-2b38-4b34-98f3-0d49d210084f.jpg?1595590753'),
+('3c3c45ed-d5b9-4bfe-9a99-dc077e028b25', 'Boros Charm', 'Instant', '{R}{W}', '{R}{W}', 'Uncommon', 2.00, 'Return to Ravnica', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/3/c/3c3c45ed-d5b9-4bfe-9a99-dc077e028b25.jpg?1595590737', 'https://c1.scryfall.com/file/scryfall-cards/small/front/3/c/3c3c45ed-d5b9-4bfe-9a99-dc077e028b25.jpg?1595590737'),
+('c498a276-e4cf-45ae-8b9f-21f4d30c028b', 'Wrath of God', 'Sorcery', '{W}', '{2}{W}{W}', 'Rare', 5.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/4/c498a276-e4cf-45ae-8b9f-21f4d30c028b.jpg?1595590735', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/4/c498a276-e4cf-45ae-8b9f-21f4d30c028b.jpg?1595590735'),
+('fc1a519f-d2ba-4874-8c62-cc36b97a05ff', 'Tarmogoyf', 'Creature', '{G}', '{1}{G}', 'Mythic', 100.00, 'Future Sight', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/c/fc1a519f-d2ba-4874-8c62-cc36b97a05ff.jpg?1595590797', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/c/fc1a519f-d2ba-4874-8c62-cc36b97a05ff.jpg?1595590797'),
+('fddf6a5c-bfae-442d-b4cc-f72e1d9d2443', 'Dark Confidant', 'Creature', '{B}', '{1}{B}', 'Rare', 40.00, 'Ravnica: City of Guilds', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/d/fddf6a5c-bfae-442d-b4cc-f72e1d9d2443.jpg?1595590782', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/d/fddf6a5c-bfae-442d-b4cc-f72e1d9d2443.jpg?1595590782'),
+('935229c7-d956-433b-bc5a-5fd62be1adfb', 'Celestial Colonnade', 'Land', '{W}{U}', '', 'Rare', 10.00, 'Worldwake', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/3/935229c7-d956-433b-bc5a-5fd62be1adfb.jpg?1595590793', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/3/935229c7-d956-433b-bc5a-5fd62be1adfb.jpg?1595590793'),
+('c3d3b3b8-8049-4db4-8902-1ac1a1f877d9', 'Noble Hierarch', 'Creature', '{G}{U}', '{G}{U}', 'Rare', 30.00, 'Conflux', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/3/c3d3b3b8-8049-4db4-8902-1ac1a1f877d9.jpg?1595590786', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/3/c3d3b3b8-8049-4db4-8902-1ac1a1f877d9.jpg?1595590786'),
+('efdc586f-4ef4-4234-a3e0-1b8534e1a459', 'Thoughtseize', 'Sorcery', '{B}', '{B}{B}', 'Rare', 50.00, 'Torment', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/f/efdc586f-4ef4-4234-a3e0-1b8534e1a459.jpg?1595590724', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/f/efdc586f-4ef4-4234-a3e0-1b8534e1a459.jpg?1595590724'),
+('3e3f0d7a-b2e3-4b1d-830e-e1ecf56c6848', 'Snapcaster Mage', 'Creature', '{U}', '{1}{U}', 'Rare', 50.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/3/e/3e3f0d7a-b2e3-4b1d-830e-e1ecf56c6848.jpg?1595590798', 'https://c1.scryfall.com/file/scryfall-cards/small/front/3/e/3e3f0d7a-b2e3-4b1d-830e-e1ecf56c6848.jpg?1595590798'),
+('d41a3bb2-bf6d-4416-83a9-b75d0f5a2f9a', 'Chandra, Torch of Defiance', 'Planeswalker', '{R}', '{2}{R}{R}', 'Mythic', 30.00, 'Kaladesh', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/4/d41a3bb2-bf6d-4416-83a9-b75d0f5a2f9a.jpg?1595590791', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/4/d41a3bb2-bf6d-4416-83a9-b75d0f5a2f9a.jpg?1595590791'),
+('fa688c23-b847-4c85-b0e1-d12fe4d8b422', 'Nicol Bolas, the Ravager', 'Creature', '{U}{B}{R}', '{2}{U}{B}{R}', 'Mythic', 40.00, 'Core Set 2019', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/a/fa688c23-b847-4c85-b0e1-d12fe4d8b422.jpg?1595590744', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/a/fa688c23-b847-4c85-b0e1-d12fe4d8b422.jpg?1595590744'),
+('09bda1cf-9e4b-4fa3-a6e3-7a00ca251b7e', 'Mox Opal', 'Artifact', '', '', 'Rare', 100.00, 'Scars of Mirrodin', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/0/9/09bda1cf-9e4b-4fa3-a6e3-7a00ca251b7e.jpg?1595590707', 'https://c1.scryfall.com/file/scryfall-cards/small/front/0/9/09bda1cf-9e4b-4fa3-a6e3-7a00ca251b7e.jpg?1595590707'),
+('c7a362b1-bc6b-4932-bc94-b24080332144', 'Liliana of the Veil', 'Planeswalker', '{B}', '{1}{B}{B}', 'Mythic', 80.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/7/c7a362b1-bc6b-4932-bc94-b24080332144.jpg?1595590783', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/7/c7a362b1-bc6b-4932-bc94-b24080332144.jpg?1595590783'),
+('c74deca3-7346-4b38-bd57-e9b9278d8fbb', 'Jace, the Mind Sculptor', 'Planeswalker', '{U}', '{2}{U}{U}', 'Mythic', 80.00, 'Worldwake', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/7/c74deca3-7346-4b38-bd57-e9b9278d8fbb.jpg?1595590795', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/7/c74deca3-7346-4b38-bd57-e9b9278d8fbb.jpg?1595590795'),
+('1d7c9d93-dc01-44d4-a764-b450cfb927f1', 'Dark Ritual', 'Sorcery', '{B}', '{B}{B}', 'Common', 2.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/1/d/1d7c9d93-dc01-44d4-a764-b450cfb927f1.jpg?1595590780', 'https://c1.scryfall.com/file/scryfall-cards/small/front/1/d/1d7c9d93-dc01-44d4-a764-b450cfb927f1.jpg?1595590780'),
+('b1d8e659-c407-4a55-b477-25ab5d857a4a', 'Cavern of Souls', 'Land', '', '', 'Mythic', 70.00, 'Avacyn Restored', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/1/b1d8e659-c407-4a55-b477-25ab5d857a4a.jpg?1595590720', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/1/b1d8e659-c407-4a55-b477-25ab5d857a4a.jpg?1595590720'),
+('ab65a073-3a99-4f6b-b9b1-f606a70f929b', 'Garruk Wildspeaker', 'Planeswalker', '{G}', '{2}{G}{G}', 'Mythic', 25.00, 'Magic 2011', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/b/ab65a073-3a99-4f6b-b9b1-f606a70f929b.jpg?1595590778', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/b/ab65a073-3a99-4f6b-b9b1-f606a70f929b.jpg?1595590778'),
+('4a775e19-58ab-41b3-9e8d-24e03f33a93f', 'Dark Confidant', 'Creature', '{B}', '{B}{B}', 'Rare', 40.00, 'Ravnica: City of Guilds', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/4/a/4a775e19-58ab-41b3-9e8d-24e03f33a93f.jpg?1595590781', 'https://c1.scryfall.com/file/scryfall-cards/small/front/4/a/4a775e19-58ab-41b3-9e8d-24e03f33a93f.jpg?1595590781'),
+('aceb0713-dc39-4d25-96d0-52b302f4a015', 'Karn Liberated', 'Planeswalker', '{C}', '{7}', 'Mythic', 90.00, 'New Phyrexia', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/c/aceb0713-dc39-4d25-96d0-52b302f4a015.jpg?1595590743', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/c/aceb0713-dc39-4d25-96d0-52b302f4a015.jpg?1595590743'),
+('2b0e3a3f-4a50-4ed3-b1c4-bc7a09c175cb', 'Jace, the Mind Sculptor', 'Planeswalker', '{U}', '{2}{U}{U}', 'Mythic', 80.00, 'Worldwake', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/2/b/2b0e3a3f-4a50-4ed3-b1c4-bc7a09c175cb.jpg?1595590739', 'https://c1.scryfall.com/file/scryfall-cards/small/front/2/b/2b0e3a3f-4a50-4ed3-b1c4-bc7a09c175cb.jpg?1595590739'),
+('c659ff4d-b45d-40e9-8e6c-70a60e46c6c0', 'Mox Sapphire', 'Artifact', '', '', 'Mythic', 400.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/6/c659ff4d-b45d-40e9-8e6c-70a60e46c6c0.jpg?1595590706', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/6/c659ff4d-b45d-40e9-8e6c-70a60e46c6c0.jpg?1595590706'),
+('7f7fc798-e82c-4a61-91b1-30e383535c92', 'Mox Pearl', 'Artifact', '', '', 'Mythic', 500.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/f/7f7fc798-e82c-4a61-91b1-30e383535c92.jpg?1595590730', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/f/7f7fc798-e82c-4a61-91b1-30e383535c92.jpg?1595590730'),
+('b9e6c702-28a4-47ff-bcb7-0d02955627a1', 'Sylvan Library', 'Enchantment', '{G}', '{G}{G}', 'Rare', 50.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/9/b9e6c702-28a4-47ff-bcb7-0d02955627a1.jpg?1595590712', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/9/b9e6c702-28a4-47ff-bcb7-0d02955627a1.jpg?1595590712'),
+('bdf2082f-71a5-4304-8a89-e5be0a94643e', 'Time Walk', 'Sorcery', '{U}', '{1}{U}', 'Mythic', 400.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/d/bdf2082f-71a5-4304-8a89-e5be0a94643e.jpg?1595590780', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/d/bdf2082f-71a5-4304-8a89-e5be0a94643e.jpg?1595590780'),
+('0b3b8c1e-9e11-4c53-91a6-0d0a64e24632', 'Delver of Secrets', 'Creature', '{U}', '{U}', 'Uncommon', 2.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/0/b/0b3b8c1e-9e11-4c53-91a6-0d0a64e24632.jpg?1595590770', 'https://c1.scryfall.com/file/scryfall-cards/small/front/0/b/0b3b8c1e-9e11-4c53-91a6-0d0a64e24632.jpg?1595590770'),
+('dfe5a97e-bd68-4968-8b36-3f40b81b0fbc', 'Snapcaster Mage', 'Creature', '{U}', '{1}{U}', 'Rare', 40.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/f/dfe5a97e-bd68-4968-8b36-3f40b81b0fbc.jpg?1595590739', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/f/dfe5a97e-bd68-4968-8b36-3f40b81b0fbc.jpg?1595590739'),
+('0c71a3b4-8e57-48ad-b62a-2e05cfb3a1db', 'Bruna, the Fading Light', 'Creature', '{W}{B}', '{3}{W}{B}', 'Mythic', 15.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/0/c/0c71a3b4-8e57-48ad-b62a-2e05cfb3a1db.jpg?1595590737', 'https://c1.scryfall.com/file/scryfall-cards/small/front/0/c/0c71a3b4-8e57-48ad-b62a-2e05cfb3a1db.jpg?1595590737'),
+('f3d75a43-f3cb-48c9-9bcf-314974819cc4', 'Grimgrin, Corpse-Born', 'Creature', '{B}', '{3}{B}', 'Rare', 3.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/3/f3d75a43-f3cb-48c9-9bcf-314974819cc4.jpg?1595590734', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/3/f3d75a43-f3cb-48c9-9bcf-314974819cc4.jpg?1595590734'),
+('b619204e-e12f-4668-b1a2-2118cfb7acfa', 'Sorin, Lord of Innistrad', 'Planeswalker', '{B}', '{2}{B}{B}', 'Mythic', 35.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/6/b619204e-e12f-4668-b1a2-2118cfb7acfa.jpg?1595590781', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/6/b619204e-e12f-4668-b1a2-2118cfb7acfa.jpg?1595590781'),
+('20cc2761-b4f1-44f6-b0f2-f634d3192ae9', 'Liliana of the Veil', 'Planeswalker', '{B}', '{1}{B}{B}', 'Mythic', 80.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/2/0/20cc2761-b4f1-44f6-b0f2-f634d3192ae9.jpg?1595590777', 'https://c1.scryfall.com/file/scryfall-cards/small/front/2/0/20cc2761-b4f1-44f6-b0f2-f634d3192ae9.jpg?1595590777'),
+('4a5125b9-4e63-47f7-b541-4f61540a9297', 'Wolfir Avenger', 'Creature', '{G}', '{2}{G}{G}', 'Uncommon', 1.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/4/a/4a5125b9-4e63-47f7-b541-4f61540a9297.jpg?1595590734', 'https://c1.scryfall.com/file/scryfall-cards/small/front/4/a/4a5125b9-4e63-47f7-b541-4f61540a9297.jpg?1595590734'),
+('ea56448a-c265-409d-8b53-b2fbc6972f37', 'Candlelight Vigil', 'Enchantment', '{W}', '{1}{W}', 'Uncommon', 0.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/a/ea56448a-c265-409d-8b53-b2fbc6972f37.jpg?1595590749', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/a/ea56448a-c265-409d-8b53-b2fbc6972f37.jpg?1595590749'),
+('d858157e-d05b-4f9e-b7ca-1d6b1912495d', 'Hunger of the Howl of the Moon', 'Instant', '{G}', '{G}', 'Uncommon', 0.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/8/d858157e-d05b-4f9e-b7ca-1d6b1912495d.jpg?1595590746', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/8/d858157e-d05b-4f9e-b7ca-1d6b1912495d.jpg?1595590746'),
+('a2ac973d-d25c-4b8c-81f3-2e2fae9cc14e', 'Moonmist', 'Instant', '{G}', '{G}', 'Uncommon', 1.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/2/a2ac973d-d25c-4b8c-81f3-2e2fae9cc14e.jpg?1595590754', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/2/a2ac973d-d25c-4b8c-81f3-2e2fae9cc14e.jpg?1595590754'),
+('d7b9a5c0-72fa-4cd2-bb2d-58c2c688989b', 'Tainted Remedy', 'Enchantment', '{B}', '{B}{B}', 'Rare', 2.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/7/d7b9a5c0-72fa-4cd2-bb2d-58c2c688989b.jpg?1595590728', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/7/d7b9a5c0-72fa-4cd2-bb2d-58c2c688989b.jpg?1595590728'),
+('5645ed42-dc4e-433a-b48f-3076c234c370', 'Champion of the Parish', 'Creature', '{W}', '{1}{W}', 'Uncommon', 4.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/6/5645ed42-dc4e-433a-b48f-3076c234c370.jpg?1595590722', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/6/5645ed42-dc4e-433a-b48f-3076c234c370.jpg?1595590722'),
+('d679a036-b49e-4936-93e0-1c6c6b8cbacb', 'Invisible Stalker', 'Creature', '{U}', '{1}{U}', 'Uncommon', 2.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/6/d679a036-b49e-4936-93e0-1c6c6b8cbacb.jpg?1595590776', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/6/d679a036-b49e-4936-93e0-1c6c6b8cbacb.jpg?1595590776'),
+('63caa4c4-b18f-4c96-8150-b6d0b7edc6b7', 'Unravel the Aether', 'Instant', '{U}', '{U}', 'Common', 0.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/3/63caa4c4-b18f-4c96-8150-b6d0b7edc6b7.jpg?1595590786', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/3/63caa4c4-b18f-4c96-8150-b6d0b7edc6b7.jpg?1595590786'),
+('7203e96e-6c95-45be-9c60-855b6a24b36e', 'Champion of the Perished', 'Creature', '{B}', '{1}{B}', 'Rare', 3.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/2/7203e96e-6c95-45be-9c60-855b6a24b36e.jpg?1595590724', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/2/7203e96e-6c95-45be-9c60-855b6a24b36e.jpg?1595590724'),
+('d2c9b12f-dfdb-4316-b0a5-6b7b9d7a337d', 'Vampire Bats', 'Creature', '{B}', '{1}{B}', 'Common', 0.30, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/2/d2c9b12f-dfdb-4316-b0a5-6b7b9d7a337d.jpg?1595590755', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/2/d2c9b12f-dfdb-4316-b0a5-6b7b9d7a337d.jpg?1595590755'),
+('b3d0a35b-b51a-4e42-8661-625e9fc6f48a', 'Sorin, the Mournful', 'Planeswalker', '{B}', '{1}{B}{B}', 'Mythic', 35.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/3/b3d0a35b-b51a-4e42-8661-625e9fc6f48a.jpg?1595590735', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/3/b3d0a35b-b51a-4e42-8661-625e9fc6f48a.jpg?1595590735'),
+('7630cfc5-0842-4bfc-b7de-c688f3b95fc9', 'Faithless Looting', 'Sorcery', '{R}', '{R}{R}', 'Common', 1.00, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/6/7630cfc5-0842-4bfc-b7de-c688f3b95fc9.jpg?1595590733', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/6/7630cfc5-0842-4bfc-b7de-c688f3b95fc9.jpg?1595590733'),
+('4a0a897e-1180-469d-8bba-77e24ffb829f', 'Curse of the Bloody Tome', 'Enchantment', '{U}', '{2}{U}', 'Rare', 2.50, 'Innistrad', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/4/a/4a0a897e-1180-469d-8bba-77e24ffb829f.jpg?1595590723', 'https://c1.scryfall.com/file/scryfall-cards/small/front/4/a/4a0a897e-1180-469d-8bba-77e24ffb829f.jpg?1595590723'),
+('2b0d4f65-b7d7-450b-bcb7-d60a3c6d60ea', 'Arcbound Ravager', 'Artifact Creature', '{C}', '{1}', 'Rare', 15.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/2/b/2b0d4f65-b7d7-450b-bcb7-d60a3c6d60ea.jpg?1595590823', 'https://c1.scryfall.com/file/scryfall-cards/small/front/2/b/2b0d4f65-b7d7-450b-bcb7-d60a3c6d60ea.jpg?1595590823'),
+('6a4f5157-5ea5-4041-94ad-8e6970e28b17', 'Darksteel Ingot', 'Artifact', '{C}', '{3}', 'Uncommon', 1.50, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/a/6a4f5157-5ea5-4041-94ad-8e6970e28b17.jpg?1595590830', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/a/6a4f5157-5ea5-4041-94ad-8e6970e28b17.jpg?1595590830'),
+('7361cc26-c9ad-40b4-9f73-05905e124d91', 'Cranial Plating', 'Artifact', '{C}', '{1}{B}', 'Rare', 20.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/3/7361cc26-c9ad-40b4-9f73-05905e124d91.jpg?1595590855', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/3/7361cc26-c9ad-40b4-9f73-05905e124d91.jpg?1595590855'),
+('d59c49d2-9e74-44c0-9e02-37d6be63ae59', 'Gilded Lotus', 'Artifact', '{C}', '{5}', 'Mythic', 50.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/5/d59c49d2-9e74-44c0-9e02-37d6be63ae59.jpg?1595590817', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/5/d59c49d2-9e74-44c0-9e02-37d6be63ae59.jpg?1595590817'),
+('dfc4576e-085b-4d7e-9b4d-8fc5b82bfc77', 'Etched Oracle', 'Artifact Creature', '{C}', '{5}', 'Rare', 3.50, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/f/dfc4576e-085b-4d7e-9b4d-8fc5b82bfc77.jpg?1595590813', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/f/dfc4576e-085b-4d7e-9b4d-8fc5b82bfc77.jpg?1595590813'),
+('ae9e0de2-7de0-45fb-b263-b0e8a2f3e0e5', 'Auriok Champion', 'Creature', '{W}', '{1}{W}', 'Uncommon', 0.80, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/e/ae9e0de2-7de0-45fb-b263-b0e8a2f3e0e5.jpg?1595590841', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/e/ae9e0de2-7de0-45fb-b263-b0e8a2f3e0e5.jpg?1595590841'),
+('1f8a216b-4e3e-4633-bd64-8fddf064dbba', 'Chalice of the Void', 'Artifact', '{C}', '{X}', 'Mythic', 75.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/1/f/1f8a216b-4e3e-4633-bd64-8fddf064dbba.jpg?1595590833', 'https://c1.scryfall.com/file/scryfall-cards/small/front/1/f/1f8a216b-4e3e-4633-bd64-8fddf064dbba.jpg?1595590833'),
+('f4f45113-b2a0-41f9-bbd3-b9e2e26fe7a6', 'Culling Sun', 'Sorcery', '{W}', '{3}{W}', 'Uncommon', 0.50, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/4/f4f45113-b2a0-41f9-bbd3-b9e2e26fe7a6.jpg?1595590849', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/4/f4f45113-b2a0-41f9-bbd3-b9e2e26fe7a6.jpg?1595590849'),
+('9be33827-2d95-4d34-9c04-6631047a69f1', 'Vedalken Shackles', 'Artifact', '{C}', '{3}', 'Rare', 6.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/b/9be33827-2d95-4d34-9c04-6631047a69f1.jpg?1595590816', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/b/9be33827-2d95-4d34-9c04-6631047a69f1.jpg?1595590816'),
+('b9c2e139-75a6-4868-b94f-5a0273149136', 'Skyhunter Skirmisher', 'Creature', '{W}', '{1}{W}', 'Common', 0.25, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/9/b9c2e139-75a6-4868-b94f-5a0273149136.jpg?1595590844', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/9/b9c2e139-75a6-4868-b94f-5a0273149136.jpg?1595590844'),
+('efcd59db-22a2-4ec7-9005-d8b648595129', 'Arcbound Crusher', 'Artifact Creature', '{C}', '{4}', 'Uncommon', 2.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/f/efcd59db-22a2-4ec7-9005-d8b648595129.jpg?1595590821', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/f/efcd59db-22a2-4ec7-9005-d8b648595129.jpg?1595590821'),
+('4e53f743-b268-4de1-80bb-bb4187de9ca9', 'Mirrorworks', 'Artifact', '{C}', '{4}', 'Rare', 10.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/4/e/4e53f743-b268-4de1-80bb-bb4187de9ca9.jpg?1595590842', 'https://c1.scryfall.com/file/scryfall-cards/small/front/4/e/4e53f743-b268-4de1-80bb-bb4187de9ca9.jpg?1595590842'),
+('60e2f963-b983-4d02-8d82-2f9447c1ca99', 'Sun Droplet', 'Artifact', '{C}', '{1}', 'Rare', 5.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/0/60e2f963-b983-4d02-8d82-2f9447c1ca99.jpg?1595590844', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/0/60e2f963-b983-4d02-8d82-2f9447c1ca99.jpg?1595590844'),
+('a5648ad4-0730-4443-9fa4-94d9575fe1ae', 'Myr Retriever', 'Artifact Creature', '{C}', '{2}', 'Common', 0.30, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/5/a5648ad4-0730-4443-9fa4-94d9575fe1ae.jpg?1595590837', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/5/a5648ad4-0730-4443-9fa4-94d9575fe1ae.jpg?1595590837'),
+('ac87cd23-2b57-44f2-b15e-cc081d6e6f0f', 'Sword of Kaldra', 'Artifact', '{C}', '{4}', 'Mythic', 40.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/c/ac87cd23-2b57-44f2-b15e-cc081d6e6f0f.jpg?1595590822', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/c/ac87cd23-2b57-44f2-b15e-cc081d6e6f0f.jpg?1595590822'),
+('c7a56c8a-d87a-49bb-85a4-48a54071260d', 'Gilded Light', 'Instant', '{W}', '{1}{W}', 'Uncommon', 0.50, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/7/c7a56c8a-d87a-49bb-85a4-48a54071260d.jpg?1595590850', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/7/c7a56c8a-d87a-49bb-85a4-48a54071260d.jpg?1595590850'),
+('8f2a88b7-e1b3-4080-b3db-85b82a90b9b1', 'Auriok Steelshaper', 'Creature', '{W}', '{1}{W}', 'Uncommon', 0.60, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/8/f/8f2a88b7-e1b3-4080-b3db-85b82a90b9b1.jpg?1595590843', 'https://c1.scryfall.com/file/scryfall-cards/small/front/8/f/8f2a88b7-e1b3-4080-b3db-85b82a90b9b1.jpg?1595590843'),
+('9d0369a2-c813-4b6f-9b57-e8fa4d1e4067', 'Mycosynth Golem', 'Artifact Creature', '{C}', '{7}', 'Mythic', 12.00, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/d/9d0369a2-c813-4b6f-9b57-e8fa4d1e4067.jpg?1595590835', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/d/9d0369a2-c813-4b6f-9b57-e8fa4d1e4067.jpg?1595590835'),
+('b3d604f5-8f89-4ea0-bbdf-5f3cb75690a2', 'Shimmer Myr', 'Artifact Creature', '{C}', '{3}', 'Uncommon', 0.40, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/3/b3d604f5-8f89-4ea0-bbdf-5f3cb75690a2.jpg?1595590818', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/3/b3d604f5-8f89-4ea0-bbdf-5f3cb75690a2.jpg?1595590818'),
+('95b3cb2b-8e4f-47f4-92e5-b68d8b4fd60a', 'Eager Apprentice', 'Creature', '{C}', '{1}{C}', 'Common', 0.20, 'Fifth Dawn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/5/95b3cb2b-8e4f-47f4-92e5-b68d8b4fd60a.jpg?1595590856', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/5/95b3cb2b-8e4f-47f4-92e5-b68d8b4fd60a.jpg?1595590856'),
+('7d38f6d1-6d2b-4d9c-8e84-d2ac6e1b70f7', 'Hullbreaker Horror', 'Creature', '{U}', '{5}{U}{U}', 'Mythic', 40.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/d/7d38f6d1-6d2b-4d9c-8e84-d2ac6e1b70f7.jpg?1637750970', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/d/7d38f6d1-6d2b-4d9c-8e84-d2ac6e1b70f7.jpg?1637750970'),
+('f3218e9b-e413-488f-b65c-206e58b0b68a', 'Tainted Adversary', 'Creature', '{B}', '{B}', 'Rare', 5.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/3/f3218e9b-e413-488f-b65c-206e58b0b68a.jpg?1637750972', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/3/f3218e9b-e413-488f-b65c-206e58b0b68a.jpg?1637750972'),
+('b0d38fe3-42e3-4de9-89e2-b56e33ab1fa7', 'Falkenrath Pit Fighter', 'Creature', '{R}', '{R}', 'Common', 1.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/0/b0d38fe3-42e3-4de9-89e2-b56e33ab1fa7.jpg?1637750991', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/0/b0d38fe3-42e3-4de9-89e2-b56e33ab1fa7.jpg?1637750991'),
+('fc89907c-84b7-4e2d-9b3b-58cdd68005a9', 'Bloodthirsty Adversary', 'Creature', '{R}', '{R}', 'Rare', 3.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/c/fc89907c-84b7-4e2d-9b3b-58cdd68005a9.jpg?1637750975', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/c/fc89907c-84b7-4e2d-9b3b-58cdd68005a9.jpg?1637750975'),
+('60133b5f-888d-49f3-9c8b-dad7e71dbdc9', 'Wedding Announcement', 'Artifact', '{C}', '{3}', 'Mythic', 15.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/0/60133b5f-888d-49f3-9c8b-dad7e71dbdc9.jpg?1637750978', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/0/60133b5f-888d-49f3-9c8b-dad7e71dbdc9.jpg?1637750978'),
+('344167b0-0383-4721-b1e2-2c98b7c5a591', 'Bloodline Culling', 'Instant', '{B}', '{2}{B}', 'Uncommon', 2.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/3/4/344167b0-0383-4721-b1e2-2c98b7c5a591.jpg?1637750973', 'https://c1.scryfall.com/file/scryfall-cards/small/front/3/4/344167b0-0383-4721-b1e2-2c98b7c5a591.jpg?1637750973'),
+('b4c4ac93-c48f-4f3b-a0a7-c22793bfe33a', 'Arlinn, the Pack’s Howl // Arlinn, the Moon’s Fury', 'Creature', '{R}{G}', '{2}{R}{G}', 'Mythic', 9.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/4/b4c4ac93-c48f-4f3b-a0a7-c22793bfe33a.jpg?1637750971', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/4/b4c4ac93-c48f-4f3b-a0a7-c22793bfe33a.jpg?1637750971'),
+('82f4a1f3-7ab6-4909-819f-1156b392ff6b', 'Sigarda’s Summons', 'Enchantment', '{G}', '{2}{G}', 'Rare', 7.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/8/2/82f4a1f3-7ab6-4909-819f-1156b392ff6b.jpg?1637750974', 'https://c1.scryfall.com/file/scryfall-cards/small/front/8/2/82f4a1f3-7ab6-4909-819f-1156b392ff6b.jpg?1637750974'),
+('db1b77ae-8041-4270-9d39-d0a1b2f3e221', 'Brides of Blood', 'Creature', '{B}', '{3}{B}', 'Uncommon', 3.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/b/db1b77ae-8041-4270-9d39-d0a1b2f3e221.jpg?1637750994', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/b/db1b77ae-8041-4270-9d39-d0a1b2f3e221.jpg?1637750994'),
+('68cb03fc-b97f-42b3-926f-8d563b99c8c5', 'Giza’s Revenge', 'Creature', '{G}', '{5}{G}', 'Rare', 8.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/8/68cb03fc-b97f-42b3-926f-8d563b99c8c5.jpg?1637750977', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/8/68cb03fc-b97f-42b3-926f-8d563b99c8c5.jpg?1637750977'),
+('bb62c663-8392-4a5b-beb7-971df37a746b', 'Unholy Efficient', 'Creature', '{B}', '{1}{B}', 'Uncommon', 2.50, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/b/bb62c663-8392-4a5b-beb7-971df37a746b.jpg?1637790447', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/b/bb62c663-8392-4a5b-beb7-971df37a746b.jpg?1637790447'),
+('da1ec28e-df85-4c2b-bc04-6ed456183978', 'Sorin, the Mournful', 'Planeswalker', '{B}{B}{B}', '{4}{B}', 'Mythic', 35.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/a/da1ec28e-df85-4c2b-bc04-6ed456183978.jpg?1637790446', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/a/da1ec28e-df85-4c2b-bc04-6ed456183978.jpg?1637790446'),
+('f167c289-075f-4fbb-b1cd-832603f8fae6', 'Riveteers Charm', 'Instant', '{B}', '{2}{B}', 'Rare', 3.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/1/f167c289-075f-4fbb-b1cd-832603f8fae6.jpg?1637790436', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/1/f167c289-075f-4fbb-b1cd-832603f8fae6.jpg?1637790436'),
+('d6b6315f-4ee6-4f47-a12c-967c37a98bbf', 'Tainted Shadows', 'Sorcery', '{G}', '{2}{G}', 'Uncommon', 4.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/6/d6b6315f-4ee6-4f47-a12c-967c37a98bbf.jpg?1637790467', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/6/d6b6315f-4ee6-4f47-a12c-967c37a98bbf.jpg?1637790467'),
+('5470eab6-d70b-473f-9e88-212baffd5f19', 'Hearts of Cursed Blood', 'Creature', '{B}{G}', '{3}{B}{G}', 'Rare', 10.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/4/5470eab6-d70b-473f-9e88-212baffd5f19.jpg?1637790472', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/4/5470eab6-d70b-473f-9e88-212baffd5f19.jpg?1637790472'),
+('701a33c9-4d38-4f31-bf2b-bd6d00db2a49', 'Coven of Death', 'Enchantment', '{B}', '{3}{B}', 'Rare', 6.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/0/701a33c9-4d38-4f31-bf2b-bd6d00db2a49.jpg?1637790490', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/0/701a33c9-4d38-4f31-bf2b-bd6d00db2a49.jpg?1637790490'),
+('b957c5ad-3a56-4a32-b3b8-5a20fa5a1c29', 'Gift of the Coven', 'Instant', '{B}', '{2}{B}', 'Uncommon', 2.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/9/b957c5ad-3a56-4a32-b3b8-5a20fa5a1c29.jpg?1637790484', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/9/b957c5ad-3a56-4a32-b3b8-5a20fa5a1c29.jpg?1637790484'),
+('69dbd07a-4666-4d6d-8bcf-9cb3d58c37fa', 'Profane Exclusion', 'Creature', '{R}', '{3}{R}', 'Rare', 5.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/9/69dbd07a-4666-4d6d-8bcf-9cb3d58c37fa.jpg?1637790495', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/9/69dbd07a-4666-4d6d-8bcf-9cb3d58c37fa.jpg?1637790495'),
+('d3990d32-90c0-4c38-b256-b9b97eab72f9', 'Eternal Mists', 'Sorcery', '{R}', '{3}{R}', 'Uncommon', 3.00, 'Innistrad: Crimson Vow', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/3/d3990d32-90c0-4c38-b256-b9b97eab72f9.jpg?1637790514', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/3/d3990d32-90c0-4c38-b256-b9b97eab72f9.jpg?1637790514'),
+('d8b1a3a3-5a2d-4123-9c4e-c4e5b0140e0a', 'The Wandering Emperor', 'Planeswalker', '{W}', '{2}{W}{W}', 'Mythic', 35.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/8/d8b1a3a3-5a2d-4123-9c4e-c4e5b0140e0a.jpg?1645089922', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/8/d8b1a3a3-5a2d-4123-9c4e-c4e5b0140e0a.jpg?1645089922'),
+('b5de7d29-04cf-4094-b6ff-f21cd5a45c68', 'Kumano, Faces of Kiri-Onna', 'Creature', '{R}{R}', '{1}{R}{R}', 'Rare', 6.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/5/b5de7d29-04cf-4094-b6ff-f21cd5a45c68.jpg?1645089933', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/5/b5de7d29-04cf-4094-b6ff-f21cd5a45c68.jpg?1645089933'),
+('3c663da3-0b5a-49ad-a013-fb071f91f0e0', 'Elder Dragon War', 'Sorcery', '{R}', '{3}{R}{R}', 'Rare', 7.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/3/c/3c663da3-0b5a-49ad-a013-fb071f91f0e0.jpg?1645089946', 'https://c1.scryfall.com/file/scryfall-cards/small/front/3/c/3c663da3-0b5a-49ad-a013-fb071f91f0e0.jpg?1645089946'),
+('674190d7-bde5-470f-8ff6-d34c9d9d86f7', 'Tempered in Solitude', 'Creature', '{W}', '{1}{W}', 'Uncommon', 2.50, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/7/674190d7-bde5-470f-8ff6-d34c9d9d86f7.jpg?1645089939', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/7/674190d7-bde5-470f-8ff6-d34c9d9d86f7.jpg?1645089939'),
+('a3de7f02-8539-4fa7-b67f-1b6e87dfcf8d', 'Invoke the Ancients', 'Sorcery', '{G}', '{4}{G}{G}', 'Rare', 5.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/a/3/a3de7f02-8539-4fa7-b67f-1b6e87dfcf8d.jpg?1645089932', 'https://c1.scryfall.com/file/scryfall-cards/small/front/a/3/a3de7f02-8539-4fa7-b67f-1b6e87dfcf8d.jpg?1645089932'),
+('d5bbdeff-47f5-4d17-9ca0-4721ed35ad7a', 'Azusa"s Many Journeys', 'Creature', '{G}', '{2}{G}{G}', 'Rare', 8.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/5/d5bbdeff-47f5-4d17-9ca0-4721ed35ad7a.jpg?1645089927', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/5/d5bbdeff-47f5-4d17-9ca0-4721ed35ad7a.jpg?1645089927'),
+('fb451ca4-1f74-4d2e-8e74-b542d82b54ad', 'Tempered Spirit', 'Creature', '{W}', '{1}{W}', 'Uncommon', 3.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/b/fb451ca4-1f74-4d2e-8e74-b542d82b54ad.jpg?1645089920', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/b/fb451ca4-1f74-4d2e-8e74-b542d82b54ad.jpg?1645089920'),
+('d9c0d0a2-6870-4d18-b2ea-96329dfe68f3', 'Aether Channeler', 'Creature', '{U}', '{1}{U}', 'Rare', 4.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/9/d9c0d0a2-6870-4d18-b2ea-96329dfe68f3.jpg?1645089944', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/9/d9c0d0a2-6870-4d18-b2ea-96329dfe68f3.jpg?1645089944'),
+('5e10c149-9e1c-432f-b95e-9b41a23e9c42', 'Shattered Control', 'Artifact', '{U}', '{2}{U}', 'Uncommon', 2.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/e/5e10c149-9e1c-432f-b95e-9b41a23e9c42.jpg?1645089934', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/e/5e10c149-9e1c-432f-b95e-9b41a23e9c42.jpg?1645089934'),
+('ef7ed957-290f-4ecf-b8c9-e34d5a69a4f9', 'Kaito Shizuki', 'Planeswalker', '{U}{B}', '{1}{U}{B}', 'Mythic', 30.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/f/ef7ed957-290f-4ecf-b8c9-e34d5a69a4f9.jpg?1645089866', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/f/ef7ed957-290f-4ecf-b8c9-e34d5a69a4f9.jpg?1645089866'),
+('5e7a3e26-c058-46bc-bb39-baf623b063b7', 'Fable of the Mirror-Breaker', 'Enchantment', '{R}', '{2}{R}', 'Rare', 12.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/5/e/5e7a3e26-c058-46bc-bb39-baf623b063b7.jpg?1645089819', 'https://c1.scryfall.com/file/scryfall-cards/small/front/5/e/5e7a3e26-c058-46bc-bb39-baf623b063b7.jpg?1645089819'),
+('d91d7055-ef93-452d-baf4-9d8cb3179336', 'Sunblade Samurai', 'Creature', '{W}', '{1}{W}', 'Uncommon', 3.50, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/d/9/d91d7055-ef93-452d-baf4-9d8cb3179336.jpg?1645089882', 'https://c1.scryfall.com/file/scryfall-cards/small/front/d/9/d91d7055-ef93-452d-baf4-9d8cb3179336.jpg?1645089882'),
+('b9291831-558f-45b0-bd7b-ff95124e205b', 'Experimental Synthesizer', 'Artifact', '{R}', '{1}{R}', 'Uncommon', 4.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/9/b9291831-558f-45b0-bd7b-ff95124e205b.jpg?1645089823', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/9/b9291831-558f-45b0-bd7b-ff95124e205b.jpg?1645089823'),
+('149f99b4-bf77-40a6-b3a2-75c07b95da43', 'Heir of the Ancient Fang', 'Creature', '{G}', '{3}{G}', 'Uncommon', 5.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/1/4/149f99b4-bf77-40a6-b3a2-75c07b95da43.jpg?1645089831', 'https://c1.scryfall.com/file/scryfall-cards/small/front/1/4/149f99b4-bf77-40a6-b3a2-75c07b95da43.jpg?1645089831'),
+('039c4cfc-94db-4316-a2a5-35e5280592a7', 'Tales of the Ancients', 'Sorcery', '{G}', '{3}{G}{G}', 'Rare', 8.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/0/3/039c4cfc-94db-4316-a2a5-35e5280592a7.jpg?1645089855', 'https://c1.scryfall.com/file/scryfall-cards/small/front/0/3/039c4cfc-94db-4316-a2a5-35e5280592a7.jpg?1645089855'),
+('9133d61d-c777-44ca-b1a9-bf77ac8133c4', 'Reckless Stormseeker', 'Creature', '{R}', '{2}{R}', 'Rare', 7.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/1/9133d61d-c777-44ca-b1a9-bf77ac8133c4.jpg?1645089804', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/1/9133d61d-c777-44ca-b1a9-bf77ac8133c4.jpg?1645089804'),
+('2ccf58d5-d6f7-43f4-bba1-e9a0f9a90663', 'Aerialist, the Silent Blade', 'Creature', '{U}', '{3}{U}', 'Uncommon', 4.50, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/2/c/2ccf58d5-d6f7-43f4-bba1-e9a0f9a90663.jpg?1645089862', 'https://c1.scryfall.com/file/scryfall-cards/small/front/2/c/2ccf58d5-d6f7-43f4-bba1-e9a0f9a90663.jpg?1645089862'),
+('c42f9ae4-8d77-4321-a6e3-032587ed2fa6', 'Bounteous Harvest', 'Sorcery', '{G}', '{4}{G}', 'Uncommon', 5.00, 'Neon Dynasty', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/4/c42f9ae4-8d77-4321-a6e3-032587ed2fa6.jpg?1645089843', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/4/c42f9ae4-8d77-4321-a6e3-032587ed2fa6.jpg?1645089843');
 
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('9bb2795d-1225-47b8-9571-ddb7ed06f47d', 'Ancestral Recall', 'Instant', 'Blue', '{U}', 'Rare', 400.00, 'Revised Edition', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/9/b/9bb2795d-1225-47b8-9571-ddb7ed06f47d.jpg?1595590767', 'https://c1.scryfall.com/file/scryfall-cards/small/front/9/b/9bb2795d-1225-47b8-9571-ddb7ed06f47d.jpg?1595590767');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('c83653f9-441d-490b-8dff-f8a39c9f88ad', 'Black Lotus', 'Artifact', 'Colorless', '{0}', 'Rare', 25000.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/c/8/c83653f9-441d-490b-8dff-f8a39c9f88ad.jpg?1595590767', 'https://c1.scryfall.com/file/scryfall-cards/small/front/c/8/c83653f9-441d-490b-8dff-f8a39c9f88ad.jpg?1595590767');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('e3135b4e-2273-4c98-ae3b-1f3a3d9e1f6d', 'Shivan Dragon', 'Creature', 'Red', '{4}{R}{R}', 'Rare', 10.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/3/e3135b4e-2273-4c98-ae3b-1f3a3d9e1f6d.jpg?1595590782', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/3/e3135b4e-2273-4c98-ae3b-1f3a3d9e1f6d.jpg?1595590782');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('f4fa1ff9-ea91-4c78-9d44-7cd0f4b3e149', 'Serra Angel', 'Creature', 'White', '{3}{W}{W}', 'Uncommon', 5.00, 'Revised Edition', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/4/f4fa1ff9-ea91-4c78-9d44-7cd0f4b3e149.jpg?1595590789', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/4/f4fa1ff9-ea91-4c78-9d44-7cd0f4b3e149.jpg?1595590789');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('14fb8a6a-c82b-4d57-89be-9f697f24f71e', 'Lightning Bolt', 'Instant', 'Red', '{R}', 'Common', 0.10, 'Core Set 2010', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/1/4/14fb8a6a-c82b-4d57-89be-9f697f24f71e.jpg?1595590844', 'https://c1.scryfall.com/file/scryfall-cards/small/front/1/4/14fb8a6a-c82b-4d57-89be-9f697f24f71e.jpg?1595590844');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('bbbe12bc-cb95-4b1e-a15a-5ff10c343555', 'Forest', 'Basic Land', 'Green', '', 'Common', 0.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/b/b/bbbe12bc-cb95-4b1e-a15a-5ff10c343555.jpg?1595590760', 'https://c1.scryfall.com/file/scryfall-cards/small/front/b/b/bbbe12bc-cb95-4b1e-a15a-5ff10c343555.jpg?1595590760');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('68a2c535-9df8-4b12-b4b0-66d66c6978f1', 'Thoughtseize', 'Sorcery', 'Black', '{B}{B}', 'Rare', 20.00, 'Lorwyn', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/6/8/68a2c535-9df8-4b12-b4b0-66d66c6978f1.jpg?1595590810', 'https://c1.scryfall.com/file/scryfall-cards/small/front/6/8/68a2c535-9df8-4b12-b4b0-66d66c6978f1.jpg?1595590810');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('ff1fdc3b-1b8f-4f5d-9b7d-16f7e50421d4', 'Tarmogoyf', 'Creature', 'Green', '{1}{G}', 'Mythic', 100.00, 'Future Sight', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/f/ff1fdc3b-1b8f-4f5d-9b7d-16f7e50421d4.jpg?1595590797', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/f/ff1fdc3b-1b8f-4f5d-9b7d-16f7e50421d4.jpg?1595590797');
-INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url)
-VALUES
-('74df4ad5-4396-4723-b07c-f24b3e7f1535', 'Mox Jet', 'Artifact', 'Black', '{0}', 'Rare', 5000.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/7/4/74df4ad5-4396-4723-b07c-f24b3e7f1535.jpg?1595590791', 'https://c1.scryfall.com/file/scryfall-cards/small/front/7/4/74df4ad5-4396-4723-b07c-f24b3e7f1535.jpg?1595590791');
 
+INSERT INTO cards_collections (card_id, collection_id, quantity)
+VALUES
+--Inserting cards into Robert Downey Jr Collection
+('fb451ca4-1f74-4d2e-8e74-b542d82b54ad', 3, 5),
+('039c4cfc-94db-4316-a2a5-35e5280592a7', 3, 2),
+('efcd59db-22a2-4ec7-9005-d8b648595129', 3, 2),
+('f3d75a43-f3cb-48c9-9bcf-314974819cc4', 3, 8),
+('b9c2e139-75a6-4868-b94f-5a0273149136', 3, 18),
+('0a764ec9-6a30-4df3-91b4-c64fd8e32fa0', 3, 4),
+('53f1cf67-5377-4170-b907-98c3b9f7d6ff', 3, 4),
+('b5de7d29-04cf-4094-b6ff-f21cd5a45c68', 3, 12,
+('f24413b7-bff6-417f-a775-80d8c0a576de', 3, 9),
+('dfe5a97e-bd68-4968-8b36-3f40b81b0fbc', 3, 6),
+('7630cfc5-0842-4bfc-b7de-c688f3b95fc9', 3, 7),
+('b3d0a35b-b51a-4e42-8661-625e9fc6f48a', 3, 8),
+('426b6501-e503-4c56-82e4-17f9eb1f1b77', 3, 4),
+('b3d604f5-8f89-4ea0-bbdf-5f3cb75690a2', 3, 3),
+('60e2f963-b983-4d02-8d82-2f9447c1ca99', 3, 3),
+('e6f7576b-3cc6-44b1-8fc6-39e232440973', 3, 5)
+
+--Insering cards into Scarlett Johansson Collection
+('c42f9ae4-8d77-4321-a6e3-032587ed2fa6', 4, 12),
+('2ccf58d5-d6f7-43f4-bba1-e9a0f9a90663', 4, 9),
+('d6b6315f-4ee6-4f47-a12c-967c37a98bbf', 4, 9),
+('fc89907c-84b7-4e2d-9b3b-58cdd68005a9', 4, 6),
+('ac87cd23-2b57-44f2-b15e-cc081d6e6f0f', 4, 4),
+('9b8bca47-0221-4e1b-8765-8b8bfb69fe17', 4, 19),
+('bb62c663-8392-4a5b-beb7-971df37a746b', 4, 13),
+('ea56448a-c265-409d-8b53-b2fbc6972f37', 4, 4),
+('d5bbdeff-47f5-4d17-9ca0-4721ed35ad7a', 4, 5),
+('60133b5f-888d-49f3-9c8b-dad7e71dbdc9', 4, 3),
+('2b0d4f65-b7d7-450b-bcb7-d60a3c6d60ea', 4, 2),
+('c74deca3-7346-4b38-bd57-e9b9278d8fbb', 4, 1),
+('58d36d4b-4040-4e5b-b290-e8d57c96bca6', 4, 6),
+('efcd59db-22a2-4ec7-9005-d8b648595129', 4, 11),
+('b957c5ad-3a56-4a32-b3b8-5a20fa5a1c29', 4, 4),
+('fa688c23-b847-4c85-b0e1-d12fe4d8b422', 4, 5)
+
+--Inserting cards into Chris Hemsworth Collection
+('ac87cd23-2b57-44f2-b15e-cc081d6e6f0f', 5, 14),
+('a5648ad4-0730-4443-9fa4-94d9575fe1ae', 5, 5),
+('ae9e0de2-7de0-45fb-b263-b0e8a2f3e0e5', 5, 4),
+('db1b77ae-8041-4270-9d39-d0a1b2f3e221', 5, 2),
+('5ffb9260-d983-44da-9d89-bb2e2b6ef32e', 5, 9),
+('6a4f5157-5ea5-4041-94ad-8e6970e28b17', 5, 17),
+('25d864d3-f1cd-4664-97e9-1b142ff349ec', 5, 17),
+('c498a276-e4cf-45ae-8b9f-21f4d30c028b', 5, 2),
+('f4f45113-b2a0-41f9-bbd3-b9e2e26fe7a6', 5, 4),
+('ac87cd23-2b57-44f2-b15e-cc081d6e6f0f', 5, 9),
+('b423bb5a-eaac-4c1d-981a-1c635001fc5a', 5, 13),
+('d2c9b12f-dfdb-4316-b0a5-6b7b9d7a337d', 5, 8),
+('7d38f6d1-6d2b-4d9c-8e84-d2ac6e1b70f7', 5, 7),
+('701a33c9-4d38-4f31-bf2b-bd6d00db2a49', 5, 4),
+('d59c49d2-9e74-44c0-9e02-37d6be63ae59', 5, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 5, 5)
+
+--Inserting cards into Tom Holland Collection
+('d2c9b12f-dfdb-4316-b0a5-6b7b9d7a337d', 6, 4),
+('7361cc26-c9ad-40b4-9f73-05905e124d91', 6, 5),
+('fddf6a5c-bfae-442d-b4cc-f72e1d9d2443', 6, 5),
+('4a5125b9-4e63-47f7-b541-4f61540a9297', 6, 5),
+('1f8a216b-4e3e-4633-bd64-8fddf064dbba', 6, 19),
+('d679a036-b49e-4936-93e0-1c6c6b8cbacb', 6, 21),
+('5645ed42-dc4e-433a-b48f-3076c234c370', 6, 13),
+('4e53f743-b268-4de1-80bb-bb4187de9ca9', 6, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 6, 9),
+('ae9e0de2-7de0-45fb-b263-b0e8a2f3e0e5', 6, 10),
+('09bda1cf-9e4b-4fa3-a6e3-7a00ca251b7e', 6, 2),
+('e6f7576b-3cc6-44b1-8fc6-39e232440973', 6, 2),
+('da1ec28e-df85-4c2b-bc04-6ed456183978', 6, 3),
+('7f7fc798-e82c-4a61-91b1-30e383535c92', 6, 1),
+('d7b9a5c0-72fa-4cd2-bb2d-58c2c688989b', 6, 8),
+('dfe5a97e-bd68-4968-8b36-3f40b81b0fbc', 6, 4)
+
+--Inserting cards into Natalie Portman Collection
+('b9c2e139-75a6-4868-b94f-5a0273149136', 7, 4),
+('1d7c9d93-dc01-44d4-a764-b450cfb927f1', 7, 4),
+('c7a56c8a-d87a-49bb-85a4-48a54071260d', 7, 13),
+('fb451ca4-1f74-4d2e-8e74-b542d82b54ad', 7, 12),
+('dfe5a97e-bd68-4968-8b36-3f40b81b0fbc', 7, 20),
+('a3de7f02-8539-4fa7-b67f-1b6e87dfcf8d', 7, 8),
+('9be33827-2d95-4d34-9c04-6631047a69f1', 7, 9),
+('7203e96e-6c95-45be-9c60-855b6a24b36e', 7, 6),
+('5ced2118-dfb3-4f29-ad6b-454c0a8a094b', 7, 5),
+('d679a036-b49e-4936-93e0-1c6c6b8cbacb', 7, 5),
+('3e3f0d7a-b2e3-4b1d-830e-e1ecf56c6848', 7, 7),
+('2b0d4f65-b7d7-450b-bcb7-d60a3c6d60ea', 7, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 7, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 7, 11),
+('087c13b7-1641-4902-b595-f730068e33cc', 7, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 7, 6)
+
+--Inserting cards into Chris Evans Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 6),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 7),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 4),
+('1fd2b6a7-b93a-42d3-b66a-a70b573fc58a', 8, 22),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 18),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 26),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 8, 14)
+
+--Inserting cards into Austin Post Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 9, 5),
+('98dea71b-2778-4374-8ea2-7fa82f0f6110', 9, 4);
+('c42f9ae4-8d77-4321-a6e3-032587ed2fa6', 9, 5),
+('9133d61d-c777-44ca-b1a9-bf77ac8133c4', 9, 14);
+('5e7a3e26-c058-46bc-bb39-baf623b063b7', 9, 2),
+('b5de7d29-04cf-4094-b6ff-f21cd5a45c68', 9, 20);
+('60133b5f-888d-49f3-9c8b-dad7e71dbdc9', 9, 16),
+('6a4f5157-5ea5-4041-94ad-8e6970e28b17', 9, 9);
+('7f7fc798-e82c-4a61-91b1-30e383535c92', 9, 3),
+('fa688c23-b847-4c85-b0e1-d12fe4d8b422', 9, 4);
+('e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977', 9, 10),
+('f22a704f-b45a-4a3b-8250-fb170db76324', 9, 3);
+('f22a704f-b45a-4a3b-8250-fb170db76324', 9, 1),
+('b9e6c702-28a4-47ff-bcb7-0d02955627a1', 9, 8);
+('f3218e9b-e413-488f-b65c-206e58b0b68a', 9, 12),
+('f3d75a43-f3cb-48c9-9bcf-314974819cc4', 9, 6);
+
+--Inserting cards into Emma Watson Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 13),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 3),
+('95b3cb2b-8e4f-47f4-92e5-b68d8b4fd60a', 10, 25),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 15),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 10),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 10),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 10, 8)
+
+--Inserting cards into Will Smith Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 6),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 7),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 10),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 11),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 12),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 13),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 14),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 15),
+('087c13b7-1641-4902-b595-f730068e33cc', 11, 16)
+
+--Inserting cards into Johnny Depp Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 20),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 12),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 6),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 12, 1)
+
+--Inserting cards into Seth Green Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 2),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 10),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 6),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 13),
+('087c13b7-1641-4902-b595-f730068e33cc', 13, 13)
+
+--Inserting cards into Jason Alexander Collection
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 1),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 16),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 9),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 8),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 5),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 4),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 3),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 3),
+('63caa4c4-b18f-4c96-8150-b6d0b7edc6b7', 14, 20),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 14),
+('087c13b7-1641-4902-b595-f730068e33cc', 14, 12)
 COMMIT TRANSACTION;
