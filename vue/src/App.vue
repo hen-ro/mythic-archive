@@ -59,7 +59,7 @@ export default {
 },
 };
 </script>
-<style>
+<style scoped>
 .nav-item,
 .nav-item:visited,
 #header {

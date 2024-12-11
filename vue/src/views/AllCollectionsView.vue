@@ -64,7 +64,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .collection-container {
   display: flex;
   margin: auto;
