@@ -26,6 +26,7 @@ public class JdbcCardDao implements CardDao{
         UUID cardId = UUID.fromString(cardIdString);
         card.setCardId(cardId);
         card.setCardName(rs.getString("card_name"));
+        card.setCardColor(rs.getString("card_color"));
         card.setCardType(rs.getString("card_type"));
         card.setManaCost(rs.getString("mana_cost"));
         card.setRarity(rs.getString("rarity"));
@@ -90,11 +91,11 @@ public class JdbcCardDao implements CardDao{
     @Override
     public Card createNewCard(Card card) {
         Card newCard = null;
-        String cardSql = "INSERT INTO public.cards(card_id, card_name, card_type, mana_cost," +
+        String cardSql = "INSERT INTO public.cards(card_id, card_name, card_color, card_type, mana_cost," +
                 " rarity, price, set_name, image_url, thumbnail_url)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING card_id";
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING card_id";
         try {
-            UUID newCardId = jdbcTemplate.queryForObject(cardSql, UUID.class, card.getCardId(), card.getCardName(), card.getCardType(), card.getManaCost(),
+            UUID newCardId = jdbcTemplate.queryForObject(cardSql, UUID.class, card.getCardId(), card.getCardName(), card.getCardColor(), card.getCardType(), card.getManaCost(),
                                                         card.getRarity(), card.getPrice(), card.getSetName(), card.getImageUrl(), card.getThumbnailUrl());
             newCard = getCardById(newCardId);
         } catch (CannotGetJdbcConnectionException e) {

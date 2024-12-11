@@ -8,6 +8,7 @@ public class Card {
     private UUID cardId;
     private String cardName;
     private String cardType;
+    private String cardColor;
     private String manaCost;
     private String rarity;
     private BigDecimal price;
@@ -15,11 +16,11 @@ public class Card {
     private String imageUrl;
     private String thumbnailUrl;
 
-    public Card(UUID cardId, String cardName, String cardType, String manaCost, String rarity,
-                BigDecimal price, String setName, String imageUrl, String thumbnailUrl) {
+    public Card(UUID cardId, String cardName, String cardType, String cardColor, String manaCost, String rarity, BigDecimal price, String setName, String imageUrl, String thumbnailUrl) {
         this.cardId = cardId;
         this.cardName = cardName;
         this.cardType = cardType;
+        this.cardColor = cardColor;
         this.manaCost = manaCost;
         this.rarity = rarity;
         this.price = price;
@@ -80,5 +81,13 @@ public class Card {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public String getCardColor() {
+        return cardColor;
+    }
+
+    public void setCardColor(String cardColor) {
+        this.cardColor = cardColor;
     }
 }
