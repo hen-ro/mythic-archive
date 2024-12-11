@@ -9,42 +9,42 @@ BEGIN TRANSACTION;
 --ON CONFLICT (username) DO NOTHING;
 
 -- Users table
-INSERT INTO users (user_id, username, email, password_hash, role) VALUES
-(1, 'user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
-(2, 'admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
-(3, 'RobertDowneyJr', 'rdowneyjr@example.com', 'hashed_password_1', 'admin'),
-(4, 'ScarlettJohansson', 'sjohansson@example.com', 'hashed_password_2', 'user'),
-(5, 'ChrisHemsworth', 'chemsworth@example.com', 'hashed_password_3', 'user'),
-(6, 'TomHolland', 'tholland@example.com', 'hashed_password_4', 'user'),
-(7, 'NataliePortman', 'nportman@example.com', 'hashed_password_5', 'user'),
-(8, 'ChrisEvans', 'cevans@example.com', 'hashed_password_6', 'user'),
-(9, 'AustinPost', 'apost@example.com', 'hashed_password_7', 'user'),
-(10, 'EmmaWatson', 'ewatson@example.com', 'hashed_password_8', 'user'),
-(11, 'WillSmith', 'wsmith@example.com', 'hashed_password_9', 'user'),
-(12, 'JohnnyDepp', 'jdepp@example.com', 'hashed_password_10', 'user'),
-(13, 'SethGreen', 'ajolie@example.com', 'hashed_password_11', 'user'),
-(14, 'JasonAlexander', 'jalexander@example.com', 'hashed_password_12', 'user');
+INSERT INTO users (username, email, password_hash, role) VALUES
+('user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
+('admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
+('RobertDowneyJr', 'rdowneyjr@example.com', 'hashed_password_1', 'ROLE_ADMIN'),
+('ScarlettJohansson', 'sjohansson@example.com', 'hashed_password_2', 'ROLE_USER'),
+('ChrisHemsworth', 'chemsworth@example.com', 'hashed_password_3', 'ROLE_USER'),
+('TomHolland', 'tholland@example.com', 'hashed_password_4', 'ROLE_USER'),
+('NataliePortman', 'nportman@example.com', 'hashed_password_5', 'ROLE_USER'),
+('ChrisEvans', 'cevans@example.com', 'hashed_password_6', 'ROLE_USER'),
+('AustinPost', 'apost@example.com', 'hashed_password_7', 'ROLE_USER'),
+('EmmaWatson', 'ewatson@example.com', 'hashed_password_8', 'ROLE_USER'),
+('WillSmith', 'wsmith@example.com', 'hashed_password_9', 'ROLE_USER'),
+('JohnnyDepp', 'jdepp@example.com', 'hashed_password_10', 'ROLE_USER'),
+('SethGreen', 'ajolie@example.com', 'hashed_password_11', 'ROLE_USER'),
+('JasonAlexander', 'jalexander@example.com', 'hashed_password_12', 'ROLE_USER');
 
 --INSERT INTO collections(collection_name, user_id, is_public) VALUES
 --('user''s Collection', 1, false);
 --('admin''s Collection', 2, true);
 
 -- Collections table
-INSERT INTO collections (collection_id, collection_name, user_id, is_public, thumbnail_url) VALUES
-(1, 'user''s Collection', 1, false, 'images/CardBack.jpg'),
-(2, 'admin''s Collection', 2, true, 'images/CardBack.jpg'),
-(3, 'Robert Downey Jr''s Collection', 3, FALSE, 'images/CardBack.jpg'),
-(4, 'Scarlett Johansson''s Collection', 4, FALSE, 'images/CardBack.jpg'),
-(5, 'Chris Hemsworth''s Collection', 5, TRUE, 'images/CardBack.jpg'),
-(6, 'Tom Holland''s Collection', 6, FALSE, 'images/CardBack.jpg'),
-(7, 'Natalie Portman''s Collection', 7, TRUE, 'images/CardBack.jpg'),
-(8, 'Chris Evans Collection', 8, FALSE, 'images/CardBack.jpg'),
-(9, 'Austin Post''s Collection', 9, TRUE, 'images/CardBack.jpg'),
-(10, 'Emma Watson''s Collection', 10, FALSE, 'images/CardBack.jpg'),
-(11, 'Will Smith''s Collection', 11, TRUE, 'images/CardBack.jpg'),
-(12, 'Johnny Depp''s Collection', 12, FALSE, 'images/CardBack.jpg'),
-(13, 'Seth Green''s Collection', 13, TRUE, 'images/CardBack.jpg'),
-(14, 'Jason Alexander''s Collection', 14, FALSE, 'images/CardBack.jpg');
+INSERT INTO collections (collection_name, user_id, is_public, thumbnail_url) VALUES
+('user''s Collection', 1, false, 'images/CardBack.jpg'),
+('admin''s Collection', 2, true, 'images/CardBack.jpg'),
+('Robert Downey Jr''s Collection', 3, FALSE, 'images/CardBack.jpg'),
+('Scarlett Johansson''s Collection', 4, FALSE, 'images/CardBack.jpg'),
+('Chris Hemsworth''s Collection', 5, TRUE, 'images/CardBack.jpg'),
+('Tom Holland''s Collection', 6, FALSE, 'images/CardBack.jpg'),
+('Natalie Portman''s Collection', 7, TRUE, 'images/CardBack.jpg'),
+('Chris Evans Collection', 8, FALSE, 'images/CardBack.jpg'),
+('Austin Post''s Collection', 9, TRUE, 'images/CardBack.jpg'),
+('Emma Watson''s Collection', 10, FALSE, 'images/CardBack.jpg'),
+('Will Smith''s Collection', 11, TRUE, 'images/CardBack.jpg'),
+('Johnny Depp''s Collection', 12, FALSE, 'images/CardBack.jpg'),
+('Seth Green''s Collection', 13, TRUE, 'images/CardBack.jpg'),
+('Jason Alexander''s Collection', 14, FALSE, 'images/CardBack.jpg');
 
 
 INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url) VALUES
