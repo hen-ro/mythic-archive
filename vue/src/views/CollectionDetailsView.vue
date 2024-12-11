@@ -27,6 +27,7 @@
       </div>
     </div>
     <!-- This is temporary and not right  -->
+    <!-- <div class="aside-container"> -->
     <aside class="scrollable-aside">
     <div class="collection-stats">Collection Statistics</div>
     <div class="stats-row">
@@ -69,15 +70,14 @@
     </div>
   </aside>
     <!-- This is temporary and not right  -->
-
-  <aside class="scrollable-aside-decks">
+  <!-- <aside class="scrollable-aside">
   <h3>Decks</h3>
   <ul>
     <li>
-      {{ Deck }}
     </li>
   </ul>
   </aside>
+  </div> -->
 
     <div class="card-container-search" v-if="this.displayedCards.length > 0">
       <div
@@ -291,7 +291,5 @@ export default {
 .scrollable-aside li:last-child {
   border-bottom: none; /* Remove underline for the last item */
 }
-
-
 
 </style>
