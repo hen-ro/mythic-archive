@@ -16,8 +16,31 @@
 
         <div class="details-container">
             <div class="details-header">
-                <h1>{{ card.name }}</h1>
-                <!-- <button @click="closeDetails">Close</button> -->
+                    <h1>{{ card.name }}</h1>
+                </div>
+            <div class="stat-container">
+                
+                <div class="stat">
+                    <h3>Set</h3>
+                    <span>{{ card.set_name }}</span>
+                </div>
+                <div class="stat">
+                    <h3>Type</h3>
+                    <span>{{ card.type_line }}</span>
+                </div>
+                <div class="stat">
+                    <h3>Flavor Text</h3>
+                    <span>{{ card.oracle_text }}</span>
+                </div>
+                <div class="stat">
+                    <h3>Flavor Text</h3>
+                    <span>{{ card.flavor_text || "No Flavor Text" }}</span>
+                </div>
+                <div class="stat">
+                    <h3>Mana Cost</h3>
+                    <span>{{ card.mana_cost}}</span>
+                    <img src="\images\MTGMana\{0}.svg">
+                </div>
             </div>
             <div class="format-container">
                 <div v-for="(status, format) in card.legalities" :key="format"
@@ -31,6 +54,7 @@
 
 <script>
 import SearchService from "../services/SearchService";
+import CollectionService from "../services/CollectionService";
 
 
 export default {
@@ -38,6 +62,7 @@ export default {
     data() {
         return {
             card: {},
+            cardCount: "test"
         };
     },
     methods: {
@@ -51,6 +76,11 @@ export default {
             this.card = response.data;
             console.log(response.data)
         });
+        CollectionService.getCardsInCollection(this.$route.params.id)
+            .then((response) => {
+                console.log(response.data);
+                this.cardCount = response.data;
+            })
     }
 };
 </script>
@@ -69,9 +99,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 90%;
     margin: 0;
+    gap:15px;
 }
 
 .card-container {
@@ -85,7 +116,7 @@ export default {
     width: 60%;
     max-width: 1100px;
     border: 2px solid var(--onyx);
-    height: 700px;
+    height: auto;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
@@ -115,6 +146,11 @@ export default {
     border-radius: 5px;
     background-color: var(--perry);
     color: var(--platinum);
+    opacity: 0.6;
+}
+
+.plus-minus:hover {
+    opacity: 1;
 }
 
 .card-price {
@@ -129,23 +165,23 @@ export default {
 }
 
 .format-container {
-    height: auto; 
+    height: auto;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px; 
+    gap: 5px;
     justify-content: flex-start;
-    align-items: flex-start; 
-    width:95%;
+    align-items: flex-start;
+    width: 95%;
     margin-bottom: 10px
 }
 
 .legality {
     padding: 10px;
-    height:30px;
+    height: 30px;
     border-radius: 10px;
     display: flex;
     align-items: center;
-    
+
 }
 
 .legal {
@@ -154,5 +190,41 @@ export default {
 
 .not-legal {
     background-color: rgb(192, 120, 120);
+}
+
+h3 {
+    margin: 0;
+}
+
+.stat {
+    display: inline-flex; 
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: center;
+    background-color: var(--platinum);
+    border-radius: 8px;
+    padding: 15px;
+    gap: 5px; 
+    width: 25%; 
+    height: auto; 
+    max-width: 400px;
+}
+
+.stat-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between; 
+    align-items: flex-start;
+    height: 60%;
+    flex-wrap: wrap;
+    max-width: 90%;
+}
+
+@media (max-width: 768px) {
+    .details-container{
+        width: 90%;
+        min-width: 0;
+    }
 }
 </style>
