@@ -42,10 +42,12 @@ export default {
     setCollectionPrivate(id) {
         return http.put(`http://localhost:9000/collections/${id}/set-private`);
     },
+    
     renameCollection(id, collectionName) {
         console.log(collectionName);
         return http.put(`http://localhost:9000/collections/${id}/rename?collectionName=${collectionName}`);
     },
+
     getCollectionStats(id) {
         return http.get(`http://localhost:9000/collections/${id}/stats`);
     }
