@@ -70,7 +70,16 @@
   </aside>
     <!-- This is temporary and not right  -->
 
-    <div class="card-container" v-if="this.displayedCards.length > 0">
+  <aside class="scrollable-aside-decks">
+  <h3>Decks</h3>
+  <ul>
+    <li>
+      {{ Deck }}
+    </li>
+  </ul>
+  </aside>
+
+    <div class="card-container-search" v-if="this.displayedCards.length > 0">
       <div
         class="card"
         v-for="card in this.displayedCards"
@@ -241,12 +250,48 @@ export default {
 }
 .collection-stats {
   color: var(--onyx);
-  margin: 50px;
+  margin: 10px;
 }
 .stat-item {
   color: var(--onyx);
   margin: 50px;
 }
+
+.scrollable-aside {
+  margin: 50px;
+  width: 400px; /* Set a fixed width */
+  height: 50px; /* Set a fixed height to enable scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid var(--platinum); /* Add a border for clarity */
+  padding: 15px; /* Add some padding for spacing */
+  background-color: #9ecec4; /* Light background for better readability */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for aesthetics */
+  border-radius: 8px; /* Optional: rounded corners */
+}
+
+.scrollable-aside h3 {
+  margin-top: 0; /* Remove default margin from heading */
+  font-size: 1.2rem; /* Adjust font size */
+  color: #333; /* Text color */
+}
+
+.scrollable-aside ul {
+  list-style-type: none; /* Remove default bullets */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.scrollable-aside li {
+  padding: 2px 0; /* Add spacing between items */
+  color: var(--onyx); /* Item text color */
+  font-size: 1rem; /* Font size */
+  border-bottom: 1px solid var(--platinum); /* Optional: underline each item */
+}
+
+.scrollable-aside li:last-child {
+  border-bottom: none; /* Remove underline for the last item */
+}
+
 
 
 </style>
