@@ -12,18 +12,18 @@ BEGIN TRANSACTION;
 INSERT INTO users (username, email, password_hash, role) VALUES
 ('user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
 ('admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
-('RobertDowneyJr', 'rdowneyjr@example.com', 'hashed_password_1', 'ROLE_ADMIN'),
-('ScarlettJohansson', 'sjohansson@example.com', 'hashed_password_2', 'ROLE_USER'),
-('ChrisHemsworth', 'chemsworth@example.com', 'hashed_password_3', 'ROLE_USER'),
-('TomHolland', 'tholland@example.com', 'hashed_password_4', 'ROLE_USER'),
-('NataliePortman', 'nportman@example.com', 'hashed_password_5', 'ROLE_USER'),
-('ChrisEvans', 'cevans@example.com', 'hashed_password_6', 'ROLE_USER'),
-('AustinPost', 'apost@example.com', 'hashed_password_7', 'ROLE_USER'),
-('EmmaWatson', 'ewatson@example.com', 'hashed_password_8', 'ROLE_USER'),
-('WillSmith', 'wsmith@example.com', 'hashed_password_9', 'ROLE_USER'),
-('JohnnyDepp', 'jdepp@example.com', 'hashed_password_10', 'ROLE_USER'),
-('SethGreen', 'ajolie@example.com', 'hashed_password_11', 'ROLE_USER'),
-('JasonAlexander', 'jalexander@example.com', 'hashed_password_12', 'ROLE_USER');
+('RobertDowneyJr', 'rdowneyjr@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_ADMIN'),
+('ScarlettJohansson', 'sjohansson@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('ChrisHemsworth', 'chemsworth@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('TomHolland', 'tholland@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('NataliePortman', 'nportman@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('ChrisEvans', 'cevans@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('AustinPost', 'apost@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('EmmaWatson', 'ewatson@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('WillSmith', 'wsmith@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('JohnnyDepp', 'jdepp@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('SethGreen', 'ajolie@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
+('JasonAlexander', 'jalexander@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER');
 
 --INSERT INTO collections(collection_name, user_id, is_public) VALUES
 --('user''s Collection', 1, false);
@@ -61,6 +61,7 @@ INSERT INTO cards (card_id, card_name, card_type, card_color, mana_cost, rarity,
 ('5ced2118-dfb3-4f29-ad6b-454c0a8a094b', 'Circle of Protection: Blue', 'Enchantment', 'W', '{1},{W}', 'uncommon', 0.14, 'Eighth Edition', 'https://cards.scryfall.io/normal/front/5/c/5ced2118-dfb3-4f29-ad6b-454c0a8a094b.jpg?1562913834', 'https://cards.scryfall.io/art_crop/front/5/c/5ced2118-dfb3-4f29-ad6b-454c0a8a094b.jpg?1562913834'),
 ('85f4ed3a-1851-49b1-baac-fdc8c00b6b71', 'Rune of Protection: Blue', 'Enchantment', 'W', '{1},{W}', 'common', 0.09, 'Urza''s Saga', 'https://cards.scryfall.io/normal/front/8/5/85f4ed3a-1851-49b1-baac-fdc8c00b6b71.jpg?1562923262', 'https://cards.scryfall.io/art_crop/front/8/5/85f4ed3a-1851-49b1-baac-fdc8c00b6b71.jpg?1562923262'),
 ('1fd2b6a7-b93a-42d3-b66a-a70b573fc58a', 'Urza''s Blueprints', 'Artifact', 'null', '{6}', 'rare', 0.07, 'Dominaria Remastered', 'https://cards.scryfall.io/normal/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126', 'https://cards.scryfall.io/art_crop/front/1/f/1fd2b6a7-b93a-42d3-b66a-a70b573fc58a.jpg?1675201126'),
+--Working cards above
 ('e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977', 'Ancestral Recall', 'Instant', '{U}', '{U}', 'Rare', 25.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/e/3/e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977.jpg?1595590705', 'https://c1.scryfall.com/file/scryfall-cards/small/front/e/3/e3faaf4d-8d3d-4b6d-8eb4-3a17e6a0c977.jpg?1595590705'),
 ('8f90894f-d1cf-4d4c-9336-08ae2c35ec7f', 'Black Lotus', 'Artifact', '', '', 'Rare', 350.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/8/f/8f90894f-d1cf-4d4c-9336-08ae2c35ec7f.jpg?1595590710', 'https://c1.scryfall.com/file/scryfall-cards/small/front/8/f/8f90894f-d1cf-4d4c-9336-08ae2c35ec7f.jpg?1595590710'),
 ('f22a704f-b45a-4a3b-8250-fb170db76324', 'Time Walk', 'Sorcery', '{U}', '{1}{U}', 'Rare', 150.00, 'Alpha', 'https://c1.scryfall.com/file/scryfall-cards/normal/front/f/2/f22a704f-b45a-4a3b-8250-fb170db76324.jpg?1595590730', 'https://c1.scryfall.com/file/scryfall-cards/small/front/f/2/f22a704f-b45a-4a3b-8250-fb170db76324.jpg?1595590730'),
