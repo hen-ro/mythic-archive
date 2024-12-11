@@ -27,12 +27,13 @@
       </div>
     </div>
     <!-- This is temporary and not right  -->
+    <aside class="scrollable-aside">
     <div class="collection-stats">Collection Statistics</div>
     <div class="stats-row">
       <div class="stat-item">
         <h3>Card Types</h3>
         <ul>
-          <li v-for="stat in this.collectionStats.cardTypeCount" :key="stat.cardType">
+          <li v-for="stat in this.collectionStats.cardTypeCounts" :key="stat.cardType">
             {{ stat.cardType }} : {{ stat.count }}
           </li>
         </ul>
@@ -40,24 +41,33 @@
       <div class="stat-item">
         <h3>Rarities</h3>
         <ul>
-          <li v-for="(count, rarity) in this.collectionStats.rarityCount" :key="rarity">
-            {{ rarity }}: {{ count }}
+          <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
+            {{ stat.rarity }} : {{ stat.count }}
           </li>
         </ul>
       </div>
       <div class="stat-item">
         <h3>Colors</h3>
         <ul>
-          <li v-for="(count, color) in this.collectionStats.colorCount" :key="color">
-            {{ color }}: {{ count }}
+          <li v-for="stat in this.collectionStats.cardColorCounts" :key="stat.cardColor">
+            {{ stat.cardColor }}: {{ stat.count }}
+          </li>
+        </ul>
+      </div>
+      <div class="stat-item">
+        <h3>Sets</h3>
+        <ul>
+          <li v-for="stat in this.collectionStats.setNameCounts" :key="stat.setName">
+            {{ stat.setName }}: {{ stat.count }}
           </li>
         </ul>
       </div>
       <div class="stat-item">
         <h3>Total Value</h3>
-        <p>{{ this.collectionStats.price }}</p>
+        <p>{{ this.collectionStats.totalCollectionPrice }}</p>
       </div>
     </div>
+  </aside>
     <!-- This is temporary and not right  -->
 
     <div class="card-container" v-if="this.displayedCards.length > 0">
@@ -86,11 +96,6 @@ export default {
       showNameInput: false,
       displayedCards: [],
       collectionStats: {
-        cardTypeCount: [],
-        cardColorCount: [],
-        rarityCount: [],
-        totalValue: 0.0,
-        setNameCount: []
       },
       collection: {
         cardCount: 0,
