@@ -202,11 +202,11 @@ public class JdbcCollectionDao implements CollectionDao{
     @Override
     public int renameCollection(int collectionId, String collectionName) {
         int numberOfRows = 0;
-        String setPrivateSql = "UPDATE public.collections" +
-                " SET SET collection_name = ?" +
+        String renameSql = "UPDATE public.collections" +
+                " SET collection_name = ?" +
                 " WHERE collection_id = ?";
         try {
-            numberOfRows = jdbcTemplate.update(setPrivateSql, collectionName, collectionId);
+            numberOfRows = jdbcTemplate.update(renameSql, collectionName, collectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

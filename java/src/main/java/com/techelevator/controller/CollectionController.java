@@ -135,7 +135,7 @@ public class CollectionController {
     }
 
     @PutMapping("/{id}/rename")
-    public ResponseEntity<Integer> renameCollection(@PathVariable int id, String collectionName) {
+    public ResponseEntity<Integer> renameCollection(@PathVariable int id,  @RequestParam String collectionName) {
         try {
             int numberOfRows = collectionDao.renameCollection(id, collectionName);
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);

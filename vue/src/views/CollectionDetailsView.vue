@@ -2,8 +2,16 @@
   <div class="collections-details">
     <h1 class="collection-name">{{ collection.collectionName }}</h1>
     <div class="collection-controls" v-if="this.$route.params.id==this.$store.state.user.id">
-      <button @click="setPublic">Publish Collection</button>
-      <button @click="setPrivate">Unpublish Collection</button>
+      <button id="btn-show-name-input" @click="showNameInput = true">Rename Collection</button>
+      <button id="btn-publish" @click="setPublic">Publish Collection</button>
+      <button id="btn-unpublish" @click="setPrivate">Unpublish Collection</button>
+    </div>
+    <div class="collection-name-input" v-if="showNameInput === true">
+      <button id="btn-close-name-input" @click="showNameInput = false">X</button>
+      <div class="name-input">
+        <input type="text" id="txt-nameInput" placeholder="Enter new collection name">
+        <button id="btn-name-submit" @click="rename">Submit</button>
+      </div>
     </div>
     <div class="searchBox">
       <div class="field">
@@ -41,6 +49,7 @@ import CollectionService from "../services/CollectionService";
 export default {
   data() {
     return {
+      showNameInput: false,
       displayedCards: [],
       collection: {
         cardCount: 0,
@@ -54,6 +63,18 @@ export default {
   },
 
   methods: {
+    rename() {
+      let collectionName = document.getElementById('txt-nameInput').value;
+      CollectionService.renameCollection(this.$route.params.id, collectionName)
+      .then((response) => {
+        this.collection.collectionName = collectionName;
+        //SET_NOTIFICATION to 'Your collection has been renamed'
+        this.showNameInput = false;
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+    },
     setPrivate() {
       CollectionService.setCollectionPrivate(this.$route.params.id)
       .then((response) => {
@@ -123,10 +144,32 @@ export default {
 
 <style scoped>
 .collection-controls {
-  flex: display;
+  display: flex;
+  justify-content: space-evenly;
+}
+.collection-name-input {
+  position: fixed;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 30%;
+  padding: 30px;
+  background-color: var(--platinum);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+.name-input {
+  display: flex;
   align-content: center;
-  width: 25%;
-  background-color: red;
+  justify-content: space-around;
+}
+
+#btn-close-name-input { 
+  position: absolute; 
+  top: 10px; 
+  right: 10px;
+  background-color: var(--platinum);
 }
 
 .collection-name {
