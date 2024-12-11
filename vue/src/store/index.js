@@ -21,23 +21,6 @@ export function createStore(currentToken, currentUser) {
       collectionCards: new Map()
     },
     mutations: {
-      SET_CARDS_IN_COLLECTION(state, cards){
-        state.collectionCards = cards;
-      },
-      ADD_CARD_TO_COLLECTION(state, payload){
-        const { card, quantity } = payload;
-        state.collectionCards.set(card, quantity);
-      },
-      REMOVE_CARD_FROM_COLLECTION(state, payload){
-        const { card, quantity } = payload;
-        const currentQuantity = state.collectionCards.get(card);
-        if (currentQuantity <= quantity ) {
-
-        } else {
-
-        }
-        
-      },
       BUILD_REQUEST(state, payload) {
         const { card, quantity } = payload;
         state.request.userId = state.user.id;
