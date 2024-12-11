@@ -41,6 +41,10 @@ export default {
 
     setCollectionPrivate(id) {
         return http.put(`http://localhost:9000/collections/${id}/set-private`);
+    },
+
+    getCollectionStats(id) {
+        return http.get(`http://localhost:9000/collections/${id}/stats`);
     }
 
 }
