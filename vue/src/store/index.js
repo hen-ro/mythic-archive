@@ -12,6 +12,11 @@ export function createStore(currentToken, currentUser) {
         card: {
           cardId: '',
           cardName: '',
+          cardColor: '',
+          manaCost: '',
+          rarity: '',
+          price: '',
+          setName: '',
           thumbnailUrl: '',
           imageUrl: ''
         },
@@ -21,34 +26,19 @@ export function createStore(currentToken, currentUser) {
       collectionCards: new Map()
     },
     mutations: {
-      SET_CARDS_IN_COLLECTION(state, cards){
-        state.collectionCards = cards;
-      },
-      ADD_CARD_TO_COLLECTION(state, payload){
-        const { card, quantity } = payload;
-        state.collectionCards.set(card, quantity);
-      },
-      REMOVE_CARD_FROM_COLLECTION(state, payload){
-        const { card, quantity } = payload;
-        const currentQuantity = state.collectionCards.get(card);
-        if (currentQuantity <= quantity ) {
-
-        } else {
-
-        }
-        
-      },
       BUILD_REQUEST(state, payload) {
-        const { card, quantity } = payload;
+        const { card, cardColor, quantity } = payload;
+        console.log(cardColor);
         state.request.userId = state.user.id;
         state.request.quantity = quantity;
         //Set card properties
         state.request.card.cardId = card.id;
         state.request.card.cardName = card.name;
         state.request.card.cardType = card.type_line;
-        state.request.card.manaCost = card.mana_cost;
+        state.request.card.cardColor = cardColor;
+        state.request.card.manaCost = card.mana_cost ? card.mana_cost : card.card_faces ? card.card_faces[0].mana_cost || ' ' || card.card_faces[1].mana_cost : '';
         state.request.card.rarity = card.rarity;
-        state.request.card.price = card.prices.usd;
+        state.request.card.price = card.prices.usd ? card.prices.usd : -1.00;
         state.request.card.setName = card.set_name;
         state.request.card.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
         state.request.card.imageUrl = card.image_uris ? card.image_uris?.large : card.card_faces ? card.card_faces[0].image_uris?.large : '';
@@ -104,24 +94,8 @@ export function createStore(currentToken, currentUser) {
           .catch((error) => {
             console.error("Error fetching data:", error);
           });
-      },
-      //These are adding/removing cards from deck
-      setCardsInDeck({commit}, cards) {
-        this.commit('SET_CARDS', cards);
-      },
-      addCardToDeck({commit}, card) {
-        this.commit('ADD_CARD', card);
-      },
-      removeCardFromDeck({commit}, card) {
-        this.commit('REMOVE_CARD', card);
-      },
-      //This is adding/removing cards from collection
-      setCardsInCollection({commit}, cards) {
-        this.commit('SET_CARDS', cards);
-      },
-      
-    },
-
+      }
+    }
   });
   return store;
 }
