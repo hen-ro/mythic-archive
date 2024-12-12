@@ -1,6 +1,6 @@
 <template>
   <div class="collections-details">
-    <h1 class="collection-name">{{ collection.collectionName }}</h1>
+    <h1 class="collection-name" style="color:var(--onyx)">{{ collection.collectionName }}</h1>
     <div class="collection-controls" v-if="this.$route.params.id == this.$store.state.user.id">
       <button id="btn-show-name-input" @click="showNameInput = true">Rename Collection</button>
       <button id="btn-publish" @click="setPublic" v-if="!collection.isPublic">Publish Collection</button>
@@ -24,14 +24,22 @@
     <div class="content-container">
       <div class="left-container">
         <div class="header-stats">
-          <div class="pie-chart-container">
+          <div class="pie-chart-container stat-item">
+            <h2>Rarity</h2>
             <canvas id="pieChart"></canvas>
           </div>
-          <div class="stat-item">
+          <div class="stat-item value">
             <h3>Total Value</h3>
-            <p>{{ this.collectionStats.totalCollectionPrice }}</p>
-            <p>There {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'is' : 'are' }} <strong>{{ this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'type' : 'types' }} of {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this collection without price data</p>
-            <p>({{ this.collectionStats.cardsWithoutPrice }} total {{ this.collectionStats.cardsWithoutPrice == 1 ? 'copy' : 'copies' }})</p>
+            <h3>${{ this.collectionStats.totalCollectionPrice }}</h3>
+            <p>There {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'is' : 'are' }} <strong>{{
+              this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1
+                ? 'type' : 'types' }} of {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this
+              collection without price data</p>
+              </div>
+          <div class="stat-item">
+            <h2>Total Cards: {{ this.collection.totalCards }}</h2>
+            <p>({{ this.collectionStats.cardsWithoutPrice }} total {{ this.collectionStats.cardsWithoutPrice == 1 ? 'copy'
+              : 'copies' }})</p>
           </div>
         </div>
         <div class="card-container" v-if="this.displayedCards.length > 0">
@@ -43,11 +51,8 @@
         </div>
       </div>
       <div class="right-container">
-        <div class="collection-stats">Collection Statistics</div>
-        <div class="total-cards">
-          <h3>Total Cards: {{ this.collection.totalCards }}</h3>
-        </div>
-        <div class="stat-item">
+        <h2 class="collection-stats">Collection Statistics</h2>
+        <div class="">
           <h3>Sets</h3>
           <ul>
             <li v-for="stat in this.collectionStats.setNameCounts" :key="stat.setName">
@@ -56,7 +61,7 @@
           </ul>
         </div>
         <div class="stats-row">
-          <div class="stat-item">
+          <div class="">
             <h3>Card Types</h3>
             <ul>
               <li v-for="stat in this.collectionStats.cardTypeCounts" :key="stat.cardType">
@@ -64,7 +69,7 @@
               </li>
             </ul>
           </div>
-          <div class="stat-item">
+          <div class="">
             <h3>Colors</h3>
             <ul>
               <li v-for="stat in this.collectionStats.cardColorCounts" :key="stat.cardColor">
@@ -79,7 +84,7 @@
 </template>
 
 <script>
-import Chart from "chart.js/auto";  // Import Chart.js
+import Chart from "chart.js/auto"; 
 import CollectionService from "../services/CollectionService";
 
 export default {
@@ -96,7 +101,7 @@ export default {
         username: "",
         cards: [],
       },
-      chartInstance: null,  // Store the Chart instance to easily update it later
+      chartInstance: null,
     };
   },
 
@@ -172,102 +177,109 @@ export default {
       this.displayedCards = tempArray;
     },
     createPieChart() {
-  if (this.collectionStats && this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
-    const labels = this.collectionStats.rarityCounts.map(stat => stat.rarity);
-    const data = this.collectionStats.rarityCounts.map(stat => stat.count);
-    const backgroundColors = this.collectionStats.rarityCounts.map(() => '#444444');
+      if (this.collectionStats && this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
+        const labels = this.collectionStats.rarityCounts.map(stat => stat.rarity);
+        const data = this.collectionStats.rarityCounts.map(stat => stat.count);
+        const backgroundColors = this.collectionStats.rarityCounts.map(() => '#1e7a76');
 
-    const ctx = document.getElementById('pieChart').getContext('2d');
+        const ctx = document.getElementById('pieChart').getContext('2d');
 
-    // Set the canvas width and height
-    const canvas = document.getElementById('pieChart');
-    const aspectRatio = canvas.width / canvas.height;  // Maintain aspect ratio
-    canvas.width = 400;  // Set width to your preferred size
-    canvas.height = canvas.width / aspectRatio;  // Set height based on aspect ratio
+        const canvas = document.getElementById('pieChart');
+        const aspectRatio = canvas.width / canvas.height;
+        canvas.width = 400;
+        canvas.height = canvas.width / aspectRatio;
 
-    // Ensure the device pixel ratio is applied for higher DPI screens
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    canvas.style.width = '100%';  // Ensure the canvas is responsive
-    canvas.style.height = 'auto';
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
 
-    // Apply the device pixel ratio for sharpness
-    const width = canvas.offsetWidth * devicePixelRatio;
-    const height = canvas.offsetHeight * devicePixelRatio;
+        const width = canvas.offsetWidth * devicePixelRatio;
+        const height = canvas.offsetHeight * devicePixelRatio;
 
-    canvas.width = width;
-    canvas.height = height;
+        canvas.width = width;
+        canvas.height = height;
 
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-    }
-
-    this.chartInstance = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: labels,
-        datasets: [{
-          data: data,
-          backgroundColor: backgroundColors,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false, // Disable aspect ratio to adjust canvas size dynamically
-        plugins: {
-          legend: {
-            position: 'left',
-            align: 'start',
-            labels: {
-              boxWidth: 10,
-              padding: 10,
-            }
-          }
+        if (this.chartInstance) {
+          this.chartInstance.destroy();
         }
-      },
-    });
-  } else {
-    const ctx = document.getElementById('pieChart').getContext('2d');
-    const canvas = document.getElementById('pieChart');
-    const aspectRatio = canvas.width / canvas.height;
-    canvas.width = 400;
-    canvas.height = canvas.width / aspectRatio;
 
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    const width = canvas.offsetWidth * devicePixelRatio;
-    const height = canvas.offsetHeight * devicePixelRatio;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-    }
-    this.chartInstance = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['No data available'],
-        datasets: [{
-          data: [100],
-          backgroundColor: ['#ddd'],
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'left',
-            align: 'start',
-            labels: {
-              boxWidth: 10,
-              padding: 10,
+        this.chartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: [
+              '#D5D5D5',
+              "#000000",         
+              '#AF1616',
+              '#C9C914',
+              ],
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            layout: {
+              padding: {
+                bottom: 0, 
+              },
+            },
+            plugins: {
+              legend: {
+                position: 'left', 
+                align: 'center',   
+                labels: {
+                  boxWidth: 10,
+                  padding: 10,
+                }
+              }
             }
-          }
+          },
+        });
+      } else {
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        const canvas = document.getElementById('pieChart');
+        const aspectRatio = canvas.width / canvas.height;
+        canvas.width = 400;
+        canvas.height = canvas.width / aspectRatio;
+
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        const width = canvas.offsetWidth * devicePixelRatio;
+        const height = canvas.offsetHeight * devicePixelRatio;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        if (this.chartInstance) {
+          this.chartInstance.destroy();
         }
-      },
-    });
-  }
-}
+        this.chartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['No data available'],
+            datasets: [{
+              data: [100],
+              backgroundColor: ['#ddd'],
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'left',
+                align: 'start',
+                labels: {
+                  boxWidth: 10,
+                  padding: 10,
+                }
+              }
+            }
+          },
+        });
+      }
+    }
   },
   watch: {
     'collectionStats.rarityCounts': function (newVal) {
@@ -291,52 +303,77 @@ export default {
 </script>
 
 <style scoped>
-* {
-  color: var(--onyx);
-}
 .collection-controls {
   display: flex;
   justify-content: space-evenly;
-  width:20%;
+  width: 20%;
   margin: auto;
-  gap:20px;
-  padding:10px;
+  gap: 20px;
+  padding: 10px;
 }
+
 .content-container {
   display: flex;
   width: 100%;
-  border: 2px solid green;
+  /* border: 2px solid green; */
 }
-button{
+
+button {
   padding: 10px;
 }
+
 .left-container {
   width: 75%;
   margin: 20px;
-  border: 2px solid rgb(255, 0, 221);
+  /* border: 2px solid rgb(255, 0, 221); */
   
 }
-.right-container{
+h2,h1,h3{
+  margin: 0;
+}
+.right-container {
   display: flex;
   flex-direction: column;
-  border: 2px solid red;
-  align-items: center;
-  width:25%;
+  /* border: 2px solid red; */
+  align-items: left;
+  width: 20%;
   margin: 20px;
+  background-color: #444444;
+  color: white;
+  border-radius: 20px;
+  padding-top:40px;
+  padding-left: 40px;
 }
+
 .header-stats {
   width: 100%;
   height: 200px;
   display: flex;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   justify-content: space-evenly;
   align-items: center;
-}
-.pie-chart-container {
-  width: 200px;
-  height: 95%;
+  background-color: #444444;
+  color: white;
+  border-radius: 20px;
 
 }
+.stat-item{
+  width:20%;
+  height: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+.pie-chart-container {
+ height: 220px; 
+ min-height: 150px;
+ min-width: 150px;
+ margin: 0;
+}
+
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -344,8 +381,9 @@ button{
   align-items: center;
   row-gap: 20px;
   width: 100%;
-  
+
 }
+
 .collection-name-input {
   position: fixed;
   top: 50%;
@@ -358,23 +396,31 @@ button{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   z-index: 1000;
 }
+
 .name-input {
   display: flex;
   align-content: center;
   justify-content: space-between;
 }
+
 input[type="text"] {
   width: 80%;
 }
+
 #btn-close-name-input {
   position: absolute;
   top: 10px;
   right: 10px;
   font-size: 20px;
 }
-#pieChart{
-  min-width: 200px!important;
-  min-height: 200px!important;
- 
+.pie-chart-container h2{
 }
+@media screen and (max-width: 1000px) {
+  .stat-item, .right-container {
+    font-size: 1.2vw; 
+    padding-left: 0;
+  }
+}
+
+
 </style>

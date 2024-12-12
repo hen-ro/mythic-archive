@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Search</h1>
+    <h1 class="search-title">Search</h1>
     <div class="searchBox">
       <div class="field">
         <input type="text" id="searchTerm" name="searchTerm" v-model="searchTerm" />
@@ -131,6 +131,7 @@ export default {
   height: 100%;
   width: 18%;
   margin: 10px;
+  min-width: 100px;
   text-decoration: none;
   transition: transform 0.1s ease-in-out;
 }
@@ -168,6 +169,7 @@ export default {
 
 input {
   width: 80%;
+  min-width: 200px;
   height: 30px;
   border-radius: 2px;
   border: 0px;
@@ -207,5 +209,8 @@ button:active {
 }
 .page-buttons{
   height: 80%;
+}
+.search-title{
+  color:var(--onyx);
 }
 </style>
