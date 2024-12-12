@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/decks")
+@PreAuthorize("isAuthenticated()")
 @CrossOrigin
 public class DeckController {
     private final CardDao cardDao;
@@ -50,7 +51,7 @@ public class DeckController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/cards")
     public List<Card> getCardsInDeck(@PathVariable int id) {
         try {
@@ -61,6 +62,18 @@ public class DeckController {
         }
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/user/{id}")
+    public int getDeckIdByUser(@PathVariable int id) {
+        try {
+
+            int deckId = deckDao.getDeckByUserId(id).getDeckId();
+            return deckId;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping("/create")
     public ResponseEntity<Deck> createNewDeck(@RequestBody DeckDto deck) {
         try {
@@ -70,7 +83,7 @@ public class DeckController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/add")
     public ResponseEntity<Deck> addCardToDeck(@RequestBody AdjustCardRequestDto addCard) {
         try {
@@ -94,7 +107,7 @@ public class DeckController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove-all")
     public ResponseEntity<Integer> removeAllCardsOfTypeFromDeck(@RequestBody AdjustCardRequestDto removeAll) {
         try {
@@ -105,7 +118,7 @@ public class DeckController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove")
     public ResponseEntity<Integer> removeCardsFromDeck(@RequestBody AdjustCardRequestDto removeCard) {
         try {
@@ -115,7 +128,7 @@ public class DeckController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-public")
     public ResponseEntity<Integer> setDeckPublic(@PathVariable int id) {
         try {
@@ -125,7 +138,27 @@ public class DeckController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping("/{id}/set-private")
+    public ResponseEntity<Integer> setDeckPrivate(@PathVariable int id) {
+        try {
+            int numberOfRows = deckDao.setDeckPrivate(id);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping("/{id}/rename")
+    public ResponseEntity<Integer> renameDeck(@PathVariable int id,  @RequestParam String deckName) {
+        try {
+            int numberOfRows = deckDao.renameDeck(id, deckName);
+            return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-thumbnail")
     public ResponseEntity<Integer> setDeckThumbnail(@PathVariable int id, String thumbnail_url) {
         try {
@@ -133,17 +166,6 @@ public class DeckController {
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/user/{id}")
-    public int getDeckIdByUser(@PathVariable int id) {
-        try {
-
-            int deckId = deckDao.getDeckByUserId(id).getDeckId();
-            return deckId;
-        } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -10,6 +10,8 @@ public class CollectionStats {
     private BigDecimal totalCollectionPrice;
 
     private int cardsWithoutPrice;
+
+    private int cardTypesWithoutPrice;
     private List<SetNameCount> setNameCounts;
 
     private List<CardColorCount> cardColorCounts;
@@ -68,5 +70,13 @@ public class CollectionStats {
 
     public void setCardsWithoutPrice(int cardsWithoutPrice) {
         this.cardsWithoutPrice = cardsWithoutPrice;
+    }
+
+    public int getCardTypesWithoutPrice() {
+        return cardTypesWithoutPrice;
+    }
+
+    public void setCardTypesWithoutPrice(int cardTypesWithoutPrice) {
+        this.cardTypesWithoutPrice = cardTypesWithoutPrice;
     }
 }

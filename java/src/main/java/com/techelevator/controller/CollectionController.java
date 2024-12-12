@@ -18,8 +18,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/collections")
-//@PreAuthorize("isAuthenticated()")
-@CrossOrigin
+@PreAuthorize("isAuthenticated()")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CollectionController {
 
     private final CardDao cardDao;
@@ -51,6 +51,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/cards")
     public List<Card> getCardsInCollection(@PathVariable int id) {
         try {
@@ -60,6 +61,49 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("permitAll()")
+    @GetMapping("/user/{id}")
+    public int getCollectionIdByUser(@PathVariable int id) {
+        try {
+            int collectionId = collectionDao.getCollectionByUserId(id).getCollectionId();
+            return collectionId;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping("/{id}/total-cards")
+    public Integer getTotalCardsInCollection(@PathVariable int id) {
+        try {
+
+            Integer totalCards = collectionDao.getCollectionByUserId(id).getTotalCards();
+            return totalCards;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping("/{id}/card-count")
+    public Integer cardCount(@PathVariable int id, @RequestParam UUID cardId) {
+        try {
+
+            Integer cardCount = collectionDao.getCollectionByUserId(id).getCardCount(cardId);
+            return cardCount;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("permitAll()")
+    @GetMapping("/{collectionId}/stats")
+    public CollectionStats getCollectionStats(@PathVariable int collectionId) {
+        try {
+            CollectionStats collectionStats = collectionDao.getCollectionStats(collectionId);
+            return collectionStats;
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping("/create")
     public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollectionDto collection) {
         try {
@@ -70,6 +114,7 @@ public class CollectionController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/add")
     public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard) {
         try {
@@ -93,6 +138,7 @@ public class CollectionController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove-all")
     public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll) {
         try {
@@ -103,7 +149,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove")
     public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard) {
         try {
@@ -113,7 +159,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-public")
     public ResponseEntity<Integer> setCollectionPublic(@PathVariable int id) {
         try {
@@ -123,7 +169,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-private")
     public ResponseEntity<Integer> setCollectionPrivate(@PathVariable int id) {
         try {
@@ -133,7 +179,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/rename")
     public ResponseEntity<Integer> renameCollection(@PathVariable int id,  @RequestParam String collectionName) {
         try {
@@ -143,7 +189,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-thumbnail")
     public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestParam String thumbnailUrl) {
         try {
@@ -152,46 +198,6 @@ public class CollectionController {
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    @GetMapping("/user/{id}")
-    public int getCollectionIdByUser(@PathVariable int id) {
-        try {
-                int collectionId = collectionDao.getCollectionByUserId(id).getCollectionId();
-                return collectionId;
-            } catch (DaoException e) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-    }
-
-    @GetMapping("/{id}/total-cards")
-    public Integer getTotalCardsInCollection(@PathVariable int id) {
-        try {
-
-            Integer totalCards = collectionDao.getCollectionByUserId(id).getTotalCards();
-            return totalCards;
-        } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/{id}/card-count")
-    public Integer cardCount(@PathVariable int id, @RequestParam UUID cardId) {
-        try {
-
-            Integer cardCount = collectionDao.getCollectionByUserId(id).getCardCount(cardId);
-            return cardCount;
-        } catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @GetMapping("/{collectionId}/stats")
-    public CollectionStats getCollectionStats(@PathVariable int collectionId) {
-        try {
-            CollectionStats collectionStats = collectionDao.getCollectionStats(collectionId);
-            return collectionStats;
-    } catch (DaoException e) {
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
     }
 }
 

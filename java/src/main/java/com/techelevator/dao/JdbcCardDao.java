@@ -88,14 +88,43 @@ public class JdbcCardDao implements CardDao{
         }
         return card;
     }
+
+    private String getCardType(String type) {
+        String cardType = type;
+        if (type.toLowerCase().contains(" planeswalker ")) {
+            cardType = "Planeswalker";
+        } else if (type.toLowerCase().contains(" enchantment ")) {
+            cardType = "Enchantment";
+        } else if (type.toLowerCase().contains(" artifact ")) {
+            cardType = "Artifact";
+        } else if (type.toLowerCase().contains(" creature ")) {
+            cardType = "Creature";
+        } else if (type.toLowerCase().contains(" sorcery ")) {
+            cardType = "Sorcery";
+        } else if (type.toLowerCase().contains(" instant ")) {
+            cardType = "Instant";
+        } else if (type.toLowerCase().contains(" kindred ")) {
+            cardType = "Kindred";
+        } else if (type.toLowerCase().contains(" tribal ")) {
+            cardType = "Tribal";
+        } else if (type.toLowerCase().contains(" battle ")) {
+            cardType = "Battle";
+        } else if (type.toLowerCase().contains(" land ")) {
+            cardType = "Land";
+        } else if (type.toLowerCase().contains(" dungeon ")) {
+            cardType = "Dungeon";
+        }
+        return cardType;
+    }
     @Override
     public Card createNewCard(Card card) {
         Card newCard = null;
+        String cardType = getCardType(card.getCardType());
         String cardSql = "INSERT INTO public.cards(card_id, card_name, card_color, card_type, mana_cost," +
                 " rarity, price, set_name, image_url, thumbnail_url)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING card_id";
         try {
-            UUID newCardId = jdbcTemplate.queryForObject(cardSql, UUID.class, card.getCardId(), card.getCardName(), card.getCardColor(), card.getCardType(), card.getManaCost(),
+            UUID newCardId = jdbcTemplate.queryForObject(cardSql, UUID.class, card.getCardId(), card.getCardName(), card.getCardColor(), cardType, card.getManaCost(),
                                                         card.getRarity(), card.getPrice(), card.getSetName(), card.getImageUrl(), card.getThumbnailUrl());
             newCard = getCardById(newCardId);
         } catch (CannotGetJdbcConnectionException e) {

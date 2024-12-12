@@ -105,10 +105,10 @@ public class JdbcDeckDao implements DeckDao{
     @Override
     public Deck createNewDeck(DeckDto deck){
         Deck newDeck = null;
-        String collectionSql = "INSERT INTO public.decks(deck_name, user_id) VALUES (?, ?) RETURNING deck_id";
+        String deckSql = "INSERT INTO public.decks(deck_name, user_id) VALUES (?, ?) RETURNING deck_id";
         try {
-            int newCollectionId = jdbcTemplate.queryForObject(collectionSql, int.class, deck.getDeckName(), deck.getOwnerId());
-            newDeck = getDeckById(newCollectionId);
+            int newDeckId = jdbcTemplate.queryForObject(deckSql, int.class, deck.getDeckName(), deck.getOwnerId());
+            newDeck = getDeckById(newDeckId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -120,9 +120,9 @@ public class JdbcDeckDao implements DeckDao{
     @Override
     public Deck addCardsToDeck(Card card, Deck deck, int quantity) {
         Deck updatedDeck = null;
-        String collectionSql = "INSERT INTO public.cards_decks(card_id, deck_id, quantity) VALUES (?, ?, ?) RETURNING deck_id";
+        String deckSql = "INSERT INTO public.cards_decks(card_id, deck_id, quantity) VALUES (?, ?, ?) RETURNING deck_id";
         try {
-            int updatedDeckId = jdbcTemplate.queryForObject(collectionSql, int.class, card.getCardId(), deck.getDeckId(), quantity);
+            int updatedDeckId = jdbcTemplate.queryForObject(deckSql, int.class, card.getCardId(), deck.getDeckId(), quantity);
             updatedDeck = getDeckById(updatedDeckId);
             if (updatedDeck!= null) {
                 updatedDeck.setCardCount(card.getCardId(), quantity);
@@ -157,9 +157,9 @@ public class JdbcDeckDao implements DeckDao{
     @Override
     public void removeAllCardsOfTypeFromDeck(UUID cardId, int deckId){
         int numberOfRows = 0;
-        String removeCollectionSql = "DELETE FROM public.cards_decks WHERE card_id = ? AND deck_id = ?";
+        String removeAllFromDeckSql = "DELETE FROM public.cards_decks WHERE card_id = ? AND deck_id = ?";
         try {
-            numberOfRows = jdbcTemplate.update(removeCollectionSql, cardId, deckId);
+            numberOfRows = jdbcTemplate.update(removeAllFromDeckSql, cardId, deckId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -212,6 +212,37 @@ public class JdbcDeckDao implements DeckDao{
                 " WHERE deck_id = ?";
         try {
             numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail_url, deckId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
+
+    @Override
+    public int renameDeck(int deckId, String deckName) {
+        int numberOfRows = 0;
+        String renameSql = "UPDATE decks" +
+                " SET deck_name = ?" +
+                " WHERE deck_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(renameSql, deckName, deckId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return numberOfRows;
+    }
+    @Override
+    public int setDeckPrivate(int deckId) {
+        int numberOfRows = 0;
+        String setPrivateSql = "UPDATE public.decks" +
+                " SET is_public= true" +
+                " WHERE deck_id = ?";
+        try {
+            numberOfRows = jdbcTemplate.update(setPrivateSql, deckId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {

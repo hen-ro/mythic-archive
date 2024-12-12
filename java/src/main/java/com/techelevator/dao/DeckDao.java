@@ -16,6 +16,8 @@ public interface DeckDao {
     Deck getDeckById(int deckId);
     Deck getDeckByUserId(int userId);
     int setDeckPublic(int deckId);
+    int setDeckPrivate(int deckId);
+    int renameDeck(int deckId, String deckName);
     int setDeckThumbnail(int deckId, String thumbnail);
     boolean isCardInDeck(UUID cardId, int deckId);
 }

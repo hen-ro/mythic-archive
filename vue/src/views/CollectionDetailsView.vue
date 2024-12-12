@@ -3,11 +3,11 @@
     <h1 class="collection-name">{{ collection.collectionName }}</h1>
     <div class="collection-controls" v-if="this.$route.params.id == this.$store.state.user.id">
       <button id="btn-show-name-input" @click="showNameInput = true">Rename Collection</button>
-      <button id="btn-publish" @click="setPublic">Publish Collection</button>
-      <button id="btn-unpublish" @click="setPrivate">Unpublish Collection</button>
+      <button id="btn-publish" @click="setPublic" v-if="!collection.isPublic">Publish Collection</button>
+      <button id="btn-unpublish" @click="setPrivate" v-if="collection.isPublic">Unpublish Collection</button>
     </div>
     <div class="collection-name-input" v-if="showNameInput === true">
-      <button id="btn-close-name-input" @click="showNameInput = false">X</button>
+      <button id="btn-close-name-input" @click="showNameInput = false">x</button>
       <div class="name-input">
         <input type="text" id="txt-nameInput" placeholder="Enter new collection name">
         <button id="btn-name-submit" @click="rename">Submit</button>
@@ -35,6 +35,8 @@
           <div class="stat-item">
             <h3>Total Value</h3>
             <p>{{ this.collectionStats.totalCollectionPrice }}</p>
+            <p>There {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'is' : 'are' }} <strong>{{ this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'type' : 'types' }} of {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this collection without price data</p>
+            <p>({{ this.collectionStats.cardsWithoutPrice }} total {{ this.collectionStats.cardsWithoutPrice == 1 ? 'copy' : 'copies' }})</p>
           </div>
         </div>
         <div class="card-container" v-if="this.displayedCards.length > 0">
@@ -46,6 +48,10 @@
         </div>
       </div>
       <div class="right-container">
+        <div class="collection-stats">Collection Statistics</div>
+        <div class="total-cards">
+          <h3>Total Cards: {{ this.collection.totalCards }}</h3>
+        </div>
         <div class="stat-item">
           <h3>Sets</h3>
           <ul>
@@ -54,8 +60,6 @@
             </li>
           </ul>
         </div>
-        <div class="collection-stats">Collection Statistics</div>
-
         <div class="stats-row">
           <div class="stat-item">
             <h3>Card Types</h3>
@@ -65,7 +69,6 @@
               </li>
             </ul>
           </div>
-
           <div class="stat-item">
             <h3>Colors</h3>
             <ul>
@@ -74,8 +77,6 @@
               </li>
             </ul>
           </div>
-
-          
         </div>
       </div>
     </div>
@@ -109,7 +110,6 @@ export default {
       CollectionService.renameCollection(this.$route.params.id, collectionName)
         .then((response) => {
           this.collection.collectionName = collectionName;
-          //SET_NOTIFICATION to 'Your collection has been renamed'
           this.showNameInput = false;
         })
         .catch((error) => {
@@ -129,7 +129,7 @@ export default {
     setPrivate() {
       CollectionService.setCollectionPrivate(this.$route.params.id)
         .then((response) => {
-          alert('This collection is now unpublished')
+          this.collection.isPublic = false;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -138,7 +138,7 @@ export default {
     setPublic() {
       CollectionService.setCollectionPublic(this.$route.params.id)
         .then((response) => {
-          alert('This collection has been published')
+          this.collection.isPublic = true;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -260,6 +260,15 @@ button{
   display: flex;
   align-content: center;
   justify-content: space-around;
+}
+
+#btn-close-name-input {
+  position: absolute;
+  top: 2%;
+  right: 1%;
+  background-color: var(--platinum);
+  color: var(--perry);
+  font-weight: bold;
 }
 .stat-item {
   color: var(--onyx);

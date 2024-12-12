@@ -215,13 +215,13 @@ public class JdbcCollectionDao implements CollectionDao{
         return numberOfRows;
     }
     @Override
-    public int setCollectionThumbnail(int collectionId, String thumbnail_url) {
+    public int setCollectionThumbnail(int collectionId, String thumbnailUrl) {
         int numberOfRows = 0;
         String setThumbnailSql = "UPDATE public.collections" +
                 " SET thumbnail_url = ?" +
                 " WHERE collection_id = ?";
         try {
-            numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnail_url, collectionId);
+            numberOfRows = jdbcTemplate.update(setThumbnailSql, thumbnailUrl, collectionId);
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -312,11 +312,21 @@ public class JdbcCollectionDao implements CollectionDao{
         stats.setTotalCollectionPrice(collectionPrice != null ? collectionPrice : new BigDecimal("0.00"));
 
         // SQL to get cards without a price
-        String withoutPriceSql = "SELECT COUNT(*) FROM cards_collections " +
+        String withoutPriceSql = "SELECT SUM(quantity) FROM cards_collections " +
                 "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
                 "WHERE cards_collections.collection_id = ? AND price = -1";
-        int withoutPrice = jdbcTemplate.queryForObject(withoutPriceSql, int.class, collectionId);
+        Integer withoutPrice = jdbcTemplate.queryForObject(withoutPriceSql, Integer.class, collectionId);
+        if (withoutPrice == null) {
+            withoutPrice = 0;
+        }
         stats.setCardsWithoutPrice(withoutPrice);
+
+        // SQL to get cards types without a price
+        String withoutPriceTypeSql = "SELECT COUNT(*) FROM cards_collections " +
+                "INNER JOIN cards ON cards.card_id = cards_collections.card_id " +
+                "WHERE cards_collections.collection_id = ? AND price = -1";
+        int withoutPriceType = jdbcTemplate.queryForObject(withoutPriceTypeSql, int.class, collectionId);
+        stats.setCardTypesWithoutPrice(withoutPriceType);
 
         // SQL to get set name counts
         String setNameSql = "SELECT set_name, COUNT(*) AS count FROM cards_collections " +

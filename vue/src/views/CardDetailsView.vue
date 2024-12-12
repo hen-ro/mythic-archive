@@ -11,12 +11,15 @@
         "
         :alt="card.name"
       />
-      <div class="card-price">${{ card.prices.usd || "---" }}</div>
+      <div class="card-price">
+        ${{ card.prices.usd ? card.prices.usd : "---" }}
+      </div>
       <div class="card-footer">
         <button
           @click="removeFromCollection"
           class="plus-minus"
-          title="Remove from collection"
+          :title="minusButtonText"
+          :disabled="this.$store.state.token == ''"
         >
           -
         </button>
@@ -24,21 +27,27 @@
         <button
           @click="addToCollection"
           class="plus-minus"
-          title="Add to collection"
+          :title="plusButtonText"
+          :disabled="this.$store.state.token == ''"
         >
           +
         </button>
-        </div>
-        <!-- Temporary -->
-        <!-- <div class="collection-thumbnail">{{ this.collectionThumbnail }}</div>
+      </div>
+      <!-- Temporary -->
+      <div class="collection-thumbnail">
         <button
           @click="setCollectionThumbnail"
           class="set-image"
           title="Set as thumbnail"
+          v-if="!this.isCollectionThumbnail && this.$store.state.token != ''"
         >
-          +
-        </button> -->
-        <!-- Temporary -->
+          Make collection thumbnail
+        </button>
+        <p v-if="this.isCollectionThumbnail && this.$store.state.token != ''">
+          This card is your collection's current thumbnail
+        </p>
+      </div>
+      <!-- Temporary -->
     </div>
 
     <div class="details-container">
@@ -99,14 +108,41 @@ export default {
     return {
       card: {},
       cardCount: "0",
+      isCollectionThumbnail: false,
     };
   },
   computed: {
-    formattedManaCost() {
-      if (!this.card.mana_cost) {
-        return "";
+    plusButtonText() {
+      if (this.$store.state.token == "") {
+        return "You must be logged in to add a card to your collection";
+      } else {
+        return "Add to collection";
       }
-      return this.card.mana_cost.replace(/{(\w)}/g, (match, symbol) => {
+    },
+    minusButtonText() {
+      if (this.$store.state.token == "") {
+        return "You must be logged in to remove a card from your collection";
+      } else {
+        return "Remove from collection";
+      }
+    },
+    formattedManaCost() {
+      let manaCost = "";
+      if (!this.card.mana_cost) {
+        if (this.card.card_faces) {
+          manaCost = this.card.card_faces[0].mana_cost
+            .concat(" , ")
+            .concat(this.card.card_faces[1].mana_cost);
+        }
+      } else {
+        manaCost = this.card.mana_cost;
+      }
+      if (manaCost.includes("//")) {
+        manaCost = manaCost.replace(/\/\//g, " & ");
+      } else if (manaCost.includes("/")) {
+        manaCost = manaCost.replace(/\//g, "}/{");
+      }
+      return manaCost.replace(/{(\w)}/g, (match, symbol) => {
         return `<img src="/Images/MTGMana/{${symbol}}.svg" alt="${symbol}" style="height:30px; margin:0 2px;" />`;
       });
     },
@@ -123,8 +159,18 @@ export default {
     },
   },
   methods: {
+    changeText() {
+      if (this.$store.state.token == "") {
+        this.buttonText = "Not Available"; // Change text on hover when disabled
+      }
+    },
+    resetText() {
+      if (this.isDisabled) {
+        this.buttonText = "+/-"; // Reset text when hover ends
+      }
+    },
     closeDetails() {
-      this.$emit("close-details");
+      //this.$emit("close-details");
       this.$router.go(-1);
     },
     getCardColors(card) {
@@ -162,22 +208,30 @@ export default {
       CollectionService.getCardCount(
         this.$store.state.user.id,
         this.$route.params.id
-       )
+      )
         .then((response) => {
-          console.log(response.data);
           this.cardCount = response.data;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
-    // async setCollectionThumbnail() {
-    //   await this.$store.dispatch("setCollectionThumbnail", {
-    //     card: this.card,
-    //     collectionThumbnail: this.setCollectionThumbnail(this.thumbnailUrl),
-    //   });
-    // },
-    
+    async setCollectionThumbnail() {
+      const thumbnail = this.card.image_uris
+        ? this.card.image_uris?.art_crop
+        : this.card.card_faces
+        ? this.card.card_faces[0].image_uris?.art_crop
+        : "";
+      try {
+        await CollectionService.setCollectionThumbnail(
+          this.$store.state.user.id,
+          thumbnail
+        );
+        this.isCollectionThumbnail = true;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
   },
   created() {
     SearchService.searchById(this.$route.params.id).then((response) => {
@@ -257,6 +311,15 @@ export default {
 
 .plus-minus:hover {
   opacity: 1;
+}
+
+.plus-minus:disabled {
+  background-color: var(--onyx);
+  cursor: not-allowed;
+}
+
+.plus-minus:disabled:hover {
+  opacity: 0.6;
 }
 
 .card-price,
