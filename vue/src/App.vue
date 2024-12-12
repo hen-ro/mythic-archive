@@ -12,13 +12,21 @@
             class="icon-search" /></router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png'
             class="icon" /></router-link>
-        
-        <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/></span>
 
-        <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
-          <img class="account" src='/images/accountIcon.png' />
-        </router-link>
-        
+        <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle" /></span>
+
+        <div>
+          <span>
+            <img src="images/accountIcon.png" class="account" @click="toggleDropdown" />
+          </span>
+          <div v-if="isDropdownVisible" class="dropdown-menu">
+            <ul>
+              <router-link class="account-link" v-bind:to="{ name: 'collectionDetails', params: {id: this.$store.state.collectionId} }" v-if="this.$store.state.token != ''">My Collection</router-link>
+              <router-link class="account-link" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
+            </ul>
+          </div>
+        </div>
+
         <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">
           Sign In
         </router-link>
@@ -36,29 +44,40 @@
 </template>
 
 <script>
+import CollectionService from './services/CollectionService';
 import SearchService from "./services/SearchService";
 
 export default {
+  data() {
+    return {
+      isDropdownVisible: false,
+    };
+  },
   data() {
     return {
       randomCardUrl: null,
     };
   },
   methods: {
-  shuffle() {
-    SearchService.getRandomCard()
+    shuffle() {
+      SearchService.getRandomCard()
+        .then((response) => {
+          console.log("Fetched card:", response);
+          this.randomCardUrl = response.data.id;
+          this.$router.push({ name: 'duh', params: { id: this.randomCardUrl } });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+    },
+    toggleDropdown() {
+      CollectionService.getCollectionIdByUser()
       .then((response) => {
-        console.log("Fetched card:", response);
-        this.randomCardUrl = response.data.id; 
-        this.$router.push({name:'duh', params: { id: this.randomCardUrl }});
+        console.log("Menu dropdown:", response);
+        this.isDropdownVisible = !this.isDropdownVisible;
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-      
+    }
   },
-
-},
 };
 </script>
 <style scoped>
@@ -174,4 +193,35 @@ export default {
   position: fixed;
   margin-top: 300px;
 }
+
+.account {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 10px; 
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
 </style>
