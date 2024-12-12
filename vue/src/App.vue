@@ -15,15 +15,15 @@
 
         <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle" /></span>
 
-        <div class="dropdown">
-          <button class="account-button" @click="toggleDropdown">
-            <img class="account" src='/images/accountIcon.png' />
+        <div class="dropdown" v-if="this.$store.state.token != ''">
+          <button class="account-button" @click="toggleDropdown" >
+            <img class="account" src='/images/accountIcon.png'/>
           </button>
           <div class="dropdown-menu" v-if="showDropdown">
-            <router-link class="account-link"
+            <router-link class="dropdown-item"
               v-bind:to="{ name: 'collectionDetails', params: { id: this.$store.state.collectionId } }"
               v-if="this.$store.state.token != ''">My Collection</router-link>
-            <router-link class="account-link" v-bind:to="{ name: 'logout' }"
+            <router-link class="dropdown-item" v-bind:to="{ name: 'logout' }"
               v-if="this.$store.state.token != ''">Logout</router-link>
           </div>
         </div>
@@ -65,13 +65,23 @@ export default {
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
     },
-
+    handleClickOutside(event) {
+      const dropdown = this.$el.querySelector('.dropdown');
+      if (dropdown && !dropdown.contains(event.target)) {
+        this.showDropdown = false;
+      }
+    }
   },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
+  }
 };
 </script>
 <style scoped>
@@ -82,6 +92,9 @@ export default {
   text-decoration: none;
   font-size: 1.4vw;
   box-shadow: 10px 4px 60px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
 #nav {
@@ -123,30 +136,32 @@ export default {
 
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: 110%;
   right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: #575757;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  width: 100px;
 }
 
-.dropdown-item, .dropdown-item:vi{
+.dropdown-item{
   padding: 10px 15px;
   text-decoration: none;
-  color: #333;
+  color: var(--platinum);
   font-size: 1rem;
 }
 
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background-color: #8a8a8a;
+  border-radius: 5px;
 }
 
 .icon {
   width: 1.2vw;
+  height: 1vw;
   margin-left: 10px;
 }
 
@@ -174,25 +189,19 @@ export default {
   cursor: pointer;
 }
 
-#sidebar-1:active,
-#sidebar-2:active,
-#sidebar-3:active,
-#sidebar-4:active,
-#sidebar-5:active {
-  width: 45px;
-  height: 45px;
-}
-
 #sidebar-1,
 #sidebar-2,
 #sidebar-3,
 #sidebar-4,
 #sidebar-5 {
-  height: 40px;
-  width: 40px;
+  height: 2vw;
+  width: 2vw;
+  min-width: 25px;
+  min-height: 25px;
   background-size: cover;
   border: 0px;
   opacity: 0.7;
+  margin: 1px 0;
 }
 
 #sidebar-1 {

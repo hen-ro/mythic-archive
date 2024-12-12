@@ -24,13 +24,8 @@
     <div class="content-container">
       <div class="left-container">
         <div class="header-stats">
-          <div class="stat-item">
-            <h3>Rarities</h3>
-            <ul>
-              <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
-                {{ stat.rarity }} : {{ stat.count }}
-              </li>
-            </ul>
+          <div class="pie-chart-container">
+            <canvas id="pieChart"></canvas>
           </div>
           <div class="stat-item">
             <h3>Total Value</h3>
@@ -84,6 +79,7 @@
 </template>
 
 <script>
+import Chart from "chart.js/auto";  // Import Chart.js
 import CollectionService from "../services/CollectionService";
 
 export default {
@@ -91,8 +87,7 @@ export default {
     return {
       showNameInput: false,
       displayedCards: [],
-      collectionStats: {
-      },
+      collectionStats: {},
       collection: {
         cardCount: 0,
         collectionName: "",
@@ -101,6 +96,7 @@ export default {
         username: "",
         cards: [],
       },
+      chartInstance: null,  // Store the Chart instance to easily update it later
     };
   },
 
@@ -119,8 +115,8 @@ export default {
     getCollectionStats() {
       CollectionService.getCollectionStats(this.$route.params.id)
         .then((response) => {
-          console.log(response.data)
-          this.collectionStats = response.data
+          console.log(response.data);
+          this.collectionStats = response.data;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -154,16 +150,6 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
-    getDeckById() {
-      CollectionService.getCollectionById(this.$route.params.id)
-        .then((response) => {
-          this.collection = response.data;
-          this.getCardsInCollection();
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    },
     getCardsInCollection() {
       CollectionService.getCardsInCollection(this.$route.params.id)
         .then((response) => {
@@ -177,19 +163,75 @@ export default {
     },
     searchCollection() {
       let search = document.getElementById('searchTerm').value;
-      let tempArray =
-        this.collection.cards.filter((card) => {
-          return card.cardName.toLowerCase().includes(search.toLowerCase()) ||
-            card.cardType.toLowerCase().includes(search.toLowerCase()) ||
-            card.rarity.toLowerCase().includes(search.toLowerCase()) ||
-            card.setName.toLowerCase().includes(search.toLowerCase());
-        });
+      let tempArray = this.collection.cards.filter((card) => {
+        return card.cardName.toLowerCase().includes(search.toLowerCase()) ||
+          card.cardType.toLowerCase().includes(search.toLowerCase()) ||
+          card.rarity.toLowerCase().includes(search.toLowerCase()) ||
+          card.setName.toLowerCase().includes(search.toLowerCase());
+      });
       this.displayedCards = tempArray;
+    },
+    createPieChart() {
+      if (this.collectionStats && this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
+        const labels = this.collectionStats.rarityCounts.map(stat => stat.rarity);
+        const data = this.collectionStats.rarityCounts.map(stat => stat.count);
+        const backgroundColors = this.collectionStats.rarityCounts.map(() => '#444444');
+
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        if (this.chartInstance) {
+          this.chartInstance.destroy();
+        }
+        this.chartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: data,
+              backgroundColor: backgroundColors,
+            }]
+          },
+          options: {
+            responsive: true,
+          },
+        });
+      } else {
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        if (this.chartInstance) {
+          this.chartInstance.destroy();
+        }
+        this.chartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['No data available'],  
+            datasets: [{
+              data: [100],  
+              backgroundColor: ['#ddd'],  
+            }]
+          },
+          options: {
+            responsive: true,
+          },
+        });
+      }
     }
   },
+  watch: {
+    'collectionStats.rarityCounts': function (newVal) {
+      if (newVal && newVal.length > 0) {
+        this.createPieChart(); 
+      }
+    },
+  },
+
   created() {
     this.getCollectionById();
     this.getCollectionStats();
+  },
+
+  mounted() {
+    if (this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
+      this.createPieChart();
+    }
   },
 };
 </script>
@@ -234,6 +276,11 @@ button{
   display: flex;
   border: 2px solid blue;
   justify-content: space-evenly;
+  align-items: center;
+}
+.pie-chart-container {
+  width: 40%;
+  height: 95%;
 }
 .card-container {
   display: flex;
