@@ -172,53 +172,107 @@ export default {
       this.displayedCards = tempArray;
     },
     createPieChart() {
-      if (this.collectionStats && this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
-        const labels = this.collectionStats.rarityCounts.map(stat => stat.rarity);
-        const data = this.collectionStats.rarityCounts.map(stat => stat.count);
-        const backgroundColors = this.collectionStats.rarityCounts.map(() => '#444444');
+  if (this.collectionStats && this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
+    const labels = this.collectionStats.rarityCounts.map(stat => stat.rarity);
+    const data = this.collectionStats.rarityCounts.map(stat => stat.count);
+    const backgroundColors = this.collectionStats.rarityCounts.map(() => '#444444');
 
-        const ctx = document.getElementById('pieChart').getContext('2d');
-        if (this.chartInstance) {
-          this.chartInstance.destroy();
-        }
-        this.chartInstance = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: data,
-              backgroundColor: backgroundColors,
-            }]
-          },
-          options: {
-            responsive: true,
-          },
-        });
-      } else {
-        const ctx = document.getElementById('pieChart').getContext('2d');
-        if (this.chartInstance) {
-          this.chartInstance.destroy();
-        }
-        this.chartInstance = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: ['No data available'],  
-            datasets: [{
-              data: [100],  
-              backgroundColor: ['#ddd'],  
-            }]
-          },
-          options: {
-            responsive: true,
-          },
-        });
-      }
+    const ctx = document.getElementById('pieChart').getContext('2d');
+
+    // Set the canvas width and height
+    const canvas = document.getElementById('pieChart');
+    const aspectRatio = canvas.width / canvas.height;  // Maintain aspect ratio
+    canvas.width = 400;  // Set width to your preferred size
+    canvas.height = canvas.width / aspectRatio;  // Set height based on aspect ratio
+
+    // Ensure the device pixel ratio is applied for higher DPI screens
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    canvas.style.width = '100%';  // Ensure the canvas is responsive
+    canvas.style.height = 'auto';
+
+    // Apply the device pixel ratio for sharpness
+    const width = canvas.offsetWidth * devicePixelRatio;
+    const height = canvas.offsetHeight * devicePixelRatio;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
     }
+
+    this.chartInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: backgroundColors,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Disable aspect ratio to adjust canvas size dynamically
+        plugins: {
+          legend: {
+            position: 'left',
+            align: 'start',
+            labels: {
+              boxWidth: 10,
+              padding: 10,
+            }
+          }
+        }
+      },
+    });
+  } else {
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    const canvas = document.getElementById('pieChart');
+    const aspectRatio = canvas.width / canvas.height;
+    canvas.width = 400;
+    canvas.height = canvas.width / aspectRatio;
+
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const width = canvas.offsetWidth * devicePixelRatio;
+    const height = canvas.offsetHeight * devicePixelRatio;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
+    }
+    this.chartInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['No data available'],
+        datasets: [{
+          data: [100],
+          backgroundColor: ['#ddd'],
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'left',
+            align: 'start',
+            labels: {
+              boxWidth: 10,
+              padding: 10,
+            }
+          }
+        }
+      },
+    });
+  }
+}
   },
   watch: {
     'collectionStats.rarityCounts': function (newVal) {
       if (newVal && newVal.length > 0) {
-        this.createPieChart(); 
+        this.createPieChart();
       }
     },
   },
@@ -279,8 +333,9 @@ button{
   align-items: center;
 }
 .pie-chart-container {
-  width: 40%;
+  width: 200px;
   height: 95%;
+
 }
 .card-container {
   display: flex;
@@ -306,18 +361,20 @@ button{
 .name-input {
   display: flex;
   align-content: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
-
+input[type="text"] {
+  width: 80%;
+}
 #btn-close-name-input {
   position: absolute;
-  top: 2%;
-  right: 1%;
-  background-color: var(--platinum);
-  color: var(--perry);
-  font-weight: bold;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
 }
-.stat-item {
-  color: var(--onyx);
+#pieChart{
+  min-width: 200px!important;
+  min-height: 200px!important;
+ 
 }
 </style>
