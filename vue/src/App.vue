@@ -15,6 +15,11 @@
 
         <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle" /></span>
 
+        //Original Code
+        <router-link class="account-link" v-bind:to="{ name: 'collectionDetails', params: {id: this.$store.state.collectionId} }" v-if="this.$store.state.token != ''">My Collection</router-link>
+        <router-link class="account-link" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
+
+        //WIP Dropdown Code
         <div>
           <span>
             <img src="images/accountIcon.png" class="account" @click="toggleDropdown" />
