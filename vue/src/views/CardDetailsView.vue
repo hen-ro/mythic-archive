@@ -28,7 +28,17 @@
         >
           +
         </button>
-      </div>
+        </div>
+        <!-- Temporary -->
+        <!-- <div class="collection-thumbnail">{{ this.collectionThumbnail }}</div>
+        <button
+          @click="setCollectionThumbnail"
+          class="set-image"
+          title="Set as thumbnail"
+        >
+          +
+        </button> -->
+        <!-- Temporary -->
     </div>
 
     <div class="details-container">
@@ -161,6 +171,13 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
+    // async setCollectionThumbnail() {
+    //   await this.$store.dispatch("setCollectionThumbnail", {
+    //     card: this.card,
+    //     collectionThumbnail: this.setCollectionThumbnail(this.thumbnailUrl),
+    //   });
+    // },
+    
   },
   created() {
     SearchService.searchById(this.$route.params.id).then((response) => {
