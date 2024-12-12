@@ -1,7 +1,7 @@
 <template>
   <div class="collections-details">
     <h1 class="collection-name">{{ collection.collectionName }}</h1>
-    <div class="collection-controls" v-if="this.$route.params.id==this.$store.state.user.id">
+    <div class="collection-controls" v-if="this.$route.params.id == this.$store.state.user.id">
       <button id="btn-show-name-input" @click="showNameInput = true">Rename Collection</button>
       <button id="btn-publish" @click="setPublic">Publish Collection</button>
       <button id="btn-unpublish" @click="setPrivate">Unpublish Collection</button>
@@ -15,82 +15,68 @@
     </div>
     <div class="searchBox">
       <div class="field">
-        <input
-          type="text"
-          id="searchTerm"
-          name="searchTerm"
-          @keyup="searchCollection()"
-        />
+        <input type="text" id="searchTerm" name="searchTerm" @keyup="searchCollection()" />
         <button @click="searchCollection()">
           Search<img src="/images/SearchIconBlack.png" class="search-icon" />
         </button>
       </div>
     </div>
-    <!-- This is temporary and not right  -->
-    <!-- <div class="aside-container"> -->
-    <aside class="scrollable-aside">
-    <div class="collection-stats">Collection Statistics</div>
-    <div class="stats-row">
-      <div class="stat-item">
-        <h3>Card Types</h3>
-        <ul>
-          <li v-for="stat in this.collectionStats.cardTypeCounts" :key="stat.cardType">
-            {{ stat.cardType }} : {{ stat.count }}
-          </li>
-        </ul>
+    <div class="content-container">
+      <div class="left-container">
+        <div class="header-stats">
+          <div class="stat-item">
+            <h3>Rarities</h3>
+            <ul>
+              <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
+                {{ stat.rarity }} : {{ stat.count }}
+              </li>
+            </ul>
+          </div>
+          <div class="stat-item">
+            <h3>Total Value</h3>
+            <p>{{ this.collectionStats.totalCollectionPrice }}</p>
+          </div>
+        </div>
+        <div class="card-container" v-if="this.displayedCards.length > 0">
+          <div class="card" v-for="card in this.displayedCards" v-bind:key="card.cardId">
+            <router-link class="router-link" v-bind:to="{ name: 'cardDetails', params: { id: card.cardId } }">
+              <img :src="card.imageUrl" />
+            </router-link>
+          </div>
+        </div>
       </div>
-      <div class="stat-item">
-        <h3>Rarities</h3>
-        <ul>
-          <li v-for="stat in this.collectionStats.rarityCounts" :key="stat.rarity">
-            {{ stat.rarity }} : {{ stat.count }}
-          </li>
-        </ul>
-      </div>
-      <div class="stat-item">
-        <h3>Colors</h3>
-        <ul>
-          <li v-for="stat in this.collectionStats.cardColorCounts" :key="stat.cardColor">
-            {{ stat.cardColor }}: {{ stat.count }}
-          </li>
-        </ul>
-      </div>
-      <div class="stat-item">
-        <h3>Sets</h3>
-        <ul>
-          <li v-for="stat in this.collectionStats.setNameCounts" :key="stat.setName">
-            {{ stat.setName }}: {{ stat.count }}
-          </li>
-        </ul>
-      </div>
-      <div class="stat-item">
-        <h3>Total Value</h3>
-        <p>{{ this.collectionStats.totalCollectionPrice }}</p>
-      </div>
-    </div>
-  </aside>
-    <!-- This is temporary and not right  -->
-  <!-- <aside class="scrollable-aside">
-  <h3>Decks</h3>
-  <ul>
-    <li>
-    </li>
-  </ul>
-  </aside>
-  </div> -->
+      <div class="right-container">
+        <div class="stat-item">
+          <h3>Sets</h3>
+          <ul>
+            <li v-for="stat in this.collectionStats.setNameCounts" :key="stat.setName">
+              {{ stat.setName }}: {{ stat.count }}
+            </li>
+          </ul>
+        </div>
+        <div class="collection-stats">Collection Statistics</div>
 
-    <div class="card-container-search" v-if="this.displayedCards.length > 0">
-      <div
-        class="card"
-        v-for="card in this.displayedCards"
-        v-bind:key="card.cardId"
-      >
-        <router-link
-          class="router-link"
-          v-bind:to="{ name: 'cardDetails', params: { id: card.cardId } }"
-        >
-          <img :src="card.imageUrl" />
-        </router-link>
+        <div class="stats-row">
+          <div class="stat-item">
+            <h3>Card Types</h3>
+            <ul>
+              <li v-for="stat in this.collectionStats.cardTypeCounts" :key="stat.cardType">
+                {{ stat.cardType }} : {{ stat.count }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="stat-item">
+            <h3>Colors</h3>
+            <ul>
+              <li v-for="stat in this.collectionStats.cardColorCounts" :key="stat.cardColor">
+                {{ stat.cardColor }}: {{ stat.count }}
+              </li>
+            </ul>
+          </div>
+
+          
+        </div>
       </div>
     </div>
   </div>
@@ -121,42 +107,42 @@ export default {
     rename() {
       let collectionName = document.getElementById('txt-nameInput').value;
       CollectionService.renameCollection(this.$route.params.id, collectionName)
-      .then((response) => {
-        this.collection.collectionName = collectionName;
-        //SET_NOTIFICATION to 'Your collection has been renamed'
-        this.showNameInput = false;
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => {
+          this.collection.collectionName = collectionName;
+          //SET_NOTIFICATION to 'Your collection has been renamed'
+          this.showNameInput = false;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
     getCollectionStats() {
       CollectionService.getCollectionStats(this.$route.params.id)
-      .then((response) => {
-        console.log(response.data)
-        this.collectionStats = response.data
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => {
+          console.log(response.data)
+          this.collectionStats = response.data
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
     setPrivate() {
       CollectionService.setCollectionPrivate(this.$route.params.id)
-      .then((response) => {
-        alert('This collection is now unpublished')
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => {
+          alert('This collection is now unpublished')
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
     setPublic() {
       CollectionService.setCollectionPublic(this.$route.params.id)
-      .then((response) => {
-        alert('This collection has been published')
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        .then((response) => {
+          alert('This collection has been published')
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
     getCollectionById() {
       CollectionService.getCollectionById(this.$route.params.id)
@@ -191,13 +177,13 @@ export default {
     },
     searchCollection() {
       let search = document.getElementById('searchTerm').value;
-      let tempArray = 
-      this.collection.cards.filter((card) => {
-        return card.cardName.toLowerCase().includes(search.toLowerCase()) ||
-        card.cardType.toLowerCase().includes(search.toLowerCase()) ||
-        card.rarity.toLowerCase().includes(search.toLowerCase()) ||
-        card.setName.toLowerCase().includes(search.toLowerCase());
-      });
+      let tempArray =
+        this.collection.cards.filter((card) => {
+          return card.cardName.toLowerCase().includes(search.toLowerCase()) ||
+            card.cardType.toLowerCase().includes(search.toLowerCase()) ||
+            card.rarity.toLowerCase().includes(search.toLowerCase()) ||
+            card.setName.toLowerCase().includes(search.toLowerCase());
+        });
       this.displayedCards = tempArray;
     }
   },
@@ -209,14 +195,59 @@ export default {
 </script>
 
 <style scoped>
+* {
+  color: var(--onyx);
+}
 .collection-controls {
   display: flex;
   justify-content: space-evenly;
+  width:20%;
+  margin: auto;
+  gap:20px;
+  padding:10px;
+}
+.content-container {
+  display: flex;
+  width: 100%;
+  border: 2px solid green;
+}
+button{
+  padding: 10px;
+}
+.left-container {
+  width: 75%;
+  margin: 20px;
+  border: 2px solid rgb(255, 0, 221);
+  
+}
+.right-container{
+  display: flex;
+  flex-direction: column;
+  border: 2px solid red;
+  align-items: center;
+  width:25%;
+  margin: 20px;
+}
+.header-stats {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  border: 2px solid blue;
+  justify-content: space-evenly;
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  row-gap: 20px;
+  width: 100%;
+  
 }
 .collection-name-input {
   position: fixed;
   top: 50%;
-  left: 50%; 
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 30%;
   padding: 30px;
@@ -230,66 +261,7 @@ export default {
   align-content: center;
   justify-content: space-around;
 }
-
-#btn-close-name-input { 
-  position: absolute; 
-  top: 10px; 
-  right: 10px;
-  background-color: var(--platinum);
-}
-
-.collection-name {
-  color: var(--onyx);
-}
-.advanced-card-container {
-  width: 80%;
-  height: 800px;
-  background-color: var(--onyx);
-  margin: 50px auto;
-  position: relative;
-}
-.collection-stats {
-  color: var(--onyx);
-  margin: 10px;
-}
 .stat-item {
   color: var(--onyx);
-  margin: 50px;
 }
-
-.scrollable-aside {
-  margin: 50px;
-  width: 400px; /* Set a fixed width */
-  height: 50px; /* Set a fixed height to enable scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  border: 1px solid var(--platinum); /* Add a border for clarity */
-  padding: 15px; /* Add some padding for spacing */
-  background-color: #9ecec4; /* Light background for better readability */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for aesthetics */
-  border-radius: 8px; /* Optional: rounded corners */
-}
-
-.scrollable-aside h3 {
-  margin-top: 0; /* Remove default margin from heading */
-  font-size: 1.2rem; /* Adjust font size */
-  color: #333; /* Text color */
-}
-
-.scrollable-aside ul {
-  list-style-type: none; /* Remove default bullets */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-}
-
-.scrollable-aside li {
-  padding: 2px 0; /* Add spacing between items */
-  color: var(--onyx); /* Item text color */
-  font-size: 1rem; /* Font size */
-  border-bottom: 1px solid var(--platinum); /* Optional: underline each item */
-}
-
-.scrollable-aside li:last-child {
-  border-bottom: none; /* Remove underline for the last item */
-}
-
 </style>
