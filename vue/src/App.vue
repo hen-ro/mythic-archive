@@ -25,8 +25,8 @@
             <img src="/images/accountIcon.png" class="account" @click="toggleDropdown" />
           </span>
           <div v-if="isDropdownVisible" class="dropdown-menu">
-            <ul>
-              <router-link class="account-link" v-bind:to="{ name: 'collectionDetails', params: {id: this.$store.state.collectionId} }" v-if="this.$store.state.token != ''">My Collection</router-link>
+            <ul>  
+              <router-link class="account-link" v-bind:to="{ name: 'collectionDetails', params: {id: this.$store.state.user.id} }" v-if="this.$store.state.token != ''">My Collection</router-link>
               <router-link class="account-link" v-bind:to="{ name: 'logout' }" v-if="this.$store.state.token != ''">Logout</router-link>
             </ul>
           </div>
@@ -83,6 +83,9 @@ export default {
       })
     }
   },
+  mounted(){
+    console.log("userID"+this.$store.state.user.id);
+  }
 };
 </script>
 <style scoped>
