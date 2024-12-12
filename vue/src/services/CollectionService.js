@@ -56,8 +56,8 @@ export default {
         return http.get(`http://localhost:9000/collections/${id}/card-count?cardId=${cardId}`);
     },
 
-    setCollectionThumbnail(id, thumbnailUrl) {
-        return http.put(`http://localhost:9000/collections/${id}/set-thumbnail`, thumbnailUrl);
+    setCollectionThumbnail(id, thumbnailUrlDto) {
+        return http.put(`http://localhost:9000/collections/${id}/set-thumbnail`, thumbnailUrlDto);
     }
 
 }

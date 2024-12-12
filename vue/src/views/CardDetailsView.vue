@@ -108,15 +108,18 @@ export default {
     return {
       card: {},
       cardCount: "0",
-      // cardThumbnail: this.card.image_uris
-      //   ? this.card.image_uris?.art_crop
-      //   : this.card.card_faces
-      //   ? this.card.card_faces[0].image_uris?.art_crop
-      //   : "",
+      cardThumbnail: "",
       isCollectionThumbnail: false,
     };
   },
   computed: {
+    isCollectionThumbnail() {
+      const thumbnail = this.card.image_uris
+        ? this.card.image_uris?.art_crop
+        : this.card.card_faces
+        ? this.card.card_faces[0].image_uris?.art_crop
+        : "";
+    },
     plusButtonText() {
       if (this.$store.state.token == "") {
         return "You must be logged in to add a card to your collection";
@@ -228,9 +231,10 @@ export default {
         : this.card.card_faces
         ? this.card.card_faces[0].image_uris?.art_crop
         : "";
+        const thumbnailUrlDto = { thumbnailUrl : thumbnail }
         await CollectionService.setCollectionThumbnail(
           this.$store.state.user.id,
-          thumbnail
+          thumbnailUrlDto
         );
         this.isCollectionThumbnail = true;
       } catch (error) {

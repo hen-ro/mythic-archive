@@ -93,12 +93,16 @@ public class JdbcCardDao implements CardDao{
         String cardType = type;
         if (type.toLowerCase().contains(" planeswalker ")) {
             cardType = "Planeswalker";
+        } else if (type.toLowerCase().contains(" creature ") && type.toLowerCase().contains(" artifact ")) {
+            cardType = "Artifact, Creature";
+        } else if (type.toLowerCase().contains(" creature ") && type.toLowerCase().contains(" enchantment ")) {
+            cardType = "Enchantment, Creature";
+        } else if (type.toLowerCase().contains(" creature ")) {
+            cardType = "Creature";
         } else if (type.toLowerCase().contains(" enchantment ")) {
             cardType = "Enchantment";
         } else if (type.toLowerCase().contains(" artifact ")) {
             cardType = "Artifact";
-        } else if (type.toLowerCase().contains(" creature ")) {
-            cardType = "Creature";
         } else if (type.toLowerCase().contains(" sorcery ")) {
             cardType = "Sorcery";
         } else if (type.toLowerCase().contains(" instant ")) {
