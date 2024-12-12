@@ -14,9 +14,11 @@
             class="icon" /></router-link>
         
         <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/></span>
+
         <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
           <img class="account" src='/images/accountIcon.png' />
         </router-link>
+        
         <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">
           Sign In
         </router-link>

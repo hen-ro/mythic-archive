@@ -147,6 +147,7 @@ button:hover {
 
 button:active {
   background-color: var(--perry);
+  background-color: #1a7571;
 }
 
 .search-icon {
