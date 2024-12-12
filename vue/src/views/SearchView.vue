@@ -78,7 +78,6 @@ export default {
     search() {
       SearchService.search(this.searchTerm)
         .then((response) => {
-          console.log(this.cards.length);
           this.cards = response.data.data.map((card) => ({
             id: card.id,
             name: card.name,

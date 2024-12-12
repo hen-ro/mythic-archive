@@ -23,7 +23,7 @@
         >
           -
         </button>
-        <div class="card-count">{{ this.cardCount }}</div>
+        <div class="card-count">{{ this.$store.state.token != '' ? this.cardCount : 0 }}</div>
         <button
           @click="addToCollection"
           class="plus-minus"
@@ -39,11 +39,11 @@
           @click="setCollectionThumbnail"
           class="set-image"
           title="Set as thumbnail"
-          v-if="!this.isCollectionThumbnail && this.$store.state.token != ''"
+          v-if="this.$store.state.token != '' && !this.isCollectionThumbnail"
         >
           Make collection thumbnail
         </button>
-        <p v-if="this.isCollectionThumbnail && this.$store.state.token != ''">
+        <p v-if="this.$store.state.token != '' && this.isCollectionThumbnail">
           This card is your collection's current thumbnail
         </p>
       </div>
@@ -118,15 +118,13 @@ export default {
         : this.card.card_faces
         ? this.card.card_faces[0].image_uris?.art_crop
         : "";
-      // CollectionService.getCollectionThumbnail(this.$store.state.user.id)
-      //   .then((response) => {
-      //     this.collectionThumbnail = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error fetching data:", error);
-      //   });
-      console.log(thumbnail);
-      console.log(this.collectionThumbnail);
+      CollectionService.getCollectionThumbnail(this.$store.state.user.id)
+        .then((response) => {
+          this.collectionThumbnail = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
       return thumbnail.toLowerCase() === this.collectionThumbnail.toLowerCase();
     },
     plusButtonText() {
@@ -244,7 +242,6 @@ export default {
           this.$store.state.user.id,
           thumbnailUrlDto
         );
-        this.isCollectionThumbnail = true;
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -254,7 +251,9 @@ export default {
     SearchService.searchById(this.$route.params.id).then((response) => {
       this.card = response.data;
     });
-    this.refreshCardCount();
+    if (this.$store.state.token != '') {
+      this.refreshCardCount();
+    }
   },
 };
 </script>
