@@ -113,13 +113,13 @@ export default {
     };
   },
   computed: {
-    isCollectionThumbnail() {
-      const thumbnail = this.card.image_uris
-        ? this.card.image_uris?.art_crop
-        : this.card.card_faces
-        ? this.card.card_faces[0].image_uris?.art_crop
-        : "";
-    },
+    // isCollectionThumbnail() {
+    //   // const thumbnail = this.card.image_uris
+    //   //   ? this.card.image_uris?.art_crop
+    //   //   : this.card.card_faces
+    //   //   ? this.card.card_faces[0].image_uris?.art_crop
+    //   //   : "";
+    // },
     plusButtonText() {
       if (this.$store.state.token == "") {
         return "You must be logged in to add a card to your collection";

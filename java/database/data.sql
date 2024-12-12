@@ -33,21 +33,22 @@ INSERT INTO users (username, email, password_hash, role) VALUES
 INSERT INTO collections (collection_name, user_id, is_public, thumbnail_url) VALUES
 ('user''s Collection', 1, false, 'images/CardBack.jpg'),
 ('admin''s Collection', 2, true, 'images/CardBack.jpg'),
-('Robert Downey Jr''s Collection', 3, FALSE, 'images/CardBack.jpg'),
-('Scarlett Johansson''s Collection', 4, FALSE, 'images/CardBack.jpg'),
-('Chris Hemsworth''s Collection', 5, TRUE, 'images/CardBack.jpg'),
-('Tom Holland''s Collection', 6, FALSE, 'images/CardBack.jpg'),
-('Natalie Portman''s Collection', 7, TRUE, 'images/CardBack.jpg'),
-('Chris Evans Collection', 8, FALSE, 'images/CardBack.jpg'),
-('Austin Post''s Collection', 9, TRUE, 'images/CardBack.jpg'),
-('Emma Watson''s Collection', 10, FALSE, 'images/CardBack.jpg'),
-('Will Smith''s Collection', 11, TRUE, 'images/CardBack.jpg'),
-('Johnny Depp''s Collection', 12, FALSE, 'images/CardBack.jpg'),
-('Seth Green''s Collection', 13, TRUE, 'images/CardBack.jpg'),
-('Jason Alexander''s Collection', 14, FALSE, 'images/CardBack.jpg');
+('Robert Downey Jr''s Collection', 3, FALSE, 'https://cards.scryfall.io/art_crop/front/0/3/0321b706-87b0-4bea-89d3-ec2e7252dc7c.jpg?1681158265'),
+('Scarlett Johansson''s Collection', 4, FALSE, 'https://cards.scryfall.io/art_crop/front/1/a/1a67768a-6cd9-4163-b941-752f29c87a8d.jpg?1562628781'),
+('Chris Hemsworth''s Collection', 5, TRUE, 'https://cards.scryfall.io/art_crop/front/3/d/3d367fee-514c-4995-95ad-a2a6b3c35270.jpg?1573508901'),
+('Tom Holland''s Collection', 6, FALSE, 'https://cards.scryfall.io/art_crop/front/4/c/4cc198d8-1f27-482d-8f5d-21e02c59797a.jpg?1561826057'),
+('Natalie Portman''s Collection', 7, TRUE, 'https://cards.scryfall.io/art_crop/front/6/3/63b2dcb1-8c3e-434c-865a-196d4d799706.jpg?1562630260'),
+('Chris Evans Collection', 8, FALSE, 'https://cards.scryfall.io/art_crop/front/7/4/74fe1060-3069-46b7-9a84-916d87b30e6e.jpg?1562918436'),
+('Austin Post''s Collection', 9, TRUE, 'https://cards.scryfall.io/art_crop/front/d/5/d5806e68-1054-458e-866d-1f2470f682b2.jpg?1715080486'),
+('Emma Watson''s Collection', 10, FALSE, 'https://cards.scryfall.io/art_crop/front/a/8/a84666a8-4ce5-46e7-9a39-f64a392515e7.jpg?1562802924'),
+('Will Smith''s Collection', 11, TRUE, 'https://cards.scryfall.io/art_crop/front/b/a/ba9153ce-2acd-4170-a2ab-c8b660614152.jpg?1593095773'),
+('Johnny Depp''s Collection', 12, FALSE, 'https://cards.scryfall.io/art_crop/front/d/1/d1f8eccc-551d-4109-866e-7285435ffd19.jpg?1562823091'),
+('Seth Green''s Collection', 13, TRUE, 'https://cards.scryfall.io/art_crop/front/e/4/e4dd8d84-2bbc-4068-9b93-0250b793b622.jpg?1690000608'),
+('Jason Alexander''s Collection', 14, FALSE, 'https://cards.scryfall.io/art_crop/front/f/7/f76514aa-3cc1-4d5f-ba33-d933a36920a4.jpg?1562880773');
 
 --Cards table
 INSERT INTO cards(card_id, card_name, card_type, card_color, mana_cost, rarity, price, set_name, image_url, thumbnail_url) VALUES
+('d5806e68-1054-458e-866d-1f2470f682b2','The One Ring','Legendary Artifact','Colorless','{4}','mythic',56.87,'The Lord of the Rings: Tales of Middle-earth','https://cards.scryfall.io/large/front/d/5/d5806e68-1054-458e-866d-1f2470f682b2.jpg?1715080486','https://cards.scryfall.io/art_crop/front/d/5/d5806e68-1054-458e-866d-1f2470f682b2.jpg?1715080486'),
 ('0321b706-87b0-4bea-89d3-ec2e7252dc7c','A-Ancestral Katana','Equipment','W','{1}{W}','common',-1.0,'Kamigawa: Neon Dynasty','https://cards.scryfall.io/large/front/0/3/0321b706-87b0-4bea-89d3-ec2e7252dc7c.jpg?1681158265','https://cards.scryfall.io/art_crop/front/0/3/0321b706-87b0-4bea-89d3-ec2e7252dc7c.jpg?1681158265'),
 ('0727043a-3121-4055-9cbe-86dced26ed31','Serendib Efreet','Creature','U','{2}{U}','rare',0.06,'The List','https://cards.scryfall.io/large/front/0/7/0727043a-3121-4055-9cbe-86dced26ed31.jpg?1573508329','https://cards.scryfall.io/art_crop/front/0/7/0727043a-3121-4055-9cbe-86dced26ed31.jpg?1573508329'),
 ('0743a840-d129-4d30-85dc-6fda3e0dac5c','Augury Owl','Creature','U','{1}{U}','common',0.21,'The List','https://cards.scryfall.io/large/front/0/7/0743a840-d129-4d30-85dc-6fda3e0dac5c.jpg?1573506903','https://cards.scryfall.io/art_crop/front/0/7/0743a840-d129-4d30-85dc-6fda3e0dac5c.jpg?1573506903'),
@@ -311,6 +312,7 @@ INSERT INTO cards_collections(card_id, collection_id, quantity) VALUES
 
 --Austin Post's collection
 INSERT INTO cards_collections(card_id, collection_id, quantity) VALUES
+('d5806e68-1054-458e-866d-1f2470f682b2',9,1),
 ('8c05a4d9-37f9-42ac-8dca-b31480904b51',9,13),
 ('8cbf0743-6671-4064-8166-066908c3dd1d',9,12),
 ('8f54c6ce-fde4-47ef-a106-5c68b4397f99',9,15),

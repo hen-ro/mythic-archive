@@ -103,6 +103,9 @@ public class JdbcCollectionDao implements CollectionDao{
             updatedCollection = getCollectionById(updatedCollectionId);
             if (updatedCollection != null) {
                 updatedCollection.setCardCount(card.getCardId(), quantity);
+                if (updatedCollection.getCards().size() == 1) {
+                    int updatedThumbailValue = setCollectionThumbnail(updatedCollectionId, card.getThumbnailUrl());
+                }
             }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
