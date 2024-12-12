@@ -8,6 +8,7 @@ import java.util.*;
 public class User {
 
    private int id;
+   private int collectionId;
    private String username;
    @Email
    private String email;
@@ -72,6 +73,14 @@ public class User {
 
    public void setAuthorities(Set<Authority> authorities) {
       this.authorities = authorities;
+   }
+
+   public int getCollectionId() {
+      return collectionId;
+   }
+
+   public void setCollectionId(int collectionId) {
+      this.collectionId = collectionId;
    }
 
    public void setAuthorities(String authorities) {

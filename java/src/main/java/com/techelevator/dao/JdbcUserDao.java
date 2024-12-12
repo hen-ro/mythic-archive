@@ -18,7 +18,8 @@ import com.techelevator.model.User;
 
 @Component
 public class JdbcUserDao implements UserDao {
-    private final String USER_SELECT = "SELECT user_id, username, email, password_hash, role FROM users";
+    private final String USER_SELECT = "SELECT users.user_id, collections.collection_id, users.username, users.email, users.password_hash, users.role" +
+                                       " FROM users INNER JOIN collections ON collections.user_id = users.user_id";
 
     private final String USER_INSERT = "INSERT INTO users (username, email, password_hash, role) values (LOWER(TRIM(?)), LOWER(TRIM(?)), ?, ?)";
     private final JdbcTemplate jdbcTemplate;
@@ -30,7 +31,7 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User getUserById(int userId) {
         User user = null;
-        String sql = USER_SELECT +  " WHERE user_id = ?";
+        String sql = USER_SELECT +  " WHERE users.user_id = ?";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             if (results.next()) {
@@ -62,7 +63,7 @@ public class JdbcUserDao implements UserDao {
     public User getUserByUsername(String username) {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
         User user = null;
-        String sql = USER_SELECT + " WHERE username = LOWER(TRIM(?));";
+        String sql = USER_SELECT + " WHERE users.username = LOWER(TRIM(?));";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
             if (rowSet.next()) {
@@ -77,17 +78,14 @@ public class JdbcUserDao implements UserDao {
     @Override
     public User createUser(RegisterUserDto user) {
         User newUser = null;
-        String insertUserSql = USER_INSERT + " RETURNING user_id";
+        String insertUserSql = USER_INSERT + " RETURNING users.user_id";
         String password_hash = new BCryptPasswordEncoder().encode(user.getPassword());
         String ssRole = user.getRole().toUpperCase().startsWith("ROLE_") ? user.getRole().toUpperCase() : "ROLE_" + user.getRole().toUpperCase();
         try {
             int newUserId = jdbcTemplate.queryForObject(insertUserSql, int.class, user.getUsername(), user.getEmail(), password_hash, ssRole);
+            String collectionSql = "INSERT INTO public.collections(user_id, collection_name) VALUES (?, ?) RETURNING collection_id";
+            int collectionId = jdbcTemplate.queryForObject(collectionSql, int.class, newUserId, user.getUsername() + "'s Collection");
             newUser = getUserById(newUserId);
-            if (newUser != null) {
-                // create collection
-                String collectionSql = "INSERT INTO public.collections(user_id, collection_name) VALUES (?, ?)";
-                jdbcTemplate.update(collectionSql,newUserId, newUser.getUsername() + "'s Collection");
-            }
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         } catch (DataIntegrityViolationException e) {
@@ -102,6 +100,7 @@ public class JdbcUserDao implements UserDao {
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password_hash"));
+        user.setCollectionId(rs.getInt("collection_id"));
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(true);
         return user;

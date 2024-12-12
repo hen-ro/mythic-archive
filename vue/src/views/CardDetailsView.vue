@@ -109,23 +109,12 @@ export default {
       card: {},
       cardCount: "0",
       collectionThumbnail: "",
+      cardThumbnail: ""
     };
   },
   computed: {
     isCollectionThumbnail() {
-      const thumbnail = this.card.image_uris
-        ? this.card.image_uris?.art_crop
-        : this.card.card_faces
-        ? this.card.card_faces[0].image_uris?.art_crop
-        : "";
-      CollectionService.getCollectionThumbnail(this.$store.state.user.id)
-        .then((response) => {
-          this.collectionThumbnail = response.data;
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-      return thumbnail.toLowerCase() === this.collectionThumbnail.toLowerCase();
+      return this.cardThumbnail.toLowerCase() === this.collectionThumbnail.toLowerCase();
     },
     plusButtonText() {
       if (this.$store.state.token == "") {
@@ -218,9 +207,18 @@ export default {
       });
       this.refreshCardCount();
     },
+    getCollectionThumbnail() {
+      CollectionService.getCollectionThumbnail(this.$store.state.user.collectionId)
+        .then((response) => {
+          this.collectionThumbnail = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
     refreshCardCount() {
       CollectionService.getCardCount(
-        this.$store.state.user.id,
+        this.$store.state.user.collectionId,
         this.$route.params.id
       )
         .then((response) => {
@@ -230,31 +228,41 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
-    async setCollectionThumbnail() {
-      try {
-        const thumbnail = this.card.image_uris
-          ? this.card.image_uris?.art_crop
-          : this.card.card_faces
-          ? this.card.card_faces[0].image_uris?.art_crop
-          : "";
-        const thumbnailUrlDto = { thumbnailUrl: thumbnail };
-        await CollectionService.setCollectionThumbnail(
-          this.$store.state.user.id,
+    setCollectionThumbnail() {
+        const thumbnailUrlDto = { thumbnailUrl: this.cardThumbnail };
+        CollectionService.setCollectionThumbnail(
+          this.$store.state.user.collectionId,
           thumbnailUrlDto
-        );
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+        )
+        .then((response) => {
+          this.collectionThumbnail = this.cardThumbnail;
+        })
+        .catch ((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
+    setCardThumbnail() {
+      this.cardThumbnail = this.card.image_uris
+        ? this.card.image_uris?.art_crop
+        : this.card.card_faces
+        ? this.card.card_faces[0].image_uris?.art_crop
+        : "";
+    }
   },
   created() {
     SearchService.searchById(this.$route.params.id).then((response) => {
       this.card = response.data;
+      this.cardThumbnail = this.card.image_uris
+        ? this.card.image_uris?.art_crop
+        : this.card.card_faces
+        ? this.card.card_faces[0].image_uris?.art_crop
+        : "";
     });
     if (this.$store.state.token != '') {
       this.refreshCardCount();
+      this.getCollectionThumbnail();
     }
-  },
+  }
 };
 </script>
 

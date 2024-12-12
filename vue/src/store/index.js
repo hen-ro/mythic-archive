@@ -7,7 +7,6 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || "",
       user: currentUser || {},
-      collectionId: 0,
       request: {
         card: {
           cardId: "",
@@ -22,8 +21,7 @@ export function createStore(currentToken, currentUser) {
         },
         userId: 0,
         quantity: 0,
-      },
-      collectionCards: new Map(),
+      }
     },
     mutations: {
       BUILD_REQUEST(state, payload) {
@@ -61,6 +59,7 @@ export function createStore(currentToken, currentUser) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       },
       SET_USER(state, user) {
+        console.log(user);
         state.user = user;
         localStorage.setItem("user", JSON.stringify(user));
       },
@@ -76,16 +75,6 @@ export function createStore(currentToken, currentUser) {
       },
     },
     actions: {
-      getCollectionIdByUser() {
-        CollectionService.getCollectionIdByUser(this.state.user.id)
-          .then((response) => {
-            let id = response.data;
-            this.commit("SET_COLLECTION_ID", id);
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-          });
-      },
       async addToCollection({ commit }, payload) {
         this.commit("BUILD_REQUEST", payload);
         try {

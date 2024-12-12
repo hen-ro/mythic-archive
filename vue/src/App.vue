@@ -21,7 +21,7 @@
           </button>
           <div class="dropdown-menu" v-if="showDropdown">
             <router-link class="dropdown-item"
-              v-bind:to="{ name: 'collectionDetails', params: { id: this.$store.state.collectionId } }"
+              v-bind:to="{ name: 'collectionDetails', params: { id: this.$store.state.user.collectionId } }"
               v-if="this.$store.state.token != ''">My Collection</router-link>
             <router-link class="dropdown-item" v-bind:to="{ name: 'logout' }"
               v-if="this.$store.state.token != ''">Logout</router-link>
@@ -78,7 +78,6 @@ export default {
   },
   mounted() {
     document.addEventListener('click', this.handleClickOutside);
-    this.$store.dispatch('getCollectionIdByUser');
   },
   beforeDestroy() {
     document.removeEventListener('click', this.handleClickOutside);

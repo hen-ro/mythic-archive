@@ -73,7 +73,7 @@ public class AuthenticationController {
     }
     @GetMapping("/user/{id}/username")
     public String getUsernameByUserId(@PathVariable int id) {
-        try{
+        try {
             return userDao.getUserById(id).getUsername();
         } catch (DaoException e) {
         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

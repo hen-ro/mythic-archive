@@ -44,6 +44,7 @@ export default {
         .then(response => {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
+            console.log(response.data);
             this.$store.commit("SET_USER", response.data.user);
             this.$router.push("/");
           }
