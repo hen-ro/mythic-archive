@@ -199,6 +199,15 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PreAuthorize("permitAll()")
+    @GetMapping("{id}/get-thumbnail")
+    public ResponseEntity<String> getCollectionThumbnail(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(collectionDao.getCollectionById(id).getThumbnailUrl(), HttpStatus.OK);
+        } catch (DaoException e) {
+            return new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 
 

@@ -12,7 +12,7 @@
         :alt="card.name"
       />
       <div class="card-price">
-        ${{ card.hasOwnProperty('prices.usd') ? card.prices.usd : "---" }}
+        ${{ card.hasOwnProperty("prices.usd") ? card.prices.usd : "---" }}
       </div>
       <div class="card-footer">
         <button
@@ -108,18 +108,27 @@ export default {
     return {
       card: {},
       cardCount: "0",
-      cardThumbnail: "",
-      isCollectionThumbnail: false,
+      collectionThumbnail: "",
     };
   },
   computed: {
-    // isCollectionThumbnail() {
-    //   // const thumbnail = this.card.image_uris
-    //   //   ? this.card.image_uris?.art_crop
-    //   //   : this.card.card_faces
-    //   //   ? this.card.card_faces[0].image_uris?.art_crop
-    //   //   : "";
-    // },
+    isCollectionThumbnail() {
+      const thumbnail = this.card.image_uris
+        ? this.card.image_uris?.art_crop
+        : this.card.card_faces
+        ? this.card.card_faces[0].image_uris?.art_crop
+        : "";
+      CollectionService.getCollectionThumbnail(this.$store.state.user.id)
+        .then((response) => {
+          this.collectionThumbnail = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+      console.log(thumbnail);
+      console.log(this.collectionThumbnail);
+      return thumbnail.toLowerCase() === this.collectionThumbnail.toLowerCase();
+    },
     plusButtonText() {
       if (this.$store.state.token == "") {
         return "You must be logged in to add a card to your collection";
@@ -178,7 +187,6 @@ export default {
       }
     },
     closeDetails() {
-      this.$emit("close-details");
       this.$router.go(-1);
     },
     getCardColors(card) {
@@ -227,11 +235,11 @@ export default {
     async setCollectionThumbnail() {
       try {
         const thumbnail = this.card.image_uris
-        ? this.card.image_uris?.art_crop
-        : this.card.card_faces
-        ? this.card.card_faces[0].image_uris?.art_crop
-        : "";
-        const thumbnailUrlDto = { thumbnailUrl : thumbnail }
+          ? this.card.image_uris?.art_crop
+          : this.card.card_faces
+          ? this.card.card_faces[0].image_uris?.art_crop
+          : "";
+        const thumbnailUrlDto = { thumbnailUrl: thumbnail };
         await CollectionService.setCollectionThumbnail(
           this.$store.state.user.id,
           thumbnailUrlDto
@@ -403,8 +411,8 @@ h3 {
   flex-wrap: wrap;
   max-width: 90%;
 }
-.close{
-  width:100px;
+.close {
+  width: 100px;
   height: 50px;
 }
 

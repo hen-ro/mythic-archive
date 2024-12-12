@@ -58,6 +58,10 @@ export default {
 
     setCollectionThumbnail(id, thumbnailUrlDto) {
         return http.put(`http://localhost:9000/collections/${id}/set-thumbnail`, thumbnailUrlDto);
+    },
+
+    getCollectionThumbnail(id) {
+        return http.get(`http://localhost:9000/collections/${id}/get-thumbnail`);
     }
 
 }
