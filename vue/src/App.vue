@@ -12,11 +12,22 @@
             class="icon-search" /></router-link>
         <router-link class="nav-item" v-bind:to="{ name: 'collections' }">Collections<img src='/images/CollectionIcon.png'
             class="icon" /></router-link>
-        
-        <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle"/></span>
-        <router-link class="nav-item" v-bind:to="{ name: 'account' }" v-if="this.$store.state.token != ''">
-          <img class="account" src='/images/accountIcon.png' />
-        </router-link>
+
+        <span><img src="/images/shuffleIcon.png" class="shuffle-icon" @click="shuffle" /></span>
+
+        <div class="dropdown">
+          <button class="account-button" @click="toggleDropdown">
+            <img class="account" src='/images/accountIcon.png' />
+          </button>
+          <div class="dropdown-menu" v-if="showDropdown">
+            <router-link class="account-link"
+              v-bind:to="{ name: 'collectionDetails', params: { id: this.$store.state.collectionId } }"
+              v-if="this.$store.state.token != ''">My Collection</router-link>
+            <router-link class="account-link" v-bind:to="{ name: 'logout' }"
+              v-if="this.$store.state.token != ''">Logout</router-link>
+          </div>
+        </div>
+
         <router-link class="nav-item" v-bind:to="{ name: 'login' }" v-if="this.$store.state.token === ''">
           Sign In
         </router-link>
@@ -40,23 +51,27 @@ export default {
   data() {
     return {
       randomCardUrl: null,
+      showDropdown: false
     };
   },
   methods: {
-  shuffle() {
-    SearchService.getRandomCard()
-      .then((response) => {
-        console.log("Fetched card:", response);
-        this.randomCardUrl = response.data.id; 
-        this.$router.push({name:'duh', params: { id: this.randomCardUrl }});
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-      
-  },
+    shuffle() {
+      SearchService.getRandomCard()
+        .then((response) => {
+          console.log("Fetched card:", response);
+          this.randomCardUrl = response.data.id;
+          this.$router.push({ name: 'duh', params: { id: this.randomCardUrl } });
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
 
-},
+    },
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
+
+  },
 };
 </script>
 <style scoped>
@@ -91,8 +106,43 @@ export default {
   padding-bottom: 5px;
 }
 
+.account-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
 .account {
   width: 1.8vw;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-item, .dropdown-item:vi{
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
 }
 
 .icon {
@@ -171,5 +221,4 @@ export default {
   height: 300px;
   position: fixed;
   margin-top: 300px;
-}
-</style>
+}</style>

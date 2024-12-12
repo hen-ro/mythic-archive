@@ -63,7 +63,7 @@
     border: 2px solid var(--platinum);
     border-radius: 5px;
     position: absolute;
-    transition: top 0.3s ease; /* Smooth animation for movement */
+    transition: top 0.3s ease;
   }
   
   .index {

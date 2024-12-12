@@ -53,7 +53,7 @@
     <div class="details-container">
       <div class="details-header">
         <h2>{{ card.name }}</h2>
-        <button></button>
+        <button @click="closeDetails" class="close">Back</button>
       </div>
       <div class="stat-container">
         <div class="stat">
@@ -175,7 +175,7 @@ export default {
       }
     },
     closeDetails() {
-      //this.$emit("close-details");
+      this.$emit("close-details");
       this.$router.go(-1);
     },
     getCardColors(card) {
@@ -398,6 +398,10 @@ h3 {
   height: 60%;
   flex-wrap: wrap;
   max-width: 90%;
+}
+.close{
+  width:100px;
+  height: 50px;
 }
 
 @media (max-width: 768px) {
