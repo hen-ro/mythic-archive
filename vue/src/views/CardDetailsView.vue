@@ -12,7 +12,7 @@
         :alt="card.name"
       />
       <div class="card-price">
-        ${{ card.prices.usd ? card.prices.usd : "---" }}
+        ${{ card.hasOwnProperty('prices.usd') ? card.prices.usd : "---" }}
       </div>
       <div class="card-footer">
         <button
@@ -108,6 +108,11 @@ export default {
     return {
       card: {},
       cardCount: "0",
+      // cardThumbnail: this.card.image_uris
+      //   ? this.card.image_uris?.art_crop
+      //   : this.card.card_faces
+      //   ? this.card.card_faces[0].image_uris?.art_crop
+      //   : "",
       isCollectionThumbnail: false,
     };
   },
@@ -140,7 +145,7 @@ export default {
       if (manaCost.includes("//")) {
         manaCost = manaCost.replace(/\/\//g, " & ");
       } else if (manaCost.includes("/")) {
-        manaCost = manaCost.replace(/\//g, "}/{");
+        manaCost = manaCost.replace(/\//g, "} / {");
       }
       return manaCost.replace(/{(\w)}/g, (match, symbol) => {
         return `<img src="/Images/MTGMana/{${symbol}}.svg" alt="${symbol}" style="height:30px; margin:0 2px;" />`;
@@ -217,12 +222,12 @@ export default {
         });
     },
     async setCollectionThumbnail() {
-      const thumbnail = this.card.image_uris
+      try {
+        const thumbnail = this.card.image_uris
         ? this.card.image_uris?.art_crop
         : this.card.card_faces
         ? this.card.card_faces[0].image_uris?.art_crop
         : "";
-      try {
         await CollectionService.setCollectionThumbnail(
           this.$store.state.user.id,
           thumbnail

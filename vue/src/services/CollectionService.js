@@ -57,7 +57,7 @@ export default {
     },
 
     setCollectionThumbnail(id, thumbnailUrl) {
-        return http.get(`http://localhost:9000/collections/${id}/set-thumbnail?thumbnailUrl=${thumbnailUrl}`);
+        return http.put(`http://localhost:9000/collections/${id}/set-thumbnail`, thumbnailUrl);
     }
 
 }

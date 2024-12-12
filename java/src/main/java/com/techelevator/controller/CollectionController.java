@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/collections")
 @PreAuthorize("isAuthenticated()")
-@CrossOrigin(origins = "http://localhost:5173")
 public class CollectionController {
 
     private final CardDao cardDao;
@@ -191,7 +191,7 @@ public class CollectionController {
     }
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-thumbnail")
-    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestParam String thumbnailUrl) {
+    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestBody String thumbnailUrl) {
         try {
             int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnailUrl);
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);

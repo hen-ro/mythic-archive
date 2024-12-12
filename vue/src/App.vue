@@ -22,7 +22,7 @@
         //WIP Dropdown Code
         <div>
           <span>
-            <img src="images/accountIcon.png" class="account" @click="toggleDropdown" />
+            <img src="/images/accountIcon.png" class="account" @click="toggleDropdown" />
           </span>
           <div v-if="isDropdownVisible" class="dropdown-menu">
             <ul>
