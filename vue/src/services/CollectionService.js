@@ -52,7 +52,11 @@ export default {
     },
     
     getCardCount(id, cardId) {
-        return http.get(`http://localhost:9000/collections/${id}/card-count?cardId=${cardId}`)
+        return http.get(`http://localhost:9000/collections/${id}/card-count?cardId=${cardId}`);
+    },
+
+    setCollectionThumbnail(id, thumbnailUrl) {
+        return http.get(`http://localhost:9000/collections/${id}/set-thumbnail?thumbnailUrl=${thumbnailUrl}`);
     }
 
 }

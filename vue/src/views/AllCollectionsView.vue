@@ -40,11 +40,11 @@ export default {
   methods: {
     getAllPublicCollections() {
       CollectionService.getAllPublicCollections()
-      .then((response) => {
-        console.log(response.data)
-        this.collections = response.data
-      })
-      .catch((error) => {
+        .then((response) => {
+          console.log(response.data);
+          this.collections = response.data;
+        })
+        .catch((error) => {
           console.error("Error fetching data:", error);
       });
     },
@@ -71,6 +71,7 @@ export default {
   width: 70%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  row-gap: 20px;
 }
 
 .collection-object {
