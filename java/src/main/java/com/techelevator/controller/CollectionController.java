@@ -191,9 +191,9 @@ public class CollectionController {
     }
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-thumbnail")
-    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestBody String thumbnailUrl) {
+    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestBody ThumbnailUrlDto thumbnailUrl) {
         try {
-            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnailUrl);
+            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnailUrl.getThumbnailUrl());
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
