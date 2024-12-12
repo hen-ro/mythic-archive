@@ -36,8 +36,8 @@ export function createStore(currentToken, currentUser) {
         state.request.card.cardName = card.name;
         state.request.card.cardType = card.type_line;
         state.request.card.cardColor = cardColor;
-        state.request.card.manaCost = card.mana_cost ? card.mana_cost : card.card_faces ? card.card_faces[0].mana_cost || ' ' || card.card_faces[1].mana_cost : '';
-        state.request.card.rarity = card.rarity;
+        state.request.card.manaCost = card.mana_cost ? card.mana_cost : card.card_faces ? card.card_faces[0].mana_cost || '' || card.card_faces[1].mana_cost : '';
+        state.request.card.rarity = card.rarity === 'bonus' ? 'mythic' : card.rarity;
         state.request.card.price = card.prices.usd ? card.prices.usd : -1.00;
         state.request.card.setName = card.set_name;
         state.request.card.thumbnailUrl = card.image_uris ? card.image_uris?.art_crop : card.card_faces ? card.card_faces[0].image_uris?.art_crop : '';
@@ -79,7 +79,7 @@ export function createStore(currentToken, currentUser) {
         console.log(this.state.request)
         CollectionService.addCardToCollection(this.state.request)
           .then((response) => {
-            alert('This card has been added to your collection')
+            // alert('This card has been added to your collection')
           })
           .catch((error) => {
             console.error("Error fetching data:", error);
@@ -89,7 +89,7 @@ export function createStore(currentToken, currentUser) {
         this.commit('BUILD_REQUEST', payload);
         CollectionService.removeCardFromCollection(this.state.request)
           .then((response) => {
-            alert('This card has been removed from your collection')
+            // alert('This card has been removed from your collection')
           })
           .catch((error) => {
             console.error("Error fetching data:", error);

@@ -3,32 +3,54 @@
     <h1>Search</h1>
     <div class="searchBox">
       <div class="field">
-        <input
-          type="text"
-          id="searchTerm"
-          name="searchTerm"
-          v-model="this.searchTerm"
-        />
+        <input type="text" id="searchTerm" name="searchTerm" v-model="searchTerm" />
         <button @click="search">
           Search<img src="/images/SearchIconBlack.png" class="search-icon" />
         </button>
       </div>
     </div>
-    <div class="card-container" v-if="cards.length > 0">
-      <div
-        class="card"
-        v-for="card in this.cards"
-        v-bind:key="card.id"
+    <div class="page-control" v-if="totalPages > 1">
+      <button
+        class="page-buttons"
+        :disabled="currentPage === 1"
+        @click="prevPage"
       >
-        <router-link
-          class="router-link"
-          v-bind:to="{ name: 'cardDetails', params: { id: card.id } }"
-        >
+        Back
+      </button>
+      <div>Page {{ currentPage }} of {{ totalPages }}</div>
+      <button
+        class="page-buttons"
+        :disabled="currentPage === totalPages"
+        @click="nextPage"
+      >
+        Next
+      </button>
+    </div>
+    <div class="card-container-search" v-if="paginatedCards.length > 0">
+      <div class="card" v-for="card in paginatedCards" :key="card.id">
+        <router-link class="router-link" :to="{ name: 'cardDetails', params: { id: card.id } }">
           <img :src="card.imageUrl" />
         </router-link>
       </div>
     </div>
   </div>
+  <div class="page-control" v-if="totalPages > 1">
+      <button
+        class="page-buttons"
+        :disabled="currentPage === 1"
+        @click="prevPage"
+      >
+        Back
+      </button>
+      <div>Page {{ currentPage }} of {{ totalPages }}</div>
+      <button
+        class="page-buttons"
+        :disabled="currentPage === totalPages"
+        @click="nextPage"
+      >
+        Next
+      </button>
+    </div>
 </template>
 
 <script>
@@ -39,27 +61,48 @@ export default {
     return {
       searchTerm: "",
       cards: [],
+      currentPage: 1,
+      itemsPerPage: 40,
     };
   },
-
+  computed: {
+    totalPages() {
+      return Math.ceil(this.cards.length / this.itemsPerPage);
+    },
+    paginatedCards() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      return this.cards.slice(startIndex, startIndex + this.itemsPerPage);
+    },
+  },
   methods: {
     search() {
       SearchService.search(this.searchTerm)
         .then((response) => {
+          console.log(this.cards.length);
           this.cards = response.data.data.map((card) => ({
             id: card.id,
             name: card.name,
             imageUrl: card.image_uris
-              ? card.image_uris?.normal || ""
+              ? card.image_uris.normal || ""
               : card.card_faces
-              ? card.card_faces[0].image_uris?.normal || ""
+              ? card.card_faces[0].image_uris.normal || ""
               : "",
           }));
-          console.log(this.cards);
+          this.currentPage = 1; 
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage -= 1;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage += 1;
+      }
     },
   },
   mounted() {
@@ -73,7 +116,7 @@ export default {
   text-decoration: none;
 }
 
-.card-container {
+.card-container-search {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -153,5 +196,17 @@ button:active {
 .search-icon {
   width: 13px;
   margin-left: 5px;
+}
+.page-control{
+  width:90%;
+  height:60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap:30px;
+  color:var(--onyx);
+}
+.page-buttons{
+  height: 80%;
 }
 </style>
