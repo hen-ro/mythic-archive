@@ -53,7 +53,7 @@
     <div class="details-container">
       <div class="details-header">
         <h2>{{ card.name }}</h2>
-        <button @click="closeDetails" class="close">Back</button>
+        <img @click="closeDetails" class="close" src="/images/BackArrow.png"/>
       </div>
       <div class="stat-container">
         <div class="stat">
@@ -118,13 +118,13 @@ export default {
         : this.card.card_faces
         ? this.card.card_faces[0].image_uris?.art_crop
         : "";
-      CollectionService.getCollectionThumbnail(this.$store.state.user.id)
-        .then((response) => {
-          this.collectionThumbnail = response.data;
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+      // CollectionService.getCollectionThumbnail(this.$store.state.user.id)
+      //   .then((response) => {
+      //     this.collectionThumbnail = response.data;
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching data:", error);
+      //   });
       console.log(thumbnail);
       console.log(this.collectionThumbnail);
       return thumbnail.toLowerCase() === this.collectionThumbnail.toLowerCase();
@@ -347,7 +347,10 @@ export default {
 }
 
 .details-header {
+  display: flex;
   width: 90%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .format-container {
@@ -412,8 +415,11 @@ h3 {
   max-width: 90%;
 }
 .close {
-  width: 100px;
-  height: 50px;
+  height: 25px;
+  cursor: pointer;
+}
+.close:hover {
+  transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
