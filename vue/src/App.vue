@@ -78,6 +78,7 @@ export default {
   },
   mounted() {
     document.addEventListener('click', this.handleClickOutside);
+    this.$store.dispatch('getCollectionIdByUser');
   },
   beforeDestroy() {
     document.removeEventListener('click', this.handleClickOutside);
