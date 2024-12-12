@@ -79,7 +79,7 @@ export function createStore(currentToken, currentUser) {
         console.log(this.state.request)
         CollectionService.addCardToCollection(this.state.request)
           .then((response) => {
-            alert('This card has been added to your collection')
+            // alert('This card has been added to your collection')
           })
           .catch((error) => {
             console.error("Error fetching data:", error);
@@ -89,7 +89,7 @@ export function createStore(currentToken, currentUser) {
         this.commit('BUILD_REQUEST', payload);
         CollectionService.removeCardFromCollection(this.state.request)
           .then((response) => {
-            alert('This card has been removed from your collection')
+            // alert('This card has been removed from your collection')
           })
           .catch((error) => {
             console.error("Error fetching data:", error);
