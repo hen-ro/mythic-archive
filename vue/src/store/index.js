@@ -28,7 +28,6 @@ export function createStore(currentToken, currentUser) {
     mutations: {
       BUILD_REQUEST(state, payload) {
         const { card, cardColor, quantity } = payload;
-        console.log(cardColor);
         state.request.userId = state.user.id;
         state.request.quantity = quantity;
         //Set card properties

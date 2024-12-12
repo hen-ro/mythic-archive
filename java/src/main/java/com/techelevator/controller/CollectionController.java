@@ -145,9 +145,9 @@ public class CollectionController {
     }
 
     @PutMapping("/{id}/set-thumbnail")
-    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, String thumbnail_url) {
+    public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestParam String thumbnailUrl) {
         try {
-            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnail_url);
+            int numberOfRows = collectionDao.setCollectionThumbnail(id, thumbnailUrl);
             return new ResponseEntity<>(numberOfRows, HttpStatus.OK);
         } catch (DaoException e) {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -156,7 +156,6 @@ public class CollectionController {
     @GetMapping("/user/{id}")
     public int getCollectionIdByUser(@PathVariable int id) {
         try {
-
                 int collectionId = collectionDao.getCollectionByUserId(id).getCollectionId();
                 return collectionId;
             } catch (DaoException e) {
