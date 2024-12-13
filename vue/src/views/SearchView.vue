@@ -3,54 +3,58 @@
     <h1 class="search-title">Search</h1>
     <div class="searchBox">
       <div class="field">
-        <input type="text" id="searchTerm" name="searchTerm" v-model="searchTerm" />
+        <input
+          type="text"
+          id="searchTerm"
+          name="searchTerm"
+          v-model="searchTerm"
+        />
         <button @click="search">
           Search<img src="/images/SearchIconBlack.png" class="search-icon" />
         </button>
       </div>
     </div>
     <div class="page-control" v-if="totalPages > 1">
-      <button
+      <img
         class="page-buttons"
         :disabled="currentPage === 1"
         @click="prevPage"
-      >
-        Back
-      </button>
+        src="/images/BackArrowPerry.png"
+      />
       <div>Page {{ currentPage }} of {{ totalPages }}</div>
-      <button
+      <img
         class="page-buttons"
         :disabled="currentPage === totalPages"
         @click="nextPage"
-      >
-        Next
-      </button>
+        src="/images/ForwardArrowPerry.png"
+      />
     </div>
     <div class="card-container-search" v-if="paginatedCards.length > 0">
       <div class="card" v-for="card in paginatedCards" :key="card.id">
-        <router-link class="router-link" :to="{ name: 'cardDetails', params: { id: card.id } }">
+        <router-link
+          class="router-link"
+          :to="{ name: 'cardDetails', params: { id: card.id } }"
+        >
           <img :src="card.imageUrl" />
         </router-link>
       </div>
     </div>
   </div>
   <div class="page-control" v-if="totalPages > 1">
-      <button
-        class="page-buttons"
-        :disabled="currentPage === 1"
-        @click="prevPage"
-      >
-        Back
-      </button>
-      <div>Page {{ currentPage }} of {{ totalPages }}</div>
-      <button
-        class="page-buttons"
-        :disabled="currentPage === totalPages"
-        @click="nextPage"
-      >
-        Next
-      </button>
-    </div>
+    <img
+      class="page-buttons"
+      :disabled="currentPage === 1"
+      @click="prevPage"
+      src="/images/BackArrowPerry.png"
+    />
+    <div id="txt-page-control">Page {{ currentPage }} of {{ totalPages }}</div>
+    <img
+      class="page-buttons"
+      :disabled="currentPage === totalPages"
+      @click="nextPage"
+      src="/images/ForwardArrowPerry.png"
+    />
+  </div>
 </template>
 
 <script>
@@ -87,7 +91,7 @@ export default {
               ? card.card_faces[0].image_uris.normal || ""
               : "",
           }));
-          this.currentPage = 1; 
+          this.currentPage = 1;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -198,19 +202,26 @@ button:active {
   width: 13px;
   margin-left: 5px;
 }
-.page-control{
-  width:90%;
-  height:60px;
+.page-control {
+  width: 90%;
+  height: 60px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap:30px;
-  color:var(--onyx);
+  gap: 30px;
+  color: var(--onyx);
+  font-size:1.3rem;
 }
-.page-buttons{
-  height: 80%;
+.page-buttons {
+  height: 25px;
+  opacity: 0.6;
 }
-.search-title{
-  color:var(--onyx);
+
+.page-buttons:disabled {
+  opacity: 0.3;
+}
+
+.search-title {
+  color: var(--onyx);
 }
 </style>
