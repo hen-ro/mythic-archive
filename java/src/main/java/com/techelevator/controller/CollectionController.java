@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin
 @RequestMapping("/collections")
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public class CollectionController {
 
     private final CardDao cardDao;
@@ -32,12 +32,12 @@ public class CollectionController {
         this.cardDao = cardDao;
     }
 
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/all-public", method = RequestMethod.GET)
     public List<CardCollection> getAllPublicCollections() {
         return collectionDao.getAllPublicCollections();
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public CardCollection getCollectionById(@PathVariable int id) {
         try {
@@ -51,7 +51,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/cards")
     public List<Card> getCardsInCollection(@PathVariable int id) {
         try {
@@ -61,7 +61,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/user/{id}")
     public int getCollectionIdByUser(@PathVariable int id) {
         try {
@@ -71,7 +71,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/total-cards")
     public Integer getTotalCardsInCollection(@PathVariable int id) {
         try {
@@ -82,7 +82,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/card-count")
     public Integer cardCount(@PathVariable int id, @RequestParam UUID cardId) {
         try {
@@ -93,7 +93,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/{collectionId}/stats")
     public CollectionStats getCollectionStats(@PathVariable int collectionId) {
         try {
@@ -103,7 +103,7 @@ public class CollectionController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping("/create")
     public ResponseEntity<CardCollection> createNewCollection(@RequestBody CardCollectionDto collection) {
         try {
@@ -114,7 +114,7 @@ public class CollectionController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/add")
     public ResponseEntity<CardCollection> addCardToCollection(@RequestBody AdjustCardRequestDto addCard) {
         try {
@@ -138,7 +138,7 @@ public class CollectionController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove-all")
     public ResponseEntity<Integer> removeAllCardsOfTypeFromCollection(@RequestBody AdjustCardRequestDto removeAll) {
         try {
@@ -149,7 +149,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping("/remove")
     public ResponseEntity<Integer> removeCardsFromCollection(@RequestBody AdjustCardRequestDto removeCard) {
         try {
@@ -159,7 +159,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-public")
     public ResponseEntity<Integer> setCollectionPublic(@PathVariable int id) {
         try {
@@ -169,7 +169,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-private")
     public ResponseEntity<Integer> setCollectionPrivate(@PathVariable int id) {
         try {
@@ -179,7 +179,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/rename")
     public ResponseEntity<Integer> renameCollection(@PathVariable int id,  @RequestParam String collectionName) {
         try {
@@ -189,7 +189,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping("/{id}/set-thumbnail")
     public ResponseEntity<Integer> setCollectionThumbnail(@PathVariable int id, @RequestBody ThumbnailUrlDto thumbnailUrl) {
         try {
@@ -199,7 +199,7 @@ public class CollectionController {
             return new ResponseEntity<>(0, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("{id}/get-thumbnail")
     public ResponseEntity<String> getCollectionThumbnail(@PathVariable int id) {
         try {

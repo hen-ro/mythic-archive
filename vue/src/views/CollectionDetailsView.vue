@@ -17,7 +17,7 @@
       <div class="field">
         <input type="text" id="searchTerm" name="searchTerm" @keyup="searchCollection()" />
         <button @click="searchCollection()">
-          Search<img src="/images/SearchIconBlack.png" class="search-icon" />
+          Search<img src="/images/SearchIcon.png" class="search-icon" />
         </button>
       </div>
     </div>
