@@ -10,21 +10,21 @@
           v-model="searchTerm"
         />
         <button @click="search">
-          Search<img src="/images/SearchIconBlack.png" class="search-icon" />
+          Search<img src="/images/SearchIcon.png" class="search-icon" />
         </button>
       </div>
     </div>
     <div class="page-control" v-if="totalPages > 1">
       <img
         class="page-buttons"
-        :disabled="currentPage === 1"
+        :style="{ opacity: backButtonOpacity }"
         @click="prevPage"
         src="/images/BackArrowPerry.png"
       />
       <div>Page {{ currentPage }} of {{ totalPages }}</div>
       <img
         class="page-buttons"
-        :disabled="currentPage === totalPages"
+        :style="{ opacity: forwardButtonOpacity }"
         @click="nextPage"
         src="/images/ForwardArrowPerry.png"
       />
@@ -43,14 +43,14 @@
   <div class="page-control" v-if="totalPages > 1">
     <img
       class="page-buttons"
-      :disabled="currentPage === 1"
+      :style="{ opacity: backButtonOpacity }"
       @click="prevPage"
       src="/images/BackArrowPerry.png"
     />
     <div id="txt-page-control">Page {{ currentPage }} of {{ totalPages }}</div>
     <img
       class="page-buttons"
-      :disabled="currentPage === totalPages"
+      :style="{ opacity: forwardButtonOpacity }"
       @click="nextPage"
       src="/images/ForwardArrowPerry.png"
     />
@@ -77,6 +77,20 @@ export default {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       return this.cards.slice(startIndex, startIndex + this.itemsPerPage);
     },
+    backButtonOpacity() {
+      if (this.currentPage === 1) {
+        return 0.3;
+      } else {
+        return 0.6;
+      }
+    },
+    forwardButtonOpacity() {
+      if (this.currentPage === this.totalPages) {
+        return 0.3;
+      } else {
+        return 0.6;
+      }
+    }
   },
   methods: {
     search() {
@@ -178,15 +192,16 @@ input {
   border-radius: 2px;
   border: 0px;
   background-color: var(--platinum);
-  border: 1px solid var(--keppel);
+  border: 1px solid var(--perry);
 }
 
 button {
   border: 0px;
   border-radius: 2px;
-  background-color: var(--keppel);
+  background-color: var(--perry);
   display: flex;
   align-items: center;
+  color: var(--platinum);
 }
 
 button:hover {
@@ -194,7 +209,6 @@ button:hover {
 }
 
 button:active {
-  background-color: var(--perry);
   background-color: var(--darker-perry);
 }
 
@@ -214,11 +228,12 @@ button:active {
 }
 .page-buttons {
   height: 25px;
-  opacity: 0.6;
 }
 
-.page-buttons:disabled {
-  opacity: 0.3;
+.page-buttons:hover {
+  height: 25px;
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
 .search-title {
