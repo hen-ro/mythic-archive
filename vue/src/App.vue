@@ -77,6 +77,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit("SET_FROM_SHUFFLE", false);
     document.addEventListener('click', this.handleClickOutside);
   },
   beforeDestroy() {

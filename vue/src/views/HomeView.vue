@@ -59,6 +59,9 @@ export default {
       card.isAltImage = Math.random() < 0.005; 
     },
   },
+  mounted() {
+    this.$store.commit("SET_FROM_SHUFFLE", false);
+  }
 };
 </script>
 

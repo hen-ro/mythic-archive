@@ -15,6 +15,9 @@ export default {
     created() {
         //This is where to dispatch action from store
         this.$store.dispatch('getCollectionIdByUser');
+    },
+    mounted() {
+        this.$store.commit("SET_FROM_SHUFFLE", false);
     }
 };
 </script>

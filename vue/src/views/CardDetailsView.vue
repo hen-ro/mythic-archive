@@ -33,7 +33,6 @@
           +
         </button>
       </div>
-      <!-- Temporary -->
       <div class="collection-thumbnail">
         <button
           @click="setCollectionThumbnail"
@@ -48,7 +47,6 @@
           This card is your collection's current thumbnail
         </p>
       </div>
-      <!-- Temporary -->
     </div>
 
     <div class="details-container">
@@ -176,7 +174,6 @@ export default {
     },
     closeDetails() {
       if(this.$store.state.isFromShuffle) {
-        this.$store.commit("SET_FROM_SHUFFLE", false);
         this.$router.go(-2);
       } else {
         this.$router.go(-1);

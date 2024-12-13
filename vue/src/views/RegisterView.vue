@@ -97,6 +97,9 @@ export default {
       this.registrationErrorMsg = 'There were problems registering this user.';
     },
   },
+  mounted() {
+    this.$store.commit("SET_FROM_SHUFFLE", false);
+  }
 };
 </script>
 

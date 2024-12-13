@@ -60,7 +60,6 @@ export function createStore(currentToken, currentUser) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       },
       SET_USER(state, user) {
-        console.log(user);
         state.user = user;
         localStorage.setItem("user", JSON.stringify(user));
       },

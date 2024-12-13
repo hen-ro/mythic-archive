@@ -37,8 +37,6 @@
           </div>
           <div class="stat-item">
             <h2>Total Cards: {{ this.collection.totalCards }}</h2>
-            <p>({{ this.collectionStats.cardsWithoutPrice }} total {{ this.collectionStats.cardsWithoutPrice == 1 ? 'copy'
-              : 'copies' }})</p>
           </div>
         </div>
         <div class="card-container" v-if="this.displayedCards.length > 0">
@@ -119,7 +117,6 @@ export default {
     getCollectionStats() {
       CollectionService.getCollectionStats(this.$route.params.id)
         .then((response) => {
-          console.log(response.data);
           this.collectionStats = response.data;
         })
         .catch((error) => {
@@ -157,7 +154,6 @@ export default {
     getCardsInCollection() {
       CollectionService.getCardsInCollection(this.$route.params.id)
         .then((response) => {
-          console.log(response.data);
           this.collection.cards = response.data;
           this.displayedCards = this.collection.cards;
         })
@@ -294,6 +290,7 @@ export default {
   },
 
   mounted() {
+    this.$store.commit("SET_FROM_SHUFFLE", false);
     if (this.collectionStats.rarityCounts && this.collectionStats.rarityCounts.length > 0) {
       this.createPieChart();
     }
