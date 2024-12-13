@@ -16,9 +16,9 @@
         >
           <img class="thumbnail" :src="collection.thumbnailUrl" />
           <div class="collection-data">
-            <p>{{ collection.collectionName }}</p>
-            <p>{{ collection.ownerName }}</p>
-            <p>{{ collection.totalCards }}</p>
+            <p id="collection-data-name">{{ collection.collectionName }}</p>
+            <p id="collection-data-owner">{{ collection.ownerName }}</p>
+            <p id="collection-data-card-total">Total Cards: {{ collection.totalCards }}</p>
           </div>
         </router-link>
       </div>
@@ -91,8 +91,15 @@ export default {
   flex-direction: column;
   height: 70px;
   justify-content: space-evenly;
-  background-color: var(--perry);
+  background-color: var(--darker-perry);
   padding-bottom: 10px;
+  text-decoration: none;
+  color: var(--platinum);
+}
+
+#collection-data-owner,
+#collection-data-card-total {
+  font-size:.9rem;
 }
 p {
   margin: 0;

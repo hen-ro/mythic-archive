@@ -10,8 +10,8 @@ BEGIN TRANSACTION;
 
 -- Users table
 INSERT INTO users (username, email, password_hash, role) VALUES
-('user', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
-('admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
+('User', 'user@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_USER'),
+('Admin', 'admin@example.com','$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K','ROLE_ADMIN'),
 ('RobertDowneyJr', 'rdowneyjr@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_ADMIN'),
 ('ScarlettJohansson', 'sjohansson@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),
 ('ChrisHemsworth', 'chemsworth@example.com', '$2b$12$GQ/2aURgvKb8rv7FXDibk.n3exV2s14OL8exVMeQzT7sLOIAqFN4K', 'ROLE_USER'),

@@ -171,7 +171,7 @@ public class JdbcDeckDao implements DeckDao{
         int numberOfRows = 0;
         String updateQuantitySql = "UPDATE public.cards_decks" +
                 " SET quantity=?" +
-                " WHERE card_id=? AND decks_id=?";
+                " WHERE card_id=? AND deck_id=?";
         try {
             int currentAmount = deck.getCardCount(card.getCardId());
             if (currentAmount - quantity <= 0) {

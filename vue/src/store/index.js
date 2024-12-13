@@ -21,6 +21,7 @@ export function createStore(currentToken, currentUser) {
         },
         userId: 0,
         quantity: 0,
+        isFromShuffle: false
       }
     },
     mutations: {
@@ -73,6 +74,9 @@ export function createStore(currentToken, currentUser) {
         state.user = {};
         axios.defaults.headers.common = {};
       },
+      SET_FROM_SHUFFLE(state, value) {
+        state.isFromShuffle = value;
+      }
     },
     actions: {
       async addToCollection({ commit }, payload) {

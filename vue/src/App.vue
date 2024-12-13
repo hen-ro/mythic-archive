@@ -56,9 +56,9 @@ export default {
   },
   methods: {
     shuffle() {
+      this.$store.commit("SET_FROM_SHUFFLE", true);
       SearchService.getRandomCard()
         .then((response) => {
-          console.log("Fetched card:", response);
           this.randomCardUrl = response.data.id;
           this.$router.push({ name: 'duh', params: { id: this.randomCardUrl } });
         })

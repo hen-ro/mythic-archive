@@ -108,6 +108,8 @@ export default {
   padding: 15px;
   font-size: 1rem;
   white-space: nowrap;
+  text-decoration: none;
+  color: var(--onyx);
 }
 
 .banner-link:nth-child(2) {

@@ -32,8 +32,7 @@
             <h3>Total Value</h3>
             <h3>${{ this.collectionStats.totalCollectionPrice }}</h3>
             <p>There {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'is' : 'are' }} <strong>{{
-              this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1
-                ? 'type' : 'types' }} of {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this
+              this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this
               collection without price data</p>
               </div>
           <div class="stat-item">
@@ -409,9 +408,11 @@ input[type="text"] {
 
 #btn-close-name-input {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
+  top: 1%;
+  right: 1%;
+  font-weight: bold;
+  color: var(--perry);
+  background: transparent;
 }
 .pie-chart-container h2{
 }

@@ -37,13 +37,14 @@
       <div class="collection-thumbnail">
         <button
           @click="setCollectionThumbnail"
+          id="btn-set-thumbnail"
           class="set-image"
           title="Set as thumbnail"
           v-if="this.$store.state.token != '' && !this.isCollectionThumbnail"
         >
-          Make collection thumbnail
+          Set collection thumbnail
         </button>
-        <p v-if="this.$store.state.token != '' && this.isCollectionThumbnail">
+        <p id="current-thumbnail-message" v-if="this.$store.state.token != '' && this.isCollectionThumbnail">
           This card is your collection's current thumbnail
         </p>
       </div>
@@ -174,7 +175,12 @@ export default {
       }
     },
     closeDetails() {
-      this.$router.go(-1);
+      if(this.$store.state.isFromShuffle) {
+        this.$store.commit("SET_FROM_SHUFFLE", false);
+        this.$router.go(-2);
+      } else {
+        this.$router.go(-1);
+      }
     },
     getCardColors(card) {
       const colors = card.colors
@@ -319,6 +325,11 @@ export default {
   align-items: center;
 }
 
+#current-thumbnail-message {
+  color: var(--perry);
+  font-style: italic;
+}
+
 .plus-minus {
   height: 40px;
   width: 40px;
@@ -344,6 +355,17 @@ export default {
 
 .plus-minus:disabled:hover {
   opacity: 0.6;
+}
+
+#btn-set-thumbnail {
+  color: var(--platinum);
+  height: 30px;
+  background-color: var(--perry);
+  opacity: 0.6;
+}
+
+#btn-set-thumbnail:hover {
+  opacity: 1;
 }
 
 .card-price,
