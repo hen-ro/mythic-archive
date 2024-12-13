@@ -385,6 +385,9 @@ h3 {
   width: 100%;
 
 }
+.collection-name{
+  margin-top: 20px;
+}
 
 .collection-name-input {
   position: fixed;

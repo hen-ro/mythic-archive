@@ -42,6 +42,7 @@
     </aside>
     <router-view />
   </div>
+  <footer></footer>
 </template>
 
 <script>
@@ -231,4 +232,9 @@ export default {
   height: 300px;
   position: fixed;
   margin-top: 300px;
+}
+footer{
+  height: 200px;
+  background-color: var(--onyx);
+  margin-top: 100px;
 }</style>

@@ -35,13 +35,27 @@
 
 
   <div class="content-1-container">
-    <div class="content-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae et odio tenetur aliquid quis,
-      minima aliquam totam animi numquam reprehenderit explicabo voluptates ex, velit facilis iste ipsam. Enim, id itaque?
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi quod fugit odit dignissimos sint quaerat dolor eos
-      eum consectetur, pariatur nemo, similique dicta voluptates nisi error ut quibusdam molestiae voluptate.
+    <div class="content-text">Search Through 1000s of Cards!
     </div>
-    <div class="content-image"></div>
+    <img src="\images\ScreenShot\Cards.png" alt="" class="content-img">
   </div>
+  <div class="content-1-container">
+    <img src="\images\ScreenShot\CardDetails.png" alt="" class="content-img-2">
+    <div class="content-text">
+      Analyze Card Stats!
+    </div>
+  </div>
+  <div class="content-1-container">
+    <div class="content-text">Store Cards In Your Personal Collection!
+    </div>
+    <img src="\images\ScreenShot\Collections.png" alt="" class="content-img">
+  </div>
+  <div class="content-1-container">
+    <img src="\images\ScreenShot\CollectionView.png" alt="" class="content-img-4">
+    <div class="content-text">Analyze and Dominate!
+    </div>
+  </div>
+  <footer></footer>
 </template>
 
 <script>
@@ -56,7 +70,7 @@ export default {
   },
   methods: {
     resetCard(card) {
-      card.isAltImage = Math.random() < 0.005; 
+      card.isAltImage = Math.random() < 0.02; 
     },
   },
   mounted() {
@@ -73,6 +87,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 .banner-text,
@@ -199,33 +214,52 @@ export default {
 .content-1-container {
   display: flex;
   justify-content: center;
-  height: 500px;
-  margin-top: 100px;
+  height: 600px;
   align-items: center;
   gap: 40px;
 }
+.content-1-container:nth-child(odd){
+  background-color: #9c9c9c;
+}
 
 .content-text {
-  color: var(--perry);
-  font-size: 1.4rem;
+  color: var(--onyx);
+  font-size: 4rem;
   width: 30%;
   height: 40%;
-
+  text-align: center;
 
 }
 
-.content-image {
-  width: 35%;
+.content-img {
+  width: 40%;
   background-color: var(--perry);
   height: 80%;
-  border-radius: 5px;
+  border-radius: 15px;
+  border: 20px solid  var(--perry);
 }
+.content-img-4{
+  width: 60%;
+  background-color: var(--perry);
+  height: 90%;
+  border-radius: 15px;
+  border: 20px solid  var(--perry);
+}
+.content-img-2{
+  width: 50%;
+  background-color: var(--perry);
+  height: 90%;
+  border-radius: 15px;
+  border: 20px solid  var(--perry);
+}
+
 
 .card-back {
   background-size: cover;
   background-repeat: no-repeat;
   transform: rotateY(180deg);
 }
+
 @media(max-width:1000px) {
   .banner-image {
     display: none;
