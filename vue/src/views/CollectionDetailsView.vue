@@ -25,16 +25,16 @@
       <div class="left-container">
         <div class="header-stats">
           <div class="pie-chart-container stat-item">
-            <h2>Rarity</h2>
             <canvas id="pieChart"></canvas>
           </div>
           <div class="stat-item value">
             <h3>Total Value</h3>
             <h3>${{ this.collectionStats.totalCollectionPrice }}</h3>
             <p>There {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'is' : 'are' }} <strong>{{
-              this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1 ? 'card' : 'cards' }} in this
+              this.collectionStats.cardTypesWithoutPrice }}</strong> {{ this.collectionStats.cardTypesWithoutPrice == 1
+    ? 'card' : 'cards' }} in this
               collection without price data</p>
-              </div>
+          </div>
           <div class="stat-item">
             <h2>Total Cards: {{ this.collection.totalCards }}</h2>
             <p>({{ this.collectionStats.cardsWithoutPrice }} total {{ this.collectionStats.cardsWithoutPrice == 1 ? 'copy'
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import Chart from "chart.js/auto"; 
+import Chart from "chart.js/auto";
 import CollectionService from "../services/CollectionService";
 
 export default {
@@ -209,10 +209,10 @@ export default {
             datasets: [{
               data: data,
               backgroundColor: [
-              '#D5D5D5',
-              "#000000",         
-              '#AF1616',
-              '#C9C914',
+                '#D5D5D5',
+                "#000000",
+                '#AF1616',
+                '#C9C914',
               ],
             }]
           },
@@ -221,13 +221,13 @@ export default {
             maintainAspectRatio: true,
             layout: {
               padding: {
-                bottom: 0, 
+                bottom: 0,
               },
             },
             plugins: {
               legend: {
-                position: 'left', 
-                align: 'center',   
+                position: 'left',
+                align: 'center',
                 labels: {
                   boxWidth: 10,
                   padding: 10,
@@ -325,11 +325,15 @@ button {
   width: 75%;
   margin: 20px;
   /* border: 2px solid rgb(255, 0, 221); */
-  
+
 }
-h2,h1,h3{
+
+h2,
+h1,
+h3 {
   margin: 0;
 }
+
 .right-container {
   display: flex;
   flex-direction: column;
@@ -340,7 +344,7 @@ h2,h1,h3{
   background-color: #444444;
   color: white;
   border-radius: 20px;
-  padding-top:40px;
+  padding-top: 40px;
   padding-left: 40px;
 }
 
@@ -356,8 +360,9 @@ h2,h1,h3{
   border-radius: 20px;
 
 }
-.stat-item{
-  width:20%;
+
+.stat-item {
+  width: 20%;
   height: 80%;
   text-align: center;
   display: flex;
@@ -366,11 +371,12 @@ h2,h1,h3{
   justify-content: center;
   margin: 0;
 }
+
 .pie-chart-container {
- height: 220px; 
- min-height: 150px;
- min-width: 150px;
- margin: 0;
+  height: 250px;
+  min-height: 150px;
+  min-width: 150px;
+  margin: 0;
 }
 
 .card-container {
@@ -414,14 +420,12 @@ input[type="text"] {
   color: var(--perry);
   background: transparent;
 }
-.pie-chart-container h2{
-}
+
 @media screen and (max-width: 1000px) {
-  .stat-item, .right-container {
-    font-size: 1.2vw; 
+
+  .stat-item,
+  .right-container {
+    font-size: 1.2vw;
     padding-left: 0;
   }
-}
-
-
-</style>
+}</style>
