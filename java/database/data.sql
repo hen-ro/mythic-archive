@@ -31,8 +31,8 @@ INSERT INTO users (username, email, password_hash, role) VALUES
 
 -- Collections table
 INSERT INTO collections (collection_name, user_id, is_public, thumbnail_url) VALUES
-('user''s Collection', 1, false, 'images/CardBack.jpg'),
-('admin''s Collection', 2, true, 'images/CardBack.jpg'),
+('User''s Collection', 1, false, 'images/CollectionDefault.png'),
+('Admin''s Collection', 2, true, 'images/CollectionDefault.png'),
 ('Robert Downey Jr''s Collection', 3, TRUE, 'https://cards.scryfall.io/art_crop/front/0/3/0321b706-87b0-4bea-89d3-ec2e7252dc7c.jpg?1681158265'),
 ('Scarlett Johansson''s Collection', 4, TRUE, 'https://cards.scryfall.io/art_crop/front/1/a/1a67768a-6cd9-4163-b941-752f29c87a8d.jpg?1562628781'),
 ('Chris Hemsworth''s Collection', 5, TRUE, 'https://cards.scryfall.io/art_crop/front/3/d/3d367fee-514c-4995-95ad-a2a6b3c35270.jpg?1573508901'),
