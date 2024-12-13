@@ -40,7 +40,7 @@
     <img src="\images\ScreenShot\Cards.png" alt="" class="content-img">
   </div>
   <div class="content-1-container">
-    <img src="\images\ScreenShot\CardDetails.png" alt="" class="content-img">
+    <img src="\images\ScreenShot\CardDetails.png" alt="" class="content-img-2">
     <div class="content-text">
       Analyze Card Stats!
     </div>
@@ -242,6 +242,14 @@ export default {
   border-radius: 15px;
   border: 20px solid  var(--perry);
 }
+.content-img-2{
+  width: 50%;
+  background-color: var(--perry);
+  height: 90%;
+  border-radius: 15px;
+  border: 20px solid  var(--perry);
+}
+
 
 .card-back {
   background-size: cover;
